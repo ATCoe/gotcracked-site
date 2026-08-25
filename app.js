@@ -2,6 +2,8 @@
   'use strict';
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
+  const escapeHTML = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+  const safePublicUrl = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : '#'; } catch { return '#'; } };
   const toast = $('.toast');
   const showToast = message => {
     toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer);
@@ -14,6 +16,17 @@
   else { headerLogo?.addEventListener('load', () => setLogoState(true)); headerLogo?.addEventListener('error', () => setLogoState(false)); }
 
   $('#year').textContent = new Date().getFullYear();
+  (async () => {
+    const grid = $('#social-media-grid'), links = $('#social-media-links');
+    if (!grid) return;
+    try {
+      const { data, error } = await window.supabaseClient.functions.invoke('public-media', { method: 'GET' });
+      if (error) throw error;
+      const posts = data?.posts || [];
+      grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener"><div class="media-thumb">${post.thumbnail_url ? `<img src="${safePublicUrl(post.thumbnail_url)}" alt="" loading="lazy">` : `<span>${post.platform === 'youtube' ? '▶' : '♪'}</span>`}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for tips and behind-the-scenes repairs.</article>';
+      links.innerHTML = [['YouTube',data?.settings?.youtube_channel_url],['TikTok',data?.settings?.tiktok_profile_url]].filter(([,url]) => safePublicUrl(url) !== '#').map(([label,url]) => `<a href="${safePublicUrl(url)}" target="_blank" rel="noopener">Follow on ${label} →</a>`).join('');
+    } catch { grid.innerHTML = '<article class="media-placeholder">Visit our social channels for the latest GotCracked repairs and tips.</article>'; }
+  })();
   const dateInput = $('[name="date"]');
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
   dateInput.min = tomorrow.toISOString().slice(0, 10);
