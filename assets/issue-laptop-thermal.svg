@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Laptop overheating and performance illustration</title>
+  <desc id="desc">A dark blue techno illustration of a laptop, cooling fan, airflow, and temperature diagnostics.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#020916"/><stop offset=".58" stop-color="#071a35"/><stop offset="1" stop-color="#03101f"/></linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08d5ff"/><stop offset="1" stop-color="#087cff"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#0a8dff" stop-opacity=".4"/><stop offset="1" stop-color="#0a8dff" stop-opacity="0"/></radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="28"/></filter>
+  </defs>
+  <rect width="1200" height="675" rx="32" fill="url(#bg)"/>
+  <ellipse cx="600" cy="350" rx="390" ry="245" fill="url(#glow)" filter="url(#blur)"/>
+  <g opacity=".28" stroke="#0b8cff" fill="none"><path d="M0 145h210l58 58h92M0 520h200l55-55h100M1200 130h-195l-55 55h-90M1200 535h-205l-45-45h-115"/><circle cx="268" cy="203" r="6" fill="#08d5ff"/><circle cx="950" cy="185" r="6" fill="#08d5ff"/><circle cx="255" cy="465" r="6" fill="#087cff"/><circle cx="950" cy="490" r="6" fill="#087cff"/></g>
+  <g transform="translate(260 105)">
+    <rect x="80" y="0" width="520" height="330" rx="24" fill="#020914" stroke="url(#edge)" stroke-width="6"/>
+    <rect x="104" y="26" width="472" height="278" rx="12" fill="#051a35"/>
+    <path d="M0 360h680l-54 66H53Z" fill="#0a1729" stroke="#0b83e7" stroke-width="4"/>
+    <path d="M146 380h388" stroke="#5ad9ff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <rect x="283" y="372" width="114" height="22" rx="7" fill="#06101d" stroke="#1a4a72"/>
+    <g transform="translate(340 165)">
+      <circle cx="0" cy="0" r="86" fill="#041426" stroke="#0c8ef4" stroke-width="4"/>
+      <circle cx="0" cy="0" r="20" fill="#0b6fc0"/>
+      <g fill="#0aa8ff" opacity=".8">
+        <path d="M0-68c31 0 45 17 37 40L7-5Z"/><path d="M59-34c16 27 9 47-14 52L6 5Z"/><path d="M59 34c-16 27-37 29-53 10L-1 7Z"/><path d="M0 68c-31 0-45-17-37-40l30-23Z"/><path d="M-59 34c-16-27-9-47 14-52l39 13Z"/><path d="M-59-34c16-27 37-29 53-10l7 37Z"/>
+      </g>
+    </g>
+    <g fill="none" stroke="#6fe4ff" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M215 115c-38-48-28-85 8-111"/><path d="M246 118c-25-55-6-89 35-105"/><path d="M466 117c38-48 28-85-8-111"/><path d="M435 118c25-55 6-89-35-105"/></g>
+  </g>
+  <g transform="translate(93 246)">
+    <rect x="0" y="0" width="94" height="230" rx="45" fill="#06192e" stroke="#0b8df3" stroke-width="4"/>
+    <circle cx="47" cy="178" r="24" fill="#ff9f43"/>
+    <rect x="39" y="35" width="16" height="150" rx="8" fill="#7adfff"/>
+    <rect x="39" y="112" width="16" height="73" rx="8" fill="#ffae4c"/>
+  </g>
+  <g transform="translate(955 250)" fill="none" stroke="#0b8df3"><circle cx="70" cy="70" r="58" stroke-width="3"/><circle cx="70" cy="70" r="35" stroke-width="2" opacity=".55"/><path d="M70 0v140M0 70h140" opacity=".4"/></g>
+</svg>
