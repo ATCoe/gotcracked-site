@@ -4,6 +4,11 @@
   const toast = $('.toast');
   const showToast = message => { toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('show'), 3000); };
 
+  const headerLogo = $('.brand img');
+  const setLogoState = ready => document.documentElement.classList.add(ready ? 'logo-ready' : 'logo-missing');
+  if (headerLogo?.complete) setLogoState(headerLogo.naturalWidth > 0);
+  else { headerLogo?.addEventListener('load', () => setLogoState(true)); headerLogo?.addEventListener('error', () => setLogoState(false)); }
+
   $('#year').textContent = new Date().getFullYear();
   const dateInput = $('[name="date"]');
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
