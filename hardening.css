@@ -1,0 +1,554 @@
+/* GotCracked public site — production hardening layer */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body.nav-open,
+body.dialog-open {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.button,
+.menu-button,
+.text-button,
+.text-link,
+.card-link {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(8, 165, 255, .42);
+  outline-offset: 3px;
+}
+
+.button,
+.menu-button,
+.booking-form input,
+.booking-form select,
+.booking-form textarea,
+dialog input {
+  min-height: 44px;
+}
+
+.site-header {
+  isolation: isolate;
+}
+
+.site-header nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu-button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.service-card {
+  padding-bottom: 72px;
+}
+
+.card-link {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.booking-shell,
+.booking-form,
+.booking-intro,
+.form-step,
+.form-nav,
+.two-fields,
+.faq-grid,
+.why-grid,
+.mail-in-grid,
+.process-grid,
+.footer-grid {
+  min-width: 0;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  max-width: 100%;
+}
+
+dialog {
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.tracker-result-top,
+.tracker-device {
+  min-width: 0;
+}
+
+.tracker-result-top > div,
+.tracker-device > div {
+  min-width: 0;
+}
+
+.tracker-device strong,
+.tracker-device small {
+  overflow-wrap: anywhere;
+}
+
+.social-media-links {
+  flex-wrap: wrap;
+}
+
+.media-card,
+.media-card > div {
+  min-width: 0;
+}
+
+.media-card h3 {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 980px) {
+  .site-header nav {
+    position: absolute !important;
+    inset: 100% 0 auto 0 !important;
+    margin: 0 !important;
+    padding: 18px max(22px, env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left)) !important;
+    max-height: calc(100dvh - 68px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(3, 10, 22, .98) !important;
+    border-top: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 24px 50px rgba(0,0,0,.38);
+  }
+
+  .site-header nav a {
+    width: 100%;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    font-size: 14px;
+  }
+
+  .site-header nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .hero-grid {
+    padding-inline: 0;
+  }
+
+  .process-grid,
+  .why-grid,
+  .faq-grid,
+  .mail-in-grid {
+    gap: 56px;
+  }
+
+  .booking-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .announcement {
+    height: auto !important;
+    min-height: 34px;
+    padding: 7px 12px;
+    line-height: 1.3;
+    flex-wrap: wrap;
+  }
+
+  .site-header,
+  .nav-wrap {
+    height: 64px !important;
+  }
+
+  .nav-wrap {
+    width: calc(100% - 24px);
+  }
+
+  .brand {
+    width: 112px !important;
+    height: 48px;
+  }
+
+  .nav-actions {
+    gap: 5px;
+  }
+
+  .menu-button {
+    margin-left: 4px !important;
+  }
+
+  .site-header nav {
+    max-height: calc(100dvh - 64px);
+  }
+
+  .hero-grid {
+    padding: 44px 0 52px !important;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 13vw, 52px) !important;
+    line-height: .98;
+    letter-spacing: -.055em;
+  }
+
+  .hero-lede {
+    margin-top: 22px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .trust-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px !important;
+    margin-top: 34px;
+  }
+
+  .trust-row div {
+    min-width: 0;
+    padding-left: 9px;
+  }
+
+  .trust-row strong {
+    font-size: 12px;
+  }
+
+  .trust-row span {
+    font-size: 9.5px;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-visual {
+    height: 290px !important;
+  }
+
+  .logo-stage {
+    width: min(340px, 94%);
+  }
+
+  .logo-stage img {
+    min-height: 150px !important;
+  }
+
+  .orbit-one {
+    width: 330px !important;
+    height: 184px !important;
+  }
+
+  .orbit-two {
+    width: 405px !important;
+    height: 225px !important;
+  }
+
+  .floating-card {
+    max-width: 48%;
+  }
+
+  .card-status {
+    left: 0 !important;
+    top: 9% !important;
+    padding: 10px 12px;
+  }
+
+  .card-rating {
+    right: 0 !important;
+    bottom: 8% !important;
+    padding: 10px 12px;
+  }
+
+  .section {
+    padding: 72px 0 !important;
+  }
+
+  .section-heading {
+    gap: 18px;
+    margin-bottom: 38px;
+  }
+
+  .section h2 {
+    font-size: clamp(34px, 10vw, 40px) !important;
+    letter-spacing: -.045em;
+  }
+
+  .service-grid {
+    gap: 12px;
+  }
+
+  .service-card {
+    min-height: 0 !important;
+    padding: 22px 22px 70px;
+  }
+
+  .service-icon {
+    height: 88px;
+    margin: 20px 0 16px;
+  }
+
+  .process-grid,
+  .why-grid,
+  .faq-grid,
+  .mail-in-grid {
+    gap: 44px !important;
+  }
+
+  .steps li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .why-visual {
+    min-height: 325px !important;
+  }
+
+  .brand-panel {
+    aspect-ratio: 1.08;
+  }
+
+  .warranty-badge {
+    right: -2px !important;
+    bottom: 8px;
+    width: 98px !important;
+    height: 98px !important;
+  }
+
+  .benefit-grid {
+    margin-top: 32px;
+  }
+
+  .mail-in-steps {
+    gap: 10px;
+  }
+
+  .mail-in-steps li {
+    padding: 20px;
+  }
+
+  .booking-shell {
+    border-radius: 18px;
+  }
+
+  .booking-intro,
+  .booking-form {
+    padding: 32px 20px !important;
+  }
+
+  .booking-intro h2 {
+    font-size: 34px !important;
+    line-height: 1.05;
+  }
+
+  .booking-form {
+    min-height: 0 !important;
+  }
+
+  .booking-form input,
+  .booking-form select,
+  .booking-form textarea {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .booking-form textarea {
+    min-height: 100px;
+  }
+
+  .form-progress {
+    margin-bottom: 28px;
+  }
+
+  .form-step h3,
+  .form-success h3 {
+    font-size: 25px;
+    margin-bottom: 23px;
+  }
+
+  .form-step > .button {
+    width: 100%;
+  }
+
+  .form-nav {
+    gap: 12px;
+  }
+
+  .form-nav .button {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .button-back {
+    min-height: 44px;
+    padding: 0 8px;
+  }
+
+  .check-label {
+    align-items: flex-start;
+  }
+
+  .check-label input {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+  }
+
+  .accordion summary {
+    gap: 12px;
+    min-height: 54px;
+    align-items: center;
+  }
+
+  .final-cta {
+    padding: 76px 0;
+  }
+
+  .final-cta h2 {
+    font-size: clamp(42px, 13vw, 50px) !important;
+  }
+
+  .final-cta .button {
+    width: calc(100% - 10px);
+    margin-inline: 5px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px 18px !important;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-brand img {
+    width: 170px;
+  }
+
+  dialog {
+    width: calc(100% - 16px) !important;
+    max-width: none;
+    max-height: calc(100dvh - 16px);
+    margin: auto;
+    padding: 24px 19px !important;
+    border-radius: 16px;
+  }
+
+  dialog h2 {
+    font-size: 28px;
+  }
+
+  dialog input {
+    width: 100%;
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  dialog form .button {
+    min-height: 48px;
+  }
+
+  .dialog-close {
+    min-width: 44px;
+    min-height: 44px;
+    top: 7px;
+    right: 7px;
+  }
+
+  .tracker-result-top {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .status-pill {
+    max-width: 50%;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .toast {
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: calc(100% - 28px);
+    max-width: 460px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    width: calc(100% - 22px);
+  }
+
+  .hero h1 {
+    font-size: 39px !important;
+  }
+
+  .trust-row {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-row div {
+    padding: 8px 0 8px 10px;
+  }
+
+  .floating-card {
+    max-width: 52%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .form-nav {
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header nav,
+  .toast {
+    scroll-behavior: auto;
+  }
+}
