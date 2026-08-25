@@ -2,10 +2,10 @@ const SUPABASE_URL = 'https://uvpmmbioerejeyybfntb.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_CmcUD2ze8lhj4HvlMfoYiQ_DGG_xabb';
 window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-// Public-site polish layer. Keep this loader small so the brand swap happens
-// immediately, then load the richer repair-guide and mobile gesture behavior.
+// Public-site polish layer. Keep this loader small so the full brand lockup
+// appears immediately, then load the customer repair education layer.
 (() => {
-  const version = '20260825-final-polish2';
+  const version = '20260825-final-polish3';
   const brand = document.querySelector('.site-header .brand');
   const logo = brand?.querySelector('img');
   if (brand && logo) {
