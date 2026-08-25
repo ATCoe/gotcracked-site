@@ -1,0 +1,204 @@
+/* GotCracked repair education layer — compact, informative, mobile-first */
+
+.site-header .brand.gc-full-logo {
+  width: 205px;
+  height: 54px;
+  flex: 0 0 205px;
+}
+.site-header .brand.gc-full-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  filter: drop-shadow(0 0 10px rgba(0,183,255,.2));
+}
+.site-header .brand.gc-full-logo .brand-fallback { display:none!important; }
+
+.repair-guide {
+  background: linear-gradient(180deg,#f7fbff 0%,#fff 48%,#f5f9fd 100%);
+  border-top: 1px solid #e7eef6;
+  border-bottom: 1px solid #e7eef6;
+}
+.guide-heading {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,430px);
+  align-items:end;
+  gap:40px;
+  margin-bottom:34px;
+}
+.guide-heading p:last-child { color:#607186; margin:0; font-size:14px; }
+.guide-heading h2 { margin:0; }
+.guide-visual {
+  position:relative;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  min-height:330px;
+  margin-bottom:22px;
+  overflow:hidden;
+  border-radius:22px;
+  background:#06101f;
+  color:#fff;
+  box-shadow:0 24px 70px rgba(4,31,66,.15);
+}
+.guide-visual-image { min-height:300px; overflow:hidden; }
+.guide-visual-image img { width:100%; height:100%; display:block; object-fit:cover; }
+.guide-visual-copy {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:38px;
+  background:radial-gradient(circle at 0 100%,#093367 0,#06101f 62%);
+}
+.guide-visual-copy .eyebrow { color:#7aa8d3; }
+.guide-visual-copy h3 { margin:0 0 12px; font-size:28px; line-height:1.05; letter-spacing:-.035em; }
+.guide-visual-copy p { margin:0; color:#9eb0c4; font-size:13px; line-height:1.65; }
+.guide-visual-copy strong { color:#fff; }
+
+.issue-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.issue-card {
+  display:grid;
+  grid-template-columns:190px minmax(0,1fr);
+  min-width:0;
+  overflow:hidden;
+  border:1px solid #e2eaf3;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 10px 32px rgba(14,46,85,.06);
+}
+.issue-card > img {
+  width:100%;
+  height:100%;
+  min-height:255px;
+  object-fit:cover;
+  background:#03101f;
+}
+.issue-card-body { padding:22px; min-width:0; }
+.issue-kicker { margin:0 0 6px; color:#0878e9; font-size:9px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+.issue-card h3 { margin:0 0 7px; font-size:18px; line-height:1.15; }
+.issue-summary { margin:0 0 14px; color:#69788a; font-size:12.5px; line-height:1.55; }
+.issue-card details { border-top:1px solid #e8eef5; padding-top:11px; }
+.issue-card summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:10px; color:#126ec6; font-size:11px; font-weight:850; }
+.issue-card summary::-webkit-details-marker { display:none; }
+.issue-card summary::after { content:'+'; font-size:16px; line-height:1; }
+.issue-card details[open] summary::after { content:'–'; }
+.issue-card details p,
+.issue-card details ul { color:#5e6e81; font-size:11.5px; line-height:1.55; }
+.issue-card details ul { padding-left:18px; margin-bottom:0; }
+.issue-card details li + li { margin-top:5px; }
+
+.campus-guide {
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:20px;
+  align-items:stretch;
+  margin-top:22px;
+}
+.campus-copy,
+.campus-tips {
+  border-radius:18px;
+  border:1px solid #dfe9f4;
+  background:#fff;
+  padding:25px;
+}
+.campus-copy { background:linear-gradient(145deg,#06152a,#071f3c); color:#fff; border-color:#12345a; }
+.campus-copy h3 { margin:0 0 8px; font-size:21px; }
+.campus-copy p { margin:0; color:#99abc0; font-size:12.5px; }
+.campus-tips { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.campus-tip { padding:12px; border-radius:12px; background:#f5f9fd; }
+.campus-tip strong { display:block; color:#17283d; font-size:12px; margin-bottom:3px; }
+.campus-tip span { display:block; color:#6d7d90; font-size:10.5px; line-height:1.45; }
+
+.repair-guide-note {
+  margin:17px 0 0;
+  color:#748398;
+  font-size:10.5px;
+  line-height:1.55;
+}
+
+.accordion details[data-guide-faq] summary::before {
+  content:'Repair guide';
+  display:inline-block;
+  margin-right:9px;
+  padding:3px 6px;
+  border-radius:99px;
+  background:#e9f5ff;
+  color:#0876df;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  vertical-align:middle;
+}
+
+/* Ensure the service cards are actually usable on phones: one card at a time,
+   not several compressed desktop columns. */
+@media (max-width:650px) {
+  .site-header .brand.gc-full-logo {
+    width:156px!important;
+    height:50px;
+    flex-basis:156px;
+  }
+  .site-header .nav-wrap { gap:8px; }
+  #services .service-grid {
+    display:flex!important;
+    grid-template-columns:none!important;
+    grid-auto-flow:initial!important;
+    gap:12px!important;
+    overflow-x:auto!important;
+    scroll-snap-type:x mandatory;
+    padding:2px 2px 12px!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  #services .service-card {
+    flex:0 0 min(82vw,318px)!important;
+    width:min(82vw,318px)!important;
+    min-width:min(82vw,318px)!important;
+    min-height:248px!important;
+    scroll-snap-align:start;
+  }
+  .guide-heading {
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .guide-heading p:last-child { font-size:12.5px; }
+  .guide-visual {
+    grid-template-columns:1fr;
+    min-height:0;
+    margin-bottom:16px;
+  }
+  .guide-visual-image { min-height:190px; max-height:220px; }
+  .guide-visual-copy { padding:22px 18px; }
+  .guide-visual-copy h3 { font-size:23px; }
+  .issue-grid {
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    margin-inline:-14px;
+    padding:2px 14px 12px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .issue-card {
+    flex:0 0 min(86vw,330px);
+    grid-template-columns:1fr;
+    scroll-snap-align:start;
+  }
+  .issue-card > img { height:148px; min-height:148px; }
+  .issue-card-body { padding:17px; }
+  .issue-card h3 { font-size:17px; }
+  .campus-guide { grid-template-columns:1fr; gap:10px; margin-top:14px; }
+  .campus-copy,.campus-tips { padding:17px; }
+  .campus-tips { gap:8px; }
+  .campus-tip { padding:10px; }
+}
+
+@media (max-width:390px) {
+  .site-header .brand.gc-full-logo { width:142px!important; flex-basis:142px; }
+  .campus-tips { grid-template-columns:1fr; }
+  #services .service-card { flex-basis:84vw!important; width:84vw!important; min-width:84vw!important; }
+}
