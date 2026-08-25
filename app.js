@@ -43,6 +43,20 @@
 
   const bookingForm = $('#booking-form');
   bookingForm.elements.formStartedAt.value = String(Date.now());
+  const serviceMode = bookingForm.elements.serviceMode;
+  const walkInFields = $('[data-walk-in-fields]', bookingForm);
+  const mailInFields = $('[data-mail-in-fields]', bookingForm);
+  const updateServiceMode = () => {
+    const mailIn = serviceMode.value === 'mail_in';
+    walkInFields.hidden = mailIn;
+    mailInFields.hidden = !mailIn;
+    ['date', 'time'].forEach(name => { bookingForm.elements[name].required = !mailIn; });
+    ['address1', 'city', 'state', 'postalCode'].forEach(name => { bookingForm.elements[name].required = mailIn; });
+    $('#step-three-title').textContent = mailIn ? 'Where should we return it?' : 'When works best?';
+    $('[data-submit-label]').textContent = mailIn ? 'Request mail-in approval' : 'Request appointment';
+  };
+  serviceMode.addEventListener('change', updateServiceMode);
+  updateServiceMode();
   let currentStep = 1;
   const showStep = step => {
     currentStep = step;
@@ -64,6 +78,7 @@
   $$('.form-next').forEach(button => button.addEventListener('click', () => { if (validateStep(currentStep)) showStep(currentStep + 1); }));
   $$('.button-back').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
   $$('[data-book-service]').forEach(button => button.addEventListener('click', () => { $('[name="issue"]').value = button.dataset.bookService; $('#book').scrollIntoView({ behavior: 'smooth' }); }));
+  $$('[data-start-mail-in]').forEach(button => button.addEventListener('click', () => { serviceMode.value = 'mail_in'; updateServiceMode(); }));
 
   bookingForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -77,13 +92,13 @@
       $('#request-number').textContent = data.reference;
       $$('.form-step, .form-progress', bookingForm).forEach(element => element.style.display = 'none');
       $('.form-success', bookingForm).classList.add('active');
-      showToast('Your request is now in the GotCracked repair queue.');
+      showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
     } catch (error) {
       showToast(error.message || 'Unable to submit. Please contact the shop.');
-    } finally { submit.disabled = false; submit.innerHTML = 'Request appointment <span>→</span>'; }
+    } finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
   });
   $('#new-request').addEventListener('click', () => {
-    bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); $('.form-success').classList.remove('active');
+    bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success').classList.remove('active');
     $$('.form-step, .form-progress', bookingForm).forEach(element => element.style.display = ''); showStep(1);
   });
 
@@ -95,14 +110,30 @@
   tracker.addEventListener('close', () => { document.body.classList.remove('dialog-open'); resetTracker(); });
   tracker.addEventListener('click', event => { if (event.target === tracker) tracker.close(); });
 
-  const TRACKING_STAGES = ['checked_in', 'in_diagnosis', 'awaiting_approval', 'waiting_on_parts', 'in_repair', 'ready_for_pickup', 'completed'];
-  const LABELS = { checked_in: 'Checked in', in_diagnosis: 'In diagnosis', awaiting_approval: 'Awaiting approval', waiting_on_parts: 'Waiting on parts', in_repair: 'In repair', ready_for_pickup: 'Ready for pickup', completed: 'Completed', cancelled: 'Cancelled' };
+  const TRACKING_STAGES = ['awaiting_repair', 'diagnostic_in_progress', 'repair_in_progress', 'quality_inspection', 'repaired', 'sale_complete'];
+  const LABELS = { checked_in: 'Checked in', in_diagnosis: 'In diagnosis', awaiting_approval: 'Awaiting approval', waiting_on_parts: 'Waiting on parts', in_repair: 'In repair', ready_for_pickup: 'Ready for pickup', completed: 'Sale complete', awaiting_repair: 'Awaiting repair', need_to_order_parts: 'Need to order parts', awaiting_parts: 'Awaiting parts', diagnostic_in_progress: 'Diagnostic in progress', repair_in_progress: 'Repair in progress', quality_inspection: 'Quality inspection', awaiting_callback: 'Awaiting callback', repaired: 'Repaired – ready for pickup', sale_complete: 'Sale complete', abandoned: 'Abandoned', unrepairable: 'Unrepairable', customer_declined: 'Customer declined', cancelled: 'Cancelled' };
+  const SHIPPING_LABELS = { awaiting_inbound: 'Awaiting your inbound package', inbound_in_transit: 'Inbound package in transit', received: 'Package received at GotCracked', return_label_ready: 'Return label prepared', outbound_in_transit: 'Repaired device is on the way', delivered: 'Return package delivered', shipping_issue: 'Shipping needs attention' };
+  const trackingUrl = (carrier, tracking) => {
+    const encoded = encodeURIComponent(tracking || '');
+    if (/ups/i.test(carrier || '')) return `https://www.ups.com/track?tracknum=${encoded}`;
+    if (/fedex/i.test(carrier || '')) return `https://www.fedex.com/fedextrack/?trknbr=${encoded}`;
+    return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${encoded}`;
+  };
   const renderTrackingStatus = repair => {
-    const current = Math.max(0, TRACKING_STAGES.indexOf(repair.status));
+    const fallbackStage = { checked_in:0, in_diagnosis:1, awaiting_approval:1, waiting_on_parts:1, in_repair:2, ready_for_pickup:4, need_to_order_parts:1, awaiting_parts:1, awaiting_callback:1, abandoned:4, unrepairable:0, customer_declined:0, cancelled:0 };
+    const current = TRACKING_STAGES.includes(repair.status) ? TRACKING_STAGES.indexOf(repair.status) : (fallbackStage[repair.status] ?? 0);
     $('.status-pill').textContent = LABELS[repair.status] || repair.status;
     $('.tracker-device strong').textContent = [repair.device?.manufacturer, repair.device?.model].filter(Boolean).join(' ') || 'Device repair';
     $('.tracker-device small').textContent = `Last updated ${new Date(repair.updatedAt).toLocaleString()}`;
     $('.tracker-timeline').innerHTML = TRACKING_STAGES.map((stage, index) => `<li class="${index < current ? 'complete' : index === current ? 'current' : ''}">${LABELS[stage]}</li>`).join('');
+    const shipping = $('.tracker-shipping');
+    if (repair.intakeMethod === 'mail_in') {
+      const label = SHIPPING_LABELS[repair.shippingStatus] || 'Mail-in repair';
+      const carrier = escapeHTML(repair.outboundCarrier || 'Carrier pending');
+      const tracking = escapeHTML(repair.outboundTracking || 'Tracking pending');
+      shipping.innerHTML = `<strong>${escapeHTML(label)}</strong><span>${carrier} · ${tracking}</span>${repair.outboundTracking ? `<a href="${trackingUrl(repair.outboundCarrier, repair.outboundTracking)}" target="_blank" rel="noopener">Track return package ↗</a>` : ''}`;
+      shipping.hidden = false;
+    } else { shipping.hidden = true; shipping.innerHTML = ''; }
     $('.tracker-demo-note').textContent = repair.publicNotes || 'For questions about this repair, contact the GotCracked shop.';
     $('.tracker-demo-note').style.display = '';
   };
