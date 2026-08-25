@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Cracked smartphone screen repair illustration</title>
+  <desc id="desc">A dark blue techno illustration of a smartphone with a cracked display and diagnostic grid.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#020916"/><stop offset=".55" stop-color="#071a35"/><stop offset="1" stop-color="#03101f"/></linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08d5ff"/><stop offset="1" stop-color="#087cff"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#0aa9ff" stop-opacity=".42"/><stop offset="1" stop-color="#0aa9ff" stop-opacity="0"/></radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1200" height="675" rx="32" fill="url(#bg)"/>
+  <g opacity=".34" stroke="#168dff" fill="none">
+    <path d="M0 120h150l45 45h150M0 560h190l50-50h140M1200 118h-185l-58 58H820M1200 530h-205l-42-42H815"/>
+    <circle cx="195" cy="165" r="7" fill="#08d5ff"/><circle cx="957" cy="176" r="7" fill="#08d5ff"/><circle cx="240" cy="510" r="7" fill="#087cff"/><circle cx="953" cy="488" r="7" fill="#087cff"/>
+  </g>
+  <ellipse cx="603" cy="338" rx="330" ry="260" fill="url(#glow)" filter="url(#soft)"/>
+  <g transform="translate(405 70)">
+    <rect x="0" y="0" width="390" height="535" rx="52" fill="#020712" stroke="url(#edge)" stroke-width="8"/>
+    <rect x="21" y="25" width="348" height="485" rx="35" fill="#06152c" stroke="#123968" stroke-width="2"/>
+    <path d="M195 25h58a18 18 0 0 1 18 18v2a18 18 0 0 1-18 18h-58a18 18 0 0 1-18-18v-2a18 18 0 0 1 18-18Z" fill="#020712"/>
+    <g opacity=".55" stroke="#0a83f8" stroke-width="1">
+      <path d="M38 118h314M38 176h314M38 234h314M38 292h314M38 350h314M38 408h314M96 83v388M154 83v388M212 83v388M270 83v388M328 83v388"/>
+    </g>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M227 104 194 178l31 37-62 51 35 49-66 79" stroke="#d8f4ff" stroke-width="6"/>
+      <path d="m195 178-58-38-42 17M225 215l74-27 45 18M163 266l-74 23-32 49M198 315l70 39 53-9M132 394l71 27 39 43" stroke="#66d9ff" stroke-width="4"/>
+      <path d="m194 178 45-55 29-7M163 266l35-43 13-62M198 315l-7 56 38 27" stroke="#0aa9ff" stroke-width="3"/>
+    </g>
+    <circle cx="194" cy="178" r="13" fill="#08d5ff" opacity=".86"/>
+  </g>
+  <g transform="translate(120 210)">
+    <circle cx="100" cy="100" r="88" fill="#061b35" stroke="#0a87f4" stroke-width="3"/>
+    <path d="M100 48v45l31 18" stroke="#71e5ff" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="100" cy="100" r="10" fill="#08d5ff"/>
+    <path d="M40 155h120" stroke="#0b6fce" stroke-width="2"/>
+  </g>
+  <g transform="translate(920 220)" fill="none" stroke="#0a8af7">
+    <circle cx="70" cy="70" r="56" stroke-width="3"/><circle cx="70" cy="70" r="34" stroke-width="2" opacity=".6"/><path d="M70 0v140M0 70h140" opacity=".45"/>
+  </g>
+</svg>
