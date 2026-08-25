@@ -1,19 +1,23 @@
-/* GotCracked repair education layer — compact, informative, mobile-first */
+/* GotCracked public site — repair education + mobile gesture polish */
 
+/* Full brand lockup in the header. */
 .site-header .brand.gc-full-logo {
   width: 205px;
   height: 54px;
   flex: 0 0 205px;
+  display: flex;
+  align-items: center;
 }
 .site-header .brand.gc-full-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: left center;
-  filter: drop-shadow(0 0 10px rgba(0,183,255,.2));
+  filter: drop-shadow(0 0 10px rgba(0,183,255,.18));
 }
 .site-header .brand.gc-full-logo .brand-fallback { display:none!important; }
 
+/* Repair education section. */
 .repair-guide {
   background: linear-gradient(180deg,#f7fbff 0%,#fff 48%,#f5f9fd 100%);
   border-top: 1px solid #e7eef6;
@@ -111,47 +115,60 @@
 .campus-tip { padding:12px; border-radius:12px; background:#f5f9fd; }
 .campus-tip strong { display:block; color:#17283d; font-size:12px; margin-bottom:3px; }
 .campus-tip span { display:block; color:#6d7d90; font-size:10.5px; line-height:1.45; }
+.repair-guide-note { margin:17px 0 0; color:#748398; font-size:10.5px; line-height:1.55; }
 
-.repair-guide-note {
-  margin:17px 0 0;
-  color:#748398;
-  font-size:10.5px;
-  line-height:1.55;
+/* Horizontal service rail: it may move sideways, but a vertical thumb gesture
+   belongs to the page. JS handles the sideways drag after intent is clear. */
+.gc-gesture-rail {
+  overscroll-behavior-x:contain;
+  overscroll-behavior-y:auto;
+  touch-action:pan-y pinch-zoom;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.gc-gesture-rail::-webkit-scrollbar { display:none; }
+.gc-gesture-rail.gc-dragging { scroll-snap-type:none!important; cursor:grabbing; }
+.gc-rail-hint {
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin:8px 0 0;
+  color:#7d8b9b;
+  font-size:10px;
+  font-weight:750;
+  letter-spacing:.035em;
+}
+.gc-rail-hint span { color:#0a83ec; font-size:15px; }
+
+@media (max-width:980px) {
+  .site-header .brand.gc-full-logo {
+    width:180px;
+    flex-basis:180px;
+  }
 }
 
-.accordion details[data-guide-faq] summary::before {
-  content:'Repair guide';
-  display:inline-block;
-  margin-right:9px;
-  padding:3px 6px;
-  border-radius:99px;
-  background:#e9f5ff;
-  color:#0876df;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  vertical-align:middle;
-}
-
-/* Ensure the service cards are actually usable on phones: one card at a time,
-   not several compressed desktop columns. */
 @media (max-width:650px) {
   .site-header .brand.gc-full-logo {
     width:156px!important;
     height:50px;
-    flex-basis:156px;
+    flex:0 0 156px;
   }
   .site-header .nav-wrap { gap:8px; }
+
+  /* One card at a time. No vertical card motion or nested vertical scrolling. */
   #services .service-grid {
     display:flex!important;
     grid-template-columns:none!important;
     grid-auto-flow:initial!important;
     gap:12px!important;
     overflow-x:auto!important;
+    overflow-y:visible!important;
     scroll-snap-type:x mandatory;
-    padding:2px 2px 12px!important;
-    -webkit-overflow-scrolling:touch;
+    scroll-padding-inline:2px;
+    padding:2px 2px 8px!important;
+    margin-inline:-2px!important;
+    -webkit-overflow-scrolling:auto!important;
   }
   #services .service-card {
     flex:0 0 min(82vw,318px)!important;
@@ -159,7 +176,13 @@
     min-width:min(82vw,318px)!important;
     min-height:248px!important;
     scroll-snap-align:start;
+    scroll-snap-stop:always;
+    transform:none!important;
   }
+  #services .service-card:hover,
+  #services .service-card:active { transform:none!important; }
+  .gc-rail-hint { display:flex; }
+
   .guide-heading {
     grid-template-columns:1fr;
     gap:10px;
@@ -174,31 +197,51 @@
   .guide-visual-image { min-height:190px; max-height:220px; }
   .guide-visual-copy { padding:22px 18px; }
   .guide-visual-copy h3 { font-size:23px; }
+
+  /* Educational image cards are deliberately stacked on phones so they never
+     interfere with the normal downward reading motion. */
   .issue-grid {
-    display:flex;
+    display:grid!important;
+    grid-template-columns:1fr!important;
     gap:12px;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    margin-inline:-14px;
-    padding:2px 14px 12px;
-    -webkit-overflow-scrolling:touch;
+    overflow:visible!important;
+    margin:0;
+    padding:0;
   }
   .issue-card {
-    flex:0 0 min(86vw,330px);
-    grid-template-columns:1fr;
-    scroll-snap-align:start;
+    display:grid;
+    grid-template-columns:116px minmax(0,1fr);
+    width:100%;
+    min-width:0;
   }
-  .issue-card > img { height:148px; min-height:148px; }
-  .issue-card-body { padding:17px; }
-  .issue-card h3 { font-size:17px; }
+  .issue-card > img { width:116px; height:100%; min-height:185px; }
+  .issue-card-body { padding:16px 15px; }
+  .issue-card h3 { font-size:16px; }
+  .issue-summary { font-size:11.8px; line-height:1.45; }
+
   .campus-guide { grid-template-columns:1fr; gap:10px; margin-top:14px; }
   .campus-copy,.campus-tips { padding:17px; }
   .campus-tips { gap:8px; }
   .campus-tip { padding:10px; }
 }
 
-@media (max-width:390px) {
-  .site-header .brand.gc-full-logo { width:142px!important; flex-basis:142px; }
-  .campus-tips { grid-template-columns:1fr; }
+@media (max-width:420px) {
+  .site-header .brand.gc-full-logo {
+    width:148px!important;
+    flex-basis:148px;
+  }
+  .issue-card { grid-template-columns:100px minmax(0,1fr); }
+  .issue-card > img { width:100px; min-height:195px; }
+}
+
+@media (max-width:380px) {
+  .site-header .brand.gc-full-logo { width:140px!important; flex-basis:140px; }
   #services .service-card { flex-basis:84vw!important; width:84vw!important; min-width:84vw!important; }
+  .campus-tips { grid-template-columns:1fr; }
+  .issue-card { grid-template-columns:1fr; }
+  .issue-card > img { width:100%; height:150px; min-height:150px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .gc-gesture-rail { scroll-behavior:auto!important; }
 }
