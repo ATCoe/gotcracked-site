@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '20260825-final-polish2';
+  const VERSION = '20260825-final-polish3';
   const MOBILE_QUERY = '(max-width:650px)';
   const mobile = window.matchMedia(MOBILE_QUERY);
 
@@ -18,79 +18,79 @@
     return `
       <section class="section repair-guide" id="repair-guide">
         <div class="container">
-          <div class="guide-heading">
+          <div class="guide-heading reveal">
             <div>
-              <p class="eyebrow"><span></span>Know what the symptoms mean</p>
-              <h2>Common problems.<br>Clear next steps.</h2>
+              <p class="eyebrow"><span></span>Common repair symptoms</p>
+              <h2>Know the warning signs.<br>We’ll handle the diagnosis.</h2>
             </div>
-            <p>You do not need to diagnose the device yourself. These guides explain the warning signs we see most often and what you can safely do before a technician takes a look.</p>
+            <p>These are the issues customers bring us most often. You do not need to diagnose the device yourself—tell us what changed and we’ll take it from there.</p>
           </div>
 
-          <div class="guide-visual">
-            <div class="guide-visual-image"><img src="assets/repair-bench.webp?v=${VERSION}" alt="Electronics repair workbench" loading="lazy" decoding="async"></div>
+          <div class="guide-visual reveal">
+            <div class="guide-visual-image"><img src="assets/repair-bench.webp?v=${VERSION}" alt="Precision electronics repair bench" loading="lazy" decoding="async"></div>
             <div class="guide-visual-copy">
-              <p class="eyebrow"><span></span>Start with the symptom</p>
-              <h3>Good diagnostics begin before the first screw comes out.</h3>
-              <p>Tell us <strong>what changed, when it started, and what happened immediately before it failed.</strong> That history can save diagnostic time and helps us avoid replacing parts that are not actually the problem.</p>
+              <p class="eyebrow"><span></span>Professional diagnostics</p>
+              <h3>Start with the symptom, not a guess.</h3>
+              <p>Screen damage, charging problems, heat, battery issues, and no-power faults can have more than one cause. We document the symptoms, inspect the device, and confirm the repair path before billable work begins.</p>
             </div>
           </div>
 
           <div class="issue-grid">
-            <article class="issue-card">
-              <img src="assets/issue-cracked-screen.svg?v=${VERSION}" alt="Illustration of a cracked phone screen" loading="lazy" decoding="async">
+            <article class="issue-card reveal">
+              <img src="assets/phone-screen-repair.webp?v=${VERSION}" alt="Phone screen repair on a blue-lit electronics workbench" loading="lazy" decoding="async">
               <div class="issue-card-body">
                 <p class="issue-kicker">Phones & tablets</p>
-                <h3>Cracked or unresponsive display</h3>
-                <p class="issue-summary">A damaged display can still show an image while the touch layer, OLED/LCD panel, or internal connector is failing.</p>
-                <details><summary>What to do next</summary><ul><li>Stop pressing hard on broken glass.</li><li>Back up the device if touch still works.</li><li>Keep it dry and avoid flexing the frame.</li></ul></details>
+                <h3>Cracked glass, display damage, or touch problems</h3>
+                <p class="issue-summary">A phone can still light up even when the glass, OLED/LCD panel, touch layer, or frame has been damaged.</p>
+                <details><summary>When to bring it in</summary><p>Black spots, colored lines, flickering, dead touch areas, sharp glass, or a spreading crack are all good reasons to have the device inspected before the damage gets worse.</p></details>
               </div>
             </article>
 
-            <article class="issue-card">
-              <img src="assets/issue-battery-health.svg?v=${VERSION}" alt="Illustration of a device battery health problem" loading="lazy" decoding="async">
+            <article class="issue-card reveal">
+              <img src="assets/issue-battery-health.svg?v=${VERSION}" alt="Battery health illustration" loading="lazy" decoding="async">
               <div class="issue-card-body">
                 <p class="issue-kicker">Battery & power</p>
-                <h3>Fast drain, shutdowns, or swelling</h3>
-                <p class="issue-summary">A worn battery may cause poor runtime, sudden shutdowns, heat, charging problems, or physical swelling.</p>
-                <details><summary>What to do next</summary><ul><li>If the battery is swollen, stop using and charging the device.</li><li>Do not puncture or compress the battery.</li><li>Bring the device in for a safe evaluation.</li></ul></details>
+                <h3>Fast drain, shutdowns, heat, or swelling</h3>
+                <p class="issue-summary">Battery wear can show up as short runtime, sudden shutdowns, slow charging, unusual heat, or physical swelling.</p>
+                <details><summary>Important safety note</summary><p>If the screen or enclosure is lifting, the battery looks swollen, or the device becomes unusually hot, stop using and charging it and bring it in for evaluation. Do not press, puncture, or compress a swollen battery.</p></details>
               </div>
             </article>
 
-            <article class="issue-card">
-              <img src="assets/issue-laptop-thermal.svg?v=${VERSION}" alt="Illustration of a laptop overheating problem" loading="lazy" decoding="async">
+            <article class="issue-card reveal">
+              <img src="assets/laptop-service.webp?v=${VERSION}" alt="Laptop cooling system being professionally serviced" loading="lazy" decoding="async">
               <div class="issue-card-body">
-                <p class="issue-kicker">Computers</p>
-                <h3>Overheating, loud fans, or slow performance</h3>
-                <p class="issue-summary">Dust buildup, blocked airflow, degraded thermal material, failing fans, or software load can all produce similar symptoms.</p>
-                <details><summary>What to do next</summary><ul><li>Use the computer on a hard, open surface.</li><li>Do not block intake or exhaust vents.</li><li>Shut it down if you smell heat or hear mechanical fan noise.</li></ul></details>
+                <p class="issue-kicker">Laptops & computers</p>
+                <h3>Overheating, loud fans, crashes, or slow performance</h3>
+                <p class="issue-summary">Dust restriction, fan problems, thermal issues, storage trouble, or software load can create very similar symptoms.</p>
+                <details><summary>When service makes sense</summary><p>If the computer is getting hotter than normal, shutting down under load, making mechanical fan noise, or slowing dramatically, we can inspect the cooling system and overall system health.</p></details>
               </div>
             </article>
 
-            <article class="issue-card">
-              <img src="assets/issue-console-hdmi.svg?v=${VERSION}" alt="Illustration of a game console HDMI port problem" loading="lazy" decoding="async">
+            <article class="issue-card reveal">
+              <img src="assets/issue-console-hdmi.svg?v=${VERSION}" alt="Game console HDMI port illustration" loading="lazy" decoding="async">
               <div class="issue-card-body">
                 <p class="issue-kicker">Game consoles</p>
-                <h3>No video or damaged HDMI port</h3>
-                <p class="issue-summary">A loose cable is easy to rule out, but bent pins, damaged ports, board-level faults, and video circuitry require closer inspection.</p>
-                <details><summary>What to do next</summary><ul><li>Test one known-good cable and display.</li><li>Do not force a cable into a damaged port.</li><li>Bring the console and power cable if the fault is intermittent.</li></ul></details>
+                <h3>No display, intermittent video, or HDMI damage</h3>
+                <p class="issue-summary">A damaged HDMI port can cause no picture, flickering, dropouts, or a connection that only works when the cable is held a certain way.</p>
+                <details><summary>Before you bring it in</summary><p>Trying one known-good HDMI cable and another display input is reasonable. If the port is loose, bent, or intermittent, do not force the cable—bring the console in for inspection.</p></details>
               </div>
             </article>
           </div>
 
-          <div class="campus-guide">
+          <div class="campus-guide reveal">
             <div class="campus-copy">
               <p class="eyebrow"><span></span>Blacksburg & campus life</p>
               <h3>When your device is also your class, work, and social life.</h3>
-              <p>We know downtime matters. Tell us if you have a class deadline, travel date, remote-work need, or other timing constraint so we can give you the clearest realistic options.</p>
+              <p>Downtime matters. Tell us about class deadlines, travel dates, remote-work needs, or other timing constraints so we can give you realistic options before the repair begins.</p>
             </div>
             <div class="campus-tips">
-              <div class="campus-tip"><strong>Back up first</strong><span>If the device still works, save important files before repair whenever possible.</span></div>
-              <div class="campus-tip"><strong>Bring the right charger</strong><span>For power or charging issues, the charger can be part of the diagnosis.</span></div>
-              <div class="campus-tip"><strong>Skip the rice</strong><span>For liquid exposure, power the device down. Rice does not remove internal contamination.</span></div>
-              <div class="campus-tip"><strong>Do not keep testing damage</strong><span>Repeated power cycles can make some liquid, battery, or board faults worse.</span></div>
+              <div class="campus-tip"><strong>Back up when possible</strong><span>If the device still works, save important files before service whenever you can.</span></div>
+              <div class="campus-tip"><strong>Bring related accessories</strong><span>For charging or power problems, the charger or cable can help us reproduce the issue.</span></div>
+              <div class="campus-tip"><strong>Liquid exposure</strong><span>Power the device down and avoid repeatedly testing or charging it before inspection.</span></div>
+              <div class="campus-tip"><strong>We diagnose first</strong><span>Symptoms can overlap. We confirm what failed before recommending paid repair work.</span></div>
             </div>
           </div>
-          <p class="repair-guide-note">These are general safety and troubleshooting guidelines, not a remote diagnosis. Actual repair needs are confirmed after inspection.</p>
+          <p class="repair-guide-note">General customer guidance only. Actual repair needs, parts, pricing, and turnaround are confirmed after inspection.</p>
         </div>
       </section>`;
   }
@@ -100,6 +100,26 @@
     const services = document.getElementById('services');
     if (!services) return;
     services.insertAdjacentHTML('afterend', repairGuideMarkup());
+  }
+
+  const extraFaqs = [
+    ['My screen is cracked but still works. Do I need to repair it?', 'A working image does not mean every layer of the display is undamaged. Cracks can spread, sharp glass can become a safety issue, and touch or image problems may appear later. If you see black spots, lines, flickering, dead touch areas, or exposed glass, have it inspected.'],
+    ['What should I do if my device will not charge?', 'Bring the device and, when practical, the charger or cable you normally use. Charging failures can come from the cable, power adapter, charging port, battery, or internal power circuitry, so we confirm the cause before recommending a repair.'],
+    ['What should I do if the battery looks swollen?', 'Stop using and charging the device. Do not press the screen back down, puncture the battery, or expose it to heat. Bring the device in for safe evaluation as soon as practical.'],
+    ['What should I do after liquid exposure?', 'Power the device down and avoid repeatedly turning it on or charging it. Rice does not remove conductive residue or corrosion inside the device. Early professional inspection gives us the best chance to assess the damage before it progresses.'],
+    ['Do I need an appointment?', 'Not always. Walk-ins are welcome, and appointments are useful when you want to reserve a time window. For mail-in service, submit a request and wait for approval before shipping your device.']
+  ];
+
+  function installBasicFaqs() {
+    const accordion = document.querySelector('#faq .accordion');
+    if (!accordion || accordion.dataset.gcExpandedFaqs === 'true') return;
+    accordion.dataset.gcExpandedFaqs = 'true';
+    for (const [question, answer] of extraFaqs) {
+      if ([...accordion.querySelectorAll('summary')].some(summary => summary.textContent?.includes(question))) continue;
+      const details = document.createElement('details');
+      details.innerHTML = `<summary>${question}<span>+</span></summary><p>${answer}</p>`;
+      accordion.appendChild(details);
+    }
   }
 
   function installRailHint(rail) {
@@ -140,7 +160,7 @@
     let dragged = false;
 
     const reset = () => {
-      if (!tracking) return;
+      if (!tracking && axis !== 'x') return;
       tracking = false;
       axis = null;
       pointerId = null;
@@ -198,18 +218,11 @@
     }, true);
   }
 
-  function tagUsefulFaqs() {
-    document.querySelectorAll('#faq details').forEach(detail => {
-      const text = detail.querySelector('summary')?.textContent?.toLowerCase() || '';
-      if (text.includes('devices do you repair') || text.includes('recover my data')) detail.dataset.guideFaq = 'true';
-    });
-  }
-
   function init() {
     installFullLogo();
     installRepairGuide();
+    installBasicFaqs();
     installGestureRail();
-    tagUsefulFaqs();
     document.documentElement.dataset.gcSitePolish = VERSION;
   }
 
