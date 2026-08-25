@@ -130,13 +130,6 @@ dialog {
   overflow-wrap: anywhere;
 }
 
-/* GotCracked does not offer wearable-device repairs. Hide the legacy
-   source entries until index.html is consolidated in the cleanup pass. */
-.device-strip .device-list span:last-child,
-.booking-form select[name="deviceType"] option:nth-child(6) {
-  display: none !important;
-}
-
 @media (max-width: 980px) {
   .site-header nav {
     position: absolute !important;
@@ -350,8 +343,7 @@ dialog {
     letter-spacing: -.045em;
   }
 
-  /* Mobile services: use a compact horizontal rail instead of stacking
-     eight full desktop cards into a several-screen-long section. */
+  /* Mobile services: compact horizontal rail instead of eight stacked cards. */
   .service-grid {
     display: grid !important;
     grid-auto-flow: column;
