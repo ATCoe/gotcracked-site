@@ -24,6 +24,7 @@ jobs:
           node --check app.js
           node --check customer-chat.js
           node --check pc-build.js
+          node --check store-hours.js
           node --check supabase.js
 
       - name: Public site architecture
@@ -44,6 +45,7 @@ jobs:
           chat_css = Path('customer-chat.css').read_text(encoding='utf-8')
           pc_js = Path('pc-build.js').read_text(encoding='utf-8')
           pc_css = Path('pc-build.css').read_text(encoding='utf-8')
+          store_hours_js = Path('store-hours.js').read_text(encoding='utf-8')
           release = Path('site-release.css').read_text(encoding='utf-8')
           guide = Path('repair-guide.css').read_text(encoding='utf-8')
 
@@ -142,13 +144,18 @@ jobs:
           if 'passwords or payment-card details' not in chat:
               raise SystemExit('Website chat must warn customers not to send sensitive credentials/payment data.')
 
-          # Appointment availability must match the configured Blacksburg operating window.
+          # Appointment availability must match the Portal's canonical store hours.
           if '4–7 PM' in request_html or '4–7 PM' in appointment_html:
               raise SystemExit('Customer forms must not offer appointments after the 6 PM closing time.')
           if 'Late afternoon (4–6 PM)' not in request_html or 'Late afternoon (4–6 PM)' not in appointment_html:
               raise SystemExit('Late-afternoon appointment window is missing.')
           if "dateInput.min = localDateISO(new Date())" not in app:
               raise SystemExit('Same-day appointment requests must remain selectable.')
+          if 'store-hours.js' not in request_html or 'store-hours.js' not in appointment_html:
+              raise SystemExit('Customer appointment forms must load live store-hours availability.')
+          for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
+              if token not in store_hours_js:
+                  raise SystemExit(f'Store-hours scheduling guard is incomplete: {token}')
 
           forbidden_supabase = ['createElement(', 'site-final-polish', 'site-mobile-fix', 'repair-guide.css']
           for token in forbidden_supabase:
@@ -174,7 +181,7 @@ jobs:
               if selector not in release:
                   raise SystemExit(f'Mobile width containment missing for {selector}')
 
-          combined = (pages + supabase + app + release + guide + chat_css + pc_js + pc_css).lower()
+          combined = (pages + supabase + app + release + guide + chat_css + pc_js + pc_css + store_hours_js).lower()
           if 'wearable' in combined:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
