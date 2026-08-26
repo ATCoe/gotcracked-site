@@ -1,38 +1,22 @@
-/* GotCracked public site — repair education + mobile gesture polish */
+/* GotCracked public site — static customer repair education. */
 
-/* Full brand lockup in the header. */
-.site-header .brand.gc-full-logo {
-  width: 205px;
-  height: 54px;
-  flex: 0 0 205px;
-  display: flex;
-  align-items: center;
+.repair-guide{
+  background:linear-gradient(180deg,#f7fbff 0%,#fff 48%,#f5f9fd 100%);
+  border-top:1px solid #e7eef6;
+  border-bottom:1px solid #e7eef6;
 }
-.site-header .brand.gc-full-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: left center;
-  filter: drop-shadow(0 0 10px rgba(0,183,255,.18));
-}
-.site-header .brand.gc-full-logo .brand-fallback { display:none!important; }
 
-/* Repair education section. */
-.repair-guide {
-  background: linear-gradient(180deg,#f7fbff 0%,#fff 48%,#f5f9fd 100%);
-  border-top: 1px solid #e7eef6;
-  border-bottom: 1px solid #e7eef6;
-}
-.guide-heading {
+.guide-heading{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(280px,430px);
   align-items:end;
   gap:40px;
   margin-bottom:34px;
 }
-.guide-heading p:last-child { color:#607186; margin:0; font-size:14px; }
-.guide-heading h2 { margin:0; }
-.guide-visual {
+.guide-heading p:last-child{color:#607186;margin:0;font-size:14px;line-height:1.6}
+.guide-heading h2{margin:0}
+
+.guide-visual{
   position:relative;
   display:grid;
   grid-template-columns:1.1fr .9fr;
@@ -44,26 +28,25 @@
   color:#fff;
   box-shadow:0 24px 70px rgba(4,31,66,.15);
 }
-.guide-visual-image { min-height:300px; overflow:hidden; }
-.guide-visual-image img { width:100%; height:100%; display:block; object-fit:cover; }
-.guide-visual-copy {
+.guide-visual-image{min-height:300px;overflow:hidden;background:#03101f}
+.guide-visual-image img{width:100%;height:100%;display:block;object-fit:cover}
+.guide-visual-copy{
   display:flex;
   flex-direction:column;
   justify-content:center;
   padding:38px;
   background:radial-gradient(circle at 0 100%,#093367 0,#06101f 62%);
 }
-.guide-visual-copy .eyebrow { color:#7aa8d3; }
-.guide-visual-copy h3 { margin:0 0 12px; font-size:28px; line-height:1.05; letter-spacing:-.035em; }
-.guide-visual-copy p { margin:0; color:#9eb0c4; font-size:13px; line-height:1.65; }
-.guide-visual-copy strong { color:#fff; }
+.guide-visual-copy .eyebrow{color:#7aa8d3}
+.guide-visual-copy h3{margin:0 0 12px;font-size:28px;line-height:1.05;letter-spacing:-.035em}
+.guide-visual-copy p{margin:0;color:#9eb0c4;font-size:13px;line-height:1.65}
 
-.issue-grid {
+.issue-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:14px;
 }
-.issue-card {
+.issue-card{
   display:grid;
   grid-template-columns:190px minmax(0,1fr);
   min-width:0;
@@ -73,28 +56,25 @@
   background:#fff;
   box-shadow:0 10px 32px rgba(14,46,85,.06);
 }
-.issue-card > img {
+.issue-card>img{
   width:100%;
   height:100%;
   min-height:255px;
   object-fit:cover;
   background:#03101f;
 }
-.issue-card-body { padding:22px; min-width:0; }
-.issue-kicker { margin:0 0 6px; color:#0878e9; font-size:9px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
-.issue-card h3 { margin:0 0 7px; font-size:18px; line-height:1.15; }
-.issue-summary { margin:0 0 14px; color:#69788a; font-size:12.5px; line-height:1.55; }
-.issue-card details { border-top:1px solid #e8eef5; padding-top:11px; }
-.issue-card summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:10px; color:#126ec6; font-size:11px; font-weight:850; }
-.issue-card summary::-webkit-details-marker { display:none; }
-.issue-card summary::after { content:'+'; font-size:16px; line-height:1; }
-.issue-card details[open] summary::after { content:'–'; }
-.issue-card details p,
-.issue-card details ul { color:#5e6e81; font-size:11.5px; line-height:1.55; }
-.issue-card details ul { padding-left:18px; margin-bottom:0; }
-.issue-card details li + li { margin-top:5px; }
+.issue-card-body{padding:22px;min-width:0}
+.issue-kicker{margin:0 0 6px;color:#0878e9;font-size:9px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+.issue-card h3{margin:0 0 7px;font-size:18px;line-height:1.15}
+.issue-summary{margin:0 0 14px;color:#69788a;font-size:12.5px;line-height:1.55}
+.issue-card details{border-top:1px solid #e8eef5;padding-top:11px}
+.issue-card summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;color:#126ec6;font-size:11px;font-weight:850}
+.issue-card summary::-webkit-details-marker{display:none}
+.issue-card summary::after{content:'+';font-size:16px;line-height:1}
+.issue-card details[open] summary::after{content:'–'}
+.issue-card details p{color:#5e6e81;font-size:11.5px;line-height:1.55;margin-bottom:0}
 
-.campus-guide {
+.campus-guide{
   display:grid;
   grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
   gap:20px;
@@ -102,146 +82,50 @@
   margin-top:22px;
 }
 .campus-copy,
-.campus-tips {
+.campus-tips{
   border-radius:18px;
   border:1px solid #dfe9f4;
   background:#fff;
   padding:25px;
 }
-.campus-copy { background:linear-gradient(145deg,#06152a,#071f3c); color:#fff; border-color:#12345a; }
-.campus-copy h3 { margin:0 0 8px; font-size:21px; }
-.campus-copy p { margin:0; color:#99abc0; font-size:12.5px; }
-.campus-tips { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.campus-tip { padding:12px; border-radius:12px; background:#f5f9fd; }
-.campus-tip strong { display:block; color:#17283d; font-size:12px; margin-bottom:3px; }
-.campus-tip span { display:block; color:#6d7d90; font-size:10.5px; line-height:1.45; }
-.repair-guide-note { margin:17px 0 0; color:#748398; font-size:10.5px; line-height:1.55; }
+.campus-copy{background:linear-gradient(145deg,#06152a,#071f3c);color:#fff;border-color:#12345a}
+.campus-copy h3{margin:0 0 8px;font-size:21px}
+.campus-copy p{margin:0;color:#99abc0;font-size:12.5px;line-height:1.55}
+.campus-tips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.campus-tip{padding:12px;border-radius:12px;background:#f5f9fd}
+.campus-tip strong{display:block;color:#17283d;font-size:12px;margin-bottom:3px}
+.campus-tip span{display:block;color:#6d7d90;font-size:10.5px;line-height:1.45}
+.repair-guide-note{margin:17px 0 0;color:#748398;font-size:10.5px;line-height:1.55}
 
-/* Horizontal service rail: it may move sideways, but a vertical thumb gesture
-   belongs to the page. JS handles the sideways drag after intent is clear. */
-.gc-gesture-rail {
-  overscroll-behavior-x:contain;
-  overscroll-behavior-y:auto;
-  touch-action:pan-y pinch-zoom;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-}
-.gc-gesture-rail::-webkit-scrollbar { display:none; }
-.gc-gesture-rail.gc-dragging { scroll-snap-type:none!important; cursor:grabbing; }
-.gc-rail-hint {
-  display:none;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  margin:8px 0 0;
-  color:#7d8b9b;
-  font-size:10px;
-  font-weight:750;
-  letter-spacing:.035em;
-}
-.gc-rail-hint span { color:#0a83ec; font-size:15px; }
-
-@media (max-width:980px) {
-  .site-header .brand.gc-full-logo {
-    width:180px;
-    flex-basis:180px;
-  }
+@media(max-width:980px){
+  .guide-heading,
+  .guide-visual,
+  .campus-guide{grid-template-columns:minmax(0,1fr)}
+  .guide-heading{gap:16px}
+  .issue-grid{grid-template-columns:minmax(0,1fr)}
 }
 
-@media (max-width:650px) {
-  .site-header .brand.gc-full-logo {
-    width:156px!important;
-    height:50px;
-    flex:0 0 156px;
-  }
-  .site-header .nav-wrap { gap:8px; }
-
-  /* One card at a time. No vertical card motion or nested vertical scrolling. */
-  #services .service-grid {
-    display:flex!important;
-    grid-template-columns:none!important;
-    grid-auto-flow:initial!important;
-    gap:12px!important;
-    overflow-x:auto!important;
-    overflow-y:visible!important;
-    scroll-snap-type:x mandatory;
-    scroll-padding-inline:2px;
-    padding:2px 2px 8px!important;
-    margin-inline:-2px!important;
-    -webkit-overflow-scrolling:auto!important;
-  }
-  #services .service-card {
-    flex:0 0 min(82vw,318px)!important;
-    width:min(82vw,318px)!important;
-    min-width:min(82vw,318px)!important;
-    min-height:248px!important;
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-    transform:none!important;
-  }
-  #services .service-card:hover,
-  #services .service-card:active { transform:none!important; }
-  .gc-rail-hint { display:flex; }
-
-  .guide-heading {
-    grid-template-columns:1fr;
-    gap:10px;
-    margin-bottom:20px;
-  }
-  .guide-heading p:last-child { font-size:12.5px; }
-  .guide-visual {
-    grid-template-columns:1fr;
-    min-height:0;
-    margin-bottom:16px;
-  }
-  .guide-visual-image { min-height:190px; max-height:220px; }
-  .guide-visual-copy { padding:22px 18px; }
-  .guide-visual-copy h3 { font-size:23px; }
-
-  /* Educational image cards are deliberately stacked on phones so they never
-     interfere with the normal downward reading motion. */
-  .issue-grid {
-    display:grid!important;
-    grid-template-columns:1fr!important;
-    gap:12px;
-    overflow:visible!important;
-    margin:0;
-    padding:0;
-  }
-  .issue-card {
-    display:grid;
-    grid-template-columns:116px minmax(0,1fr);
-    width:100%;
-    min-width:0;
-  }
-  .issue-card > img { width:116px; height:100%; min-height:185px; }
-  .issue-card-body { padding:16px 15px; }
-  .issue-card h3 { font-size:16px; }
-  .issue-summary { font-size:11.8px; line-height:1.45; }
-
-  .campus-guide { grid-template-columns:1fr; gap:10px; margin-top:14px; }
-  .campus-copy,.campus-tips { padding:17px; }
-  .campus-tips { gap:8px; }
-  .campus-tip { padding:10px; }
+@media(max-width:700px){
+  .guide-heading{gap:10px;margin-bottom:20px}
+  .guide-heading p:last-child{font-size:12.5px}
+  .guide-visual{min-height:0;margin-bottom:16px}
+  .guide-visual-image{min-height:190px;max-height:220px}
+  .guide-visual-copy{padding:22px 18px}
+  .guide-visual-copy h3{font-size:23px}
+  .issue-grid{gap:12px}
+  .issue-card{grid-template-columns:116px minmax(0,1fr);width:100%}
+  .issue-card>img{width:116px;min-height:185px}
+  .issue-card-body{padding:16px 15px}
+  .issue-card h3{font-size:16px}
+  .issue-summary{font-size:11.8px;line-height:1.45}
+  .campus-guide{gap:10px;margin-top:14px}
+  .campus-copy,.campus-tips{padding:17px}
+  .campus-tips{gap:8px}
+  .campus-tip{padding:10px}
 }
 
-@media (max-width:420px) {
-  .site-header .brand.gc-full-logo {
-    width:148px!important;
-    flex-basis:148px;
-  }
-  .issue-card { grid-template-columns:100px minmax(0,1fr); }
-  .issue-card > img { width:100px; min-height:195px; }
-}
-
-@media (max-width:380px) {
-  .site-header .brand.gc-full-logo { width:140px!important; flex-basis:140px; }
-  #services .service-card { flex-basis:84vw!important; width:84vw!important; min-width:84vw!important; }
-  .campus-tips { grid-template-columns:1fr; }
-  .issue-card { grid-template-columns:1fr; }
-  .issue-card > img { width:100%; height:150px; min-height:150px; }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .gc-gesture-rail { scroll-behavior:auto!important; }
+@media(max-width:390px){
+  .issue-card{grid-template-columns:1fr}
+  .issue-card>img{width:100%;height:150px;min-height:150px}
+  .campus-tips{grid-template-columns:1fr}
 }
