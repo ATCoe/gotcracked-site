@@ -23,6 +23,7 @@ jobs:
           set -euo pipefail
           node --check app.js
           node --check customer-chat.js
+          node --check pc-build.js
           node --check supabase.js
 
       - name: Public site architecture
@@ -34,11 +35,14 @@ jobs:
           html = Path('index.html').read_text(encoding='utf-8')
           request_html = Path('request.html').read_text(encoding='utf-8')
           appointment_html = Path('appointment.html').read_text(encoding='utf-8')
+          pc_html = Path('pc-build.html').read_text(encoding='utf-8')
           privacy_html = Path('privacy.html').read_text(encoding='utf-8')
           sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
           supabase = Path('supabase.js').read_text(encoding='utf-8')
           app = Path('app.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
+          pc_js = Path('pc-build.js').read_text(encoding='utf-8')
+          pc_css = Path('pc-build.css').read_text(encoding='utf-8')
           release = Path('site-release.css').read_text(encoding='utf-8')
           guide = Path('repair-guide.css').read_text(encoding='utf-8')
 
@@ -47,7 +51,7 @@ jobs:
               if text.count('{') != text.count('}'):
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
 
-          pages = html + request_html + appointment_html + privacy_html
+          pages = html + request_html + appointment_html + pc_html + privacy_html
           refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', pages)
           missing = []
           for ref in refs:
@@ -59,7 +63,6 @@ jobs:
           if missing:
               raise SystemExit('Missing local references: ' + ', '.join(sorted(set(missing))))
 
-          # Catch truncated WebP uploads before Cloudflare caches them for a year.
           for ref in sorted(set(refs)):
               asset = ref.split('?',1)[0].split('#',1)[0]
               if not asset.lower().endswith('.webp'):
@@ -99,12 +102,26 @@ jobs:
           if 'customer-chat.js' not in html or 'customer-chat.js' not in request_html:
               raise SystemExit('Quick-question chat must be available across customer flows.')
 
+          # Custom PC planner must remain separate from repair intake and preserve the compatibility gate.
+          if 'id="pc-build-form"' not in pc_html or 'pc-build.js' not in pc_html or 'pc-build.css' not in pc_html:
+              raise SystemExit('Dedicated custom PC planner is incomplete.')
+          if "functions.invoke('custom-pc-build'" not in pc_js:
+              raise SystemExit('Custom PC planner is not wired to its research endpoint.')
+          if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js:
+              raise SystemExit('Customer custom-PC flow must disclose Newegg compatibility verification.')
+          if 'Temporary RAM market notice' not in pc_html or 'late 2027 into 2028' not in pc_html:
+              raise SystemExit('Temporary RAM-market notice is missing from the custom PC planner.')
+          if 'https://gotcracked.co/pc-build.html' not in sitemap:
+              raise SystemExit('Custom PC planner must remain in the public sitemap.')
+          if "location.replace('pc-build.html')" not in chat:
+              raise SystemExit('Legacy custom-PC repair links must redirect to the dedicated planner.')
+
           # Customer data collection must remain transparent and linked to privacy terms.
-          if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html:
+          if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html:
               raise SystemExit('Customer submission flows must link the Privacy Notice.')
           if 'https://gotcracked.co/privacy.html' not in sitemap:
               raise SystemExit('Privacy Notice must remain in the public sitemap.')
-          for required_copy in ['Information we collect','How we use it','Repair tracking','Customer chat','Data retention']:
+          for required_copy in ['Information we collect','How we use it','AI-assisted custom PC research','Repair tracking','Customer chat','Data retention']:
               if required_copy not in privacy_html:
                   raise SystemExit(f'Privacy Notice is missing required section: {required_copy}')
           if 'passwords or payment-card details' not in chat:
@@ -142,7 +159,7 @@ jobs:
               if selector not in release:
                   raise SystemExit(f'Mobile width containment missing for {selector}')
 
-          combined = (pages + supabase + app + release + guide).lower()
+          combined = (pages + supabase + app + release + guide + pc_js + pc_css).lower()
           if 'wearable' in combined:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
