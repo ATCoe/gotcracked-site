@@ -7,6 +7,16 @@
   const safePublicUrl = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : '#'; } catch { return '#'; } };
   const localDateISO = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const formatUpdatedAt = value => { const date = value ? new Date(value) : null; return date && !Number.isNaN(date.getTime()) ? date.toLocaleString() : 'recently'; };
+  const formatHour = value => { const [hour,minute] = String(value || '').split(':').map(Number); if (!Number.isFinite(hour)) return ''; const date = new Date(2000,0,1,hour,minute||0); return date.toLocaleTimeString([], { hour:'numeric', minute:minute ? '2-digit' : undefined }); };
+  const storeHoursMarkup = hours => {
+    if (!hours || typeof hours !== 'object') return '';
+    const rows = [['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']];
+    return rows.map(([key,label]) => {
+      const range = hours[key];
+      const value = Array.isArray(range) && range.length >= 2 ? `${formatHour(range[0])}–${formatHour(range[1])}` : 'Closed';
+      return `<div><span>${label}</span><strong>${escapeHTML(value)}</strong></div>`;
+    }).join('');
+  };
 
   const toast = $('.toast');
   const showToast = message => {
@@ -34,11 +44,15 @@
       const posts = data?.posts || [];
       grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener"><div class="media-thumb">${post.thumbnail_url ? `<img src="${safePublicUrl(post.thumbnail_url)}" alt="" loading="lazy" decoding="async">` : `<span>${post.platform === 'youtube' ? '▶' : '♪'}</span>`}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for tips and behind-the-scenes repairs.</article>';
       if (links) links.innerHTML = [['YouTube',data?.settings?.youtube_channel_url],['TikTok',data?.settings?.tiktok_profile_url]].filter(([,url]) => safePublicUrl(url) !== '#').map(([label,url]) => `<a href="${safePublicUrl(url)}" target="_blank" rel="noopener">Follow on ${label} →</a>`).join('');
+      const hours = $('#store-hours');
+      const hoursMarkup = storeHoursMarkup(data?.settings?.store_hours);
+      if (hours && hoursMarkup) hours.innerHTML = hoursMarkup;
+      document.documentElement.dataset.gcMailInAvailable = data?.settings?.accepts_mail_in_repairs === false ? 'false' : 'true';
     } catch { grid.innerHTML = '<article class="media-placeholder">Visit our social channels for the latest GotCracked repairs and tips.</article>'; }
   })();
 
   const dateInput = $('[name="date"]');
-  if (dateInput) { const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); dateInput.min = localDateISO(tomorrow); }
+  if (dateInput) dateInput.min = localDateISO(new Date());
 
   const menu = $('.menu-button'), nav = $('#site-nav');
   function setMenu(open) {
