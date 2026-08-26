@@ -1,7 +1,4 @@
 (()=>{'use strict';
-  const mobileFix=document.createElement('link');
-  if(!document.querySelector('link[data-gc-mobile-video-fixes]')){mobileFix.rel='stylesheet';mobileFix.href='mobile-video-fixes.css?v=20260826-mobilefix1';mobileFix.dataset.gcMobileVideoFixes='true';document.head.appendChild(mobileFix);}
-
   const params=new URLSearchParams(location.search);
   const customPcSelector='[data-service="Custom PC build"] a, a[href*="service=Custom%20PC%20build"], a[href*="service=Custom+PC+build"]';
   const routeCustomPcLinks=()=>document.querySelectorAll(customPcSelector).forEach(link=>{link.href='pc-build.html';if(link.classList.contains('card-link'))link.innerHTML='Plan my build <span>→</span>';});
