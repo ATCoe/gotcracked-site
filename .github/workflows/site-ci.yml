@@ -41,6 +41,7 @@ jobs:
           supabase = Path('supabase.js').read_text(encoding='utf-8')
           app = Path('app.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
+          chat_css = Path('customer-chat.css').read_text(encoding='utf-8')
           pc_js = Path('pc-build.js').read_text(encoding='utf-8')
           pc_css = Path('pc-build.css').read_text(encoding='utf-8')
           release = Path('site-release.css').read_text(encoding='utf-8')
@@ -109,13 +110,26 @@ jobs:
               raise SystemExit('Custom PC planner is not wired to its research endpoint.')
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js:
               raise SystemExit('Customer custom-PC flow must disclose Newegg compatibility verification.')
+          if 'request.html?service=Custom%20PC%20build' in html or 'request.html?service=Custom+PC+build' in html:
+              raise SystemExit('Homepage Custom PC CTAs must route directly to the dedicated planner, never repair intake.')
+          if html.count('href="pc-build.html"') < 2:
+              raise SystemExit('Both homepage Custom PC CTAs must link directly to pc-build.html.')
+          if "pagePath.endsWith('/request')" not in chat or "pagePath.endsWith('/request.html')" not in chat or "location.replace('pc-build.html')" not in chat:
+              raise SystemExit('Legacy Custom PC repair URLs must redirect from both Cloudflare pretty and .html request paths.')
+          if "location.assign('pc-build.html')" not in chat:
+              raise SystemExit('Custom PC CTA click routing guard is missing.')
           ram_copy = pc_html.lower()
           if ('temporary ram market notice' not in ram_copy or 'through 2027' not in ram_copy or '2028' not in ram_copy or 'industry outlook' not in ram_copy):
               raise SystemExit('Temporary RAM-market notice must explain the 2027 constraint, 2028 capacity outlook, and forecast uncertainty.')
           if 'https://gotcracked.co/pc-build.html' not in sitemap:
               raise SystemExit('Custom PC planner must remain in the public sitemap.')
-          if "location.replace('pc-build.html')" not in chat:
-              raise SystemExit('Legacy custom-PC repair links must redirect to the dedicated planner.')
+
+          # Screen-recording mobile fixes must remain first-paint CSS.
+          for token in ['body .container.process-grid','body .container.mail-in-grid','body .container.faq-grid','body .issue-card>.console-platforms','body .gc-chat-launcher']:
+              if token not in chat_css:
+                  raise SystemExit(f'Recorded mobile-layout fix missing: {token}')
+          if 'width:50px!important' not in chat_css or 'font-size:0!important' not in chat_css:
+              raise SystemExit('Mobile chat launcher must remain compact enough not to cover content.')
 
           # Customer data collection must remain transparent and linked to privacy terms.
           if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html:
@@ -143,7 +157,7 @@ jobs:
           if "createElement('link')" in app or 'createElement("link")' in app:
               raise SystemExit('Public app runtime must not inject first-paint stylesheets.')
 
-          for retired in ['site-final-polish.js','site-mobile-fix.js','site-mobile-fix.css']:
+          for retired in ['site-final-polish.js','site-mobile-fix.js','site-mobile-fix.css','mobile-video-fixes.css']:
               if Path(retired).exists():
                   raise SystemExit(f'Retired runtime presentation file returned: {retired}')
 
@@ -160,7 +174,7 @@ jobs:
               if selector not in release:
                   raise SystemExit(f'Mobile width containment missing for {selector}')
 
-          combined = (pages + supabase + app + release + guide + pc_js + pc_css).lower()
+          combined = (pages + supabase + app + release + guide + chat_css + pc_js + pc_css).lower()
           if 'wearable' in combined:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
