@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Plan a custom gaming, creator, workstation, or everyday PC with GotCracked. Tell us what you want the computer to do and we’ll research a compatible build around your goals and budget.">
+  <meta name="theme-color" content="#030a16">
+  <link rel="canonical" href="https://gotcracked.co/pc-build.html">
+  <title>Custom PC Build Planner | GotCracked</title>
+  <link rel="icon" href="assets/gotcracked-favicon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css?v=20260826-production1">
+  <link rel="stylesheet" href="hardening.css?v=20260826-production1">
+  <link rel="stylesheet" href="site-release.css?v=20260826-production1">
+  <link rel="stylesheet" href="request.css?v=20260826-production1">
+  <link rel="stylesheet" href="customer-chat.css?v=20260826-production1">
+  <link rel="stylesheet" href="pc-build.css?v=20260826-pc1">
+</head>
+<body class="pc-build-page">
+  <a class="skip-link" href="#main">Skip to build planner</a>
+  <div class="announcement"><span class="pulse"></span>Custom PCs designed around what you actually want to do</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand gc-full-logo" href="index.html" aria-label="GotCracked home"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked"><span class="brand-fallback"><b>GOT</b>CRACKED</span></a>
+      <nav id="site-nav" aria-label="Primary navigation"><a href="index.html#services">Services</a><a href="index.html#process">How it works</a><a href="request.html">Repairs</a><a href="appointment.html">Appointments</a></nav>
+      <div class="nav-actions"><button class="text-button" data-chat-open>Ask a question</button><a class="button button-small" href="index.html">Back to website</a></div>
+      <button class="menu-button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    </div>
+  </header>
+
+  <main id="main" class="pc-build-main">
+    <section class="pc-build-hero">
+      <div class="container pc-build-heading">
+        <p class="eyebrow"><span></span>Custom PC build planner</p>
+        <h1>Tell us what you want it to do.</h1>
+        <p>You do not need to know CPUs, GPUs, chipsets, or power supplies. Tell us how you plan to use the computer, what matters to you, and what you want to spend. GotCracked will research a compatible current-parts build around those goals.</p>
+        <div class="pc-market-notice">
+          <strong>Temporary RAM market notice</strong>
+          Memory prices are unusually high right now because AI/data-center demand and high-bandwidth memory production are consuming a larger share of global DRAM manufacturing capacity, leaving less supply for consumer DDR5. Industry forecasts expect DRAM supply to remain tight through 2027; new capacity begins ramping during 2027, but substantial output is not expected until 2028. Build estimates use current market pricing and may change as the memory market moves.
+          <small>Late-2027/2028 relief is an industry outlook, not a guarantee that retail RAM prices will fall on a specific date.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="pc-build-section">
+      <div class="container pc-build-shell">
+        <form id="pc-build-form" class="pc-build-card" novalidate>
+          <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
+          <input type="hidden" name="formStartedAt">
+          <div class="pc-progress" aria-label="Build survey progress"><span class="active"></span><span></span><span></span><span></span></div>
+
+          <section class="pc-step active">
+            <p class="form-kicker">Step 1 of 4</p>
+            <h2>What is this computer for?</h2>
+            <p class="pc-step-lede">Start with the real workload. That tells us where your budget should go.</p>
+            <div class="pc-grid">
+              <label class="full">Primary use
+                <select name="primaryUse" required>
+                  <option value="">Choose the main purpose</option>
+                  <option>Gaming</option>
+                  <option>Gaming + streaming</option>
+                  <option>Content creation</option>
+                  <option>Professional workstation</option>
+                  <option>Engineering / CAD / 3D</option>
+                  <option>Local AI / development</option>
+                  <option>School / home / everyday use</option>
+                  <option>Mixed use</option>
+                </select>
+              </label>
+              <label class="full">Anything else it needs to handle?
+                <textarea name="secondaryUses" placeholder="Streaming, video editing, coding, virtual machines, music production, school work, business software, etc."></textarea>
+              </label>
+              <div class="full">
+                <label>Will gaming be part of this build?</label>
+                <div class="pc-choice-grid">
+                  <label class="pc-choice"><input type="radio" name="gamingIncluded" value="yes" required><span>Yes</span></label>
+                  <label class="pc-choice"><input type="radio" name="gamingIncluded" value="no" required><span>No</span></label>
+                </div>
+              </div>
+              <div class="pc-gaming-fields full" hidden>
+                <div class="pc-grid">
+                  <label class="full">What games do you plan to play?
+                    <textarea name="games" placeholder="List the games that matter most. Examples: Call of Duty, Fortnite, Palworld, Cyberpunk 2077, Microsoft Flight Simulator, Minecraft with shaders."></textarea>
+                  </label>
+                  <label>Target display resolution
+                    <select name="resolution">
+                      <option value="">Choose a target</option>
+                      <option>1080p</option><option>1440p</option><option>4K</option><option>Ultrawide 1440p</option><option>Not sure</option>
+                    </select>
+                  </label>
+                  <label>Target frame rate
+                    <select name="targetFps">
+                      <option value="">Choose a target</option>
+                      <option>60 FPS</option><option>90–120 FPS</option><option>144–165 FPS</option><option>240+ FPS / competitive</option><option>Best balance for budget</option>
+                    </select>
+                  </label>
+                  <label>Desired image quality
+                    <select name="imageQuality">
+                      <option value="">Choose image quality</option>
+                      <option>Balanced / optimized</option><option>High settings</option><option>Ultra settings</option><option>Maximum image quality</option><option>Competitive low-latency settings</option>
+                    </select>
+                  </label>
+                  <label>Ray tracing
+                    <select name="rayTracing"><option>Not important</option><option>Nice to have</option><option>I want strong ray-tracing performance</option><option>Not sure</option></select>
+                  </label>
+                </div>
+              </div>
+              <label class="full">Specific creative or professional apps
+                <textarea name="creativeApps" placeholder="Adobe Premiere, DaVinci Resolve, Blender, AutoCAD, SolidWorks, Unreal Engine, local AI models, etc."></textarea>
+              </label>
+            </div>
+            <div class="pc-nav"><span></span><button type="button" class="button" data-next>Continue →</button></div>
+          </section>
+
+          <section class="pc-step">
+            <p class="form-kicker">Step 2 of 4</p>
+            <h2>Budget and performance priorities</h2>
+            <p class="pc-step-lede">Give us the ceiling you are comfortable with. The estimate shown later includes the researched parts and GotCracked’s build service as one total.</p>
+            <div class="pc-grid">
+              <label>Maximum total budget
+                <input name="budget" type="number" min="700" max="15000" step="50" placeholder="e.g. 1800" required>
+                <small>Enter your total build budget in dollars.</small>
+              </label>
+              <label>What should that budget include?
+                <select name="budgetScope" required><option value="Tower only">PC tower only</option><option value="Tower + monitor">PC tower + monitor</option><option value="Full setup">PC + monitor + basic keyboard/mouse</option></select>
+              </label>
+              <label>Storage target
+                <select name="storage" required><option>1 TB</option><option>2 TB</option><option>4 TB or more</option><option>Best fit for budget</option></select>
+              </label>
+              <label>How long should it feel current?
+                <select name="longevity" required><option>2–3 years</option><option>4–5 years</option><option>5+ years with upgrades</option><option>Best balance for budget</option></select>
+              </label>
+              <label>Upgrade priority
+                <select name="upgradePriority"><option>Easy future upgrades matter</option><option>Maximize performance today</option><option>Balanced</option><option>Not important</option></select>
+              </label>
+              <label>Windows license needed?
+                <select name="osNeeded"><option value="yes">Yes</option><option value="no">No, I already have one / use another OS</option><option value="unsure">Not sure</option></select>
+              </label>
+            </div>
+            <div class="pc-nav"><button type="button" class="button button-ghost" data-back>← Back</button><button type="button" class="button" data-next>Continue →</button></div>
+          </section>
+
+          <section class="pc-step">
+            <p class="form-kicker">Step 3 of 4</p>
+            <h2>How should it look and feel?</h2>
+            <p class="pc-step-lede">A good build should fit the room and the person using it—not just a benchmark chart.</p>
+            <div class="pc-grid">
+              <label>RGB lighting
+                <select name="rgb" required><option>No RGB</option><option>Subtle / a little RGB</option><option>Full RGB showcase build</option><option>No preference</option></select>
+              </label>
+              <label>Color
+                <select name="color" required><option>Black</option><option>White</option><option>Mixed / accent colors</option><option>No preference</option></select>
+              </label>
+              <label>Case size
+                <select name="caseSize"><option>Standard mid-tower</option><option>Compact if practical</option><option>Large / showcase case</option><option>No preference</option></select>
+              </label>
+              <label>Noise preference
+                <select name="noise"><option>Quiet is a priority</option><option>Balanced noise and cooling</option><option>Performance/cooling matters more than noise</option><option>No preference</option></select>
+              </label>
+              <label>Wi-Fi / Bluetooth
+                <select name="wifi"><option value="yes">Yes, built in</option><option value="no">Ethernet is enough</option><option value="unsure">Not sure</option></select>
+              </label>
+              <label class="full">Parts you already own or want us to reuse
+                <textarea name="existingParts" placeholder="List exact part names if possible. Leave blank for an all-new build."></textarea>
+              </label>
+              <label class="full">Anything else that would make this build feel right?
+                <textarea name="notes" placeholder="Desk space, favorite look, ports you need, lots of USB devices, capture card, special accessibility needs, future upgrades, etc."></textarea>
+              </label>
+            </div>
+            <div class="pc-nav"><button type="button" class="button button-ghost" data-back>← Back</button><button type="button" class="button" data-next>Continue →</button></div>
+          </section>
+
+          <section class="pc-step">
+            <p class="form-kicker">Step 4 of 4</p>
+            <h2>Where should we send the build plan?</h2>
+            <p class="pc-step-lede">We’ll save the recommendation to the GotCracked lead queue so the same build can be reviewed with you before any parts are purchased.</p>
+            <div class="pc-grid">
+              <label class="full">Your name<input name="customerName" autocomplete="name" required></label>
+              <label>Email<input name="customerEmail" type="email" autocomplete="email" required></label>
+              <label>Phone<input name="customerPhone" type="tel" autocomplete="tel" required></label>
+              <label class="full">Preferred contact method<select name="preferredContact"><option>No preference</option><option>Call</option><option>Text</option><option>Email</option></select></label>
+              <label class="pc-consent full"><input name="consent" type="checkbox" required><span>I agree to be contacted about this custom PC request and understand that the initial result is a market-based estimate, not a purchase contract. Component pricing and availability may change before I approve the final build. <a href="privacy.html">Privacy Notice</a>.</span></label>
+            </div>
+            <p id="pc-build-error" class="pc-build-error" role="alert"></p>
+            <div class="pc-nav"><button type="button" class="button button-ghost" data-back>← Back</button><button type="submit" class="button">Research my build →</button></div>
+          </section>
+        </form>
+
+        <section id="pc-research" class="pc-build-card pc-research" aria-live="polite">
+          <div class="pc-spinner" aria-hidden="true"></div>
+          <h2>Building your recommendation.</h2>
+          <p class="pc-research-status">Reading your goals and budget…</p>
+          <p>We’re checking current component options, pricing, and compatibility. This can take a little longer than a normal form because it is researching the current parts market.</p>
+        </section>
+
+        <section id="pc-result" class="pc-build-card pc-result" aria-live="polite"></section>
+
+        <aside class="pc-build-aside">
+          <p class="eyebrow"><span></span>What happens next</p>
+          <h2>One survey. One coherent build.</h2>
+          <ul>
+            <li>We translate your games, apps, resolution, performance goals, and aesthetics into hardware priorities.</li>
+            <li>Current parts are researched from reputable US retailers, with Amazon and Newegg prioritized where practical.</li>
+            <li>Compatibility, power, cooling, physical fit, and upgrade path are checked together.</li>
+            <li>You see the recommended components and one estimated total—not GotCracked’s internal part-cost breakdown.</li>
+            <li>The sourcing trail and internal pricing remain with your GotCracked build request for staff review and purchasing.</li>
+          </ul>
+          <div class="booking-note"><span>✓</span><p><strong>No parts are purchased automatically.</strong><br>Your recommendation is reviewed and confirmed with you before GotCracked orders components.</p></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked" loading="lazy" decoding="async"><p>Professional device repair and custom computer builds with clear communication from planning to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="index.html#services">Services</a><a href="request.html">Start a repair</a><a href="appointment.html">Appointment</a></div><div><h3>Customers</h3><button data-chat-open>Ask a question</button><a href="mailto:hello@gotcracked.co">Email support</a><a href="privacy.html">Privacy Notice</a></div></div><p class="container trademark-notice">Product names, logos, and likenesses are trademarks or property of their respective owners. GotCracked is an independent service provider and is not affiliated with, sponsored by, or endorsed by those owners. Retailer references are used for current sourcing research and do not imply retailer sponsorship.</p><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We fix what life cracks.</span></div></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js?v=20260826-production1"></script>
+  <script src="app.js?v=20260826-production1"></script>
+  <script src="customer-chat.js?v=20260826-production1"></script>
+  <script src="pc-build.js?v=20260826-pc1"></script>
+</body>
+</html>
