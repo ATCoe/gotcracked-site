@@ -1,0 +1,583 @@
+/* GotCracked public site — authoritative production layout layer.
+   Loaded last in <head>. This file owns first-paint/mobile behavior so the
+   customer page never depends on runtime CSS injection or hidden content. */
+
+:root{
+  --gc-mobile-gutter:14px;
+  --gc-section-pad:96px;
+  --gc-mobile-section-pad:54px;
+  --gc-header-height:68px;
+}
+
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body{
+  min-width:0;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+main,
+section,
+header,
+footer,
+.container,
+.hero-grid,
+.section-heading,
+.service-grid,
+.process-grid,
+.mail-in-grid,
+.why-grid,
+.booking-shell,
+.faq-grid,
+.footer-grid,
+.guide-heading,
+.guide-visual,
+.issue-grid,
+.campus-guide{
+  min-width:0;
+  max-width:100%;
+}
+
+section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
+
+/* Header is complete at first paint. */
+.site-header,
+.nav-wrap{height:var(--gc-header-height)}
+.site-header .brand.gc-full-logo{
+  width:184px;
+  height:54px;
+  flex:0 0 184px;
+}
+.site-header .brand.gc-full-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:left center;
+  display:block;
+}
+.site-header .brand.gc-full-logo .brand-fallback{display:none!important}
+
+/* Desktop reveal is decorative only; content remains normal without JS. */
+.reveal{will-change:opacity,transform}
+.reveal.visible{will-change:auto}
+
+/* Hero: protect the first viewport from accidental over-height. */
+.hero{min-height:min(760px,calc(100svh - 98px))}
+.hero-grid{min-height:0}
+.hero-visual{min-width:0}
+.logo-stage img{height:auto}
+
+/* Services: desktop grid, native mobile rail below. */
+.service-grid{min-width:0}
+.service-card{min-width:0}
+.service-rail-hint{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:10px 2px 0;
+  color:#748397;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.service-rail-hint b{color:#087cf3;font-size:16px}
+
+/* Structural sections must always fill the viewport. */
+.process,
+.mail-in,
+.why-us,
+.social-feed,
+.book-section,
+.faq,
+.final-cta,
+footer{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+.process-grid,
+.mail-in-grid,
+.why-grid,
+.faq-grid{width:100%}
+
+/* Social content should never reserve a giant empty panel while data loads. */
+.media-placeholder{
+  min-height:0!important;
+  padding:30px 22px!important;
+}
+.social-media-grid:empty{display:none}
+
+/* Booking form has no artificial height dependency. */
+.booking-shell,
+.booking-intro,
+.booking-form{min-height:0}
+.booking-form{align-self:stretch}
+
+/* Repair guide is now part of the initial document. */
+.repair-guide{content-visibility:visible}
+.repair-guide img{display:block;max-width:100%}
+
+/* Footer links get usable tap targets without changing desktop density. */
+.footer-grid a,
+.footer-grid button{min-height:30px}
+
+@media (max-width:980px){
+  .site-header .brand.gc-full-logo{
+    width:166px;
+    flex-basis:166px;
+  }
+
+  .hero{min-height:auto}
+  .hero-grid{grid-template-columns:minmax(0,1fr)!important}
+
+  .process-grid,
+  .mail-in-grid,
+  .why-grid,
+  .faq-grid,
+  .booking-shell,
+  .guide-heading,
+  .guide-visual,
+  .campus-guide{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+
+  .process-grid,
+  .mail-in-grid,
+  .why-grid,
+  .faq-grid{gap:44px!important}
+
+  .why-visual{order:2}
+}
+
+@media (max-width:700px){
+  :root{
+    --gc-header-height:64px;
+    --gc-mobile-gutter:14px;
+  }
+
+  html{scroll-padding-top:76px}
+  body{font-size:15px}
+
+  .container{
+    width:calc(100% - (var(--gc-mobile-gutter) * 2))!important;
+    max-width:none!important;
+    margin-inline:auto!important;
+  }
+
+  /* On phones, never make content visibility depend on an observer/animation. */
+  .reveal,
+  .reveal.visible{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+    will-change:auto!important;
+  }
+
+  .announcement{
+    min-height:32px!important;
+    padding:6px 10px!important;
+    font-size:9.5px!important;
+    line-height:1.25!important;
+    gap:5px!important;
+  }
+  .announcement .pulse{flex:0 0 auto}
+
+  .site-header,
+  .nav-wrap{height:var(--gc-header-height)!important}
+  .nav-wrap{
+    width:calc(100% - 22px)!important;
+    gap:8px;
+  }
+  .site-header .brand.gc-full-logo{
+    width:138px!important;
+    height:48px!important;
+    flex:0 0 138px!important;
+  }
+  .nav-actions{margin-left:auto!important}
+  .menu-button{margin-left:0!important;flex:0 0 44px}
+  .site-header nav{
+    top:var(--gc-header-height)!important;
+    inset-inline:0!important;
+    max-height:calc(100dvh - var(--gc-header-height))!important;
+  }
+
+  /* Hero: compact, readable, no oversized visual dead space. */
+  .hero{
+    min-height:0!important;
+    align-items:stretch!important;
+  }
+  .hero-grid{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:18px!important;
+    padding:34px 0 30px!important;
+  }
+  .hero-copy{text-align:left!important}
+  .hero .eyebrow{margin-bottom:12px!important}
+  .hero h1{
+    font-size:clamp(38px,11.5vw,49px)!important;
+    line-height:.96!important;
+  }
+  .hero-lede{
+    max-width:40rem;
+    margin:16px 0 20px!important;
+    font-size:14px!important;
+    line-height:1.55!important;
+  }
+  .hero-actions{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+  .hero-actions .button{width:100%!important;min-height:48px}
+  .trust-row{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:7px!important;
+    margin-top:22px!important;
+  }
+  .trust-row div{min-width:0;padding-left:8px!important;text-align:left!important}
+  .trust-row strong{font-size:11px!important}
+  .trust-row span{font-size:8.5px!important;line-height:1.3!important}
+
+  .hero-visual{
+    height:220px!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .logo-stage{
+    width:min(280px,82vw)!important;
+    max-width:100%!important;
+  }
+  .logo-stage img{
+    min-height:0!important;
+    max-height:190px!important;
+    object-fit:contain!important;
+  }
+  .orbit-one{width:270px!important;height:150px!important}
+  .orbit-two{width:330px!important;height:185px!important}
+  .card-status{
+    left:0!important;
+    top:5%!important;
+    max-width:48%!important;
+    padding:7px 9px!important;
+  }
+  .card-rating{
+    right:0!important;
+    bottom:2%!important;
+    max-width:46%!important;
+    padding:7px 9px!important;
+  }
+  .floating-card strong{font-size:10px!important}
+  .floating-card small{font-size:7.5px!important}
+  .status-icon{width:23px!important;height:23px!important}
+  .scroll-cue{display:none!important}
+
+  .device-strip .container{
+    height:auto!important;
+    padding:10px 0!important;
+  }
+  .device-strip p{display:none!important}
+  .device-list{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:7px 10px!important;
+    margin:0!important;
+  }
+  .device-list span{
+    min-width:0;
+    text-align:center;
+    font-size:10.5px!important;
+  }
+
+  /* Consistent section rhythm. */
+  .section{padding:var(--gc-mobile-section-pad) 0!important}
+  .section-heading{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    margin-bottom:24px!important;
+  }
+  .section h2{
+    font-size:clamp(30px,8.8vw,37px)!important;
+    line-height:1.02!important;
+  }
+  .section-heading>p{
+    margin:0!important;
+    max-width:42ch!important;
+    font-size:13.5px!important;
+    line-height:1.5!important;
+  }
+  .eyebrow{margin-bottom:11px!important;font-size:9px!important}
+
+  /* Native horizontal service rail. No pointer capture, no page-width growth. */
+  #services .service-grid{
+    display:flex!important;
+    width:100%!important;
+    max-width:100%!important;
+    gap:11px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain!important;
+    scroll-snap-type:x proximity!important;
+    scroll-padding-inline:0!important;
+    touch-action:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding:2px 24px 10px 0!important;
+    margin:0!important;
+    scrollbar-width:none!important;
+  }
+  #services .service-grid::-webkit-scrollbar{display:none!important}
+  #services .service-card{
+    flex:0 0 min(82vw,318px)!important;
+    width:min(82vw,318px)!important;
+    min-width:min(82vw,318px)!important;
+    max-width:min(82vw,318px)!important;
+    min-height:250px!important;
+    height:auto!important;
+    scroll-snap-align:start!important;
+    scroll-snap-stop:normal!important;
+    transform:none!important;
+    padding:17px 17px 56px!important;
+  }
+  #services .service-card:hover,
+  #services .service-card:active{transform:none!important;box-shadow:none!important}
+  #services .service-icon{
+    height:58px!important;
+    margin:11px 0 9px!important;
+    transform:scale(.76)!important;
+    transform-origin:left center!important;
+  }
+  #services .service-card h3{font-size:17px!important;margin-bottom:7px!important}
+  #services .service-card p{font-size:12.5px!important;line-height:1.48!important}
+  #services .service-card .card-link{left:17px!important;bottom:14px!important}
+  .service-rail-hint{display:flex!important}
+  .more-services{margin-top:15px!important;font-size:11.5px!important;line-height:1.5!important}
+
+  /* Every major two-column section becomes one deterministic column. */
+  .process-grid,
+  .mail-in-grid,
+  .why-grid,
+  .faq-grid,
+  .booking-shell,
+  .guide-heading,
+  .guide-visual,
+  .campus-guide{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    width:100%!important;
+    max-width:100%!important;
+    gap:24px!important;
+  }
+
+  .process{padding:var(--gc-mobile-section-pad) 0!important}
+  .process-grid{gap:24px!important}
+  .process-copy>p:not(.eyebrow){margin:16px 0!important;font-size:13.5px!important;line-height:1.5!important}
+  .steps{width:100%;margin:0!important}
+  .steps li{
+    grid-template-columns:34px minmax(0,1fr)!important;
+    gap:10px!important;
+    padding:10px 0 14px!important;
+  }
+  .steps li>span{width:31px!important;height:31px!important}
+  .steps li:not(:last-child):before{left:15px!important;top:34px!important}
+  .steps h3{font-size:14px!important;margin:2px 0!important}
+  .steps p{font-size:12px!important;line-height:1.42!important}
+
+  .mail-in-grid{gap:22px!important}
+  .mail-in-copy>p:not(.eyebrow){font-size:13.5px!important;line-height:1.5!important}
+  .mail-address{margin:18px 0!important;padding:13px 14px!important}
+  .mail-address strong{font-size:15px!important}
+  .mail-address span{font-size:12px!important}
+  .mail-in-copy>.button{width:100%!important}
+  .mail-in-steps{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    width:100%!important;
+    gap:8px!important;
+  }
+  .mail-in-steps li{
+    min-height:0!important;
+    width:100%!important;
+    padding:15px!important;
+  }
+  .mail-in-steps h3{font-size:14px!important;margin:8px 0 4px!important}
+  .mail-in-steps p{font-size:11.8px!important;line-height:1.45!important}
+
+  /* Repair education is compact and static. */
+  .guide-heading{gap:9px!important;margin-bottom:18px!important}
+  .guide-heading p:last-child{font-size:12.5px!important;line-height:1.5!important}
+  .guide-visual{gap:0!important;border-radius:17px!important;margin-bottom:14px!important}
+  .guide-visual-image{min-height:175px!important;max-height:205px!important}
+  .guide-visual-copy{padding:20px 17px!important}
+  .guide-visual-copy h3{font-size:22px!important}
+  .guide-visual-copy p{font-size:12px!important;line-height:1.5!important}
+  .issue-grid{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:9px!important;
+    width:100%!important;
+  }
+  .issue-card{
+    display:grid!important;
+    grid-template-columns:104px minmax(0,1fr)!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  .issue-card>img{width:104px!important;min-height:180px!important;height:100%!important}
+  .issue-card-body{padding:14px 13px!important}
+  .issue-card h3{font-size:15px!important;line-height:1.18!important}
+  .issue-summary{font-size:11px!important;line-height:1.42!important;margin-bottom:10px!important}
+  .issue-card details p{font-size:10.8px!important;line-height:1.45!important}
+  .campus-guide{gap:9px!important;margin-top:12px!important}
+  .campus-copy,.campus-tips{padding:15px!important}
+  .campus-copy h3{font-size:18px!important}
+  .campus-copy p{font-size:11.5px!important;line-height:1.45!important}
+  .campus-tips{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+  .campus-tip{padding:9px!important}
+  .campus-tip strong{font-size:10.5px!important}
+  .campus-tip span{font-size:9.5px!important}
+
+  .why-grid{gap:20px!important}
+  .why-copy{order:1}
+  .why-visual{
+    order:2!important;
+    min-height:0!important;
+    width:100%!important;
+  }
+  .brand-panel{aspect-ratio:16/10!important;border-radius:17px!important}
+  .brand-panel img{width:100%!important;height:100%!important;object-fit:cover!important}
+  .warranty-badge{
+    width:82px!important;
+    height:82px!important;
+    right:5px!important;
+    bottom:5px!important;
+  }
+  .warranty-badge strong{font-size:23px!important}
+  .warranty-badge span{font-size:7.5px!important}
+  .large-copy{font-size:13.5px!important;line-height:1.5!important}
+  .benefit-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    margin-top:18px!important;
+  }
+  .benefit-grid>div{min-width:0;padding:10px!important}
+  .benefit-grid h3{font-size:12.5px!important;margin:5px 0 2px!important}
+  .benefit-grid p{font-size:10.8px!important;line-height:1.4!important}
+
+  .social-feed .section-heading>p{display:block!important}
+  .social-media-grid{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
+  .media-placeholder{padding:22px 15px!important;font-size:12px!important}
+  .social-media-links{gap:8px!important;margin-top:14px!important}
+  .social-media-links a{padding:9px 12px!important;font-size:11px!important}
+
+  .book-section{padding:var(--gc-mobile-section-pad) 0!important}
+  .booking-shell{
+    gap:0!important;
+    border-radius:17px!important;
+    overflow:hidden!important;
+  }
+  .booking-intro,
+  .booking-form{padding:22px 17px!important}
+  .booking-intro h2{font-size:29px!important;line-height:1.03!important}
+  .booking-intro>p:not(.eyebrow){margin:14px 0 18px!important;font-size:12.5px!important;line-height:1.48!important}
+  .booking-note{margin-top:0!important;padding:12px!important}
+  .booking-form{min-height:0!important}
+  .form-progress{margin-bottom:18px!important}
+  .form-step h3,.form-success h3{font-size:22px!important;margin-bottom:16px!important}
+  .booking-form label{margin-bottom:13px!important;font-size:10.5px!important}
+  .booking-form input,
+  .booking-form select,
+  .booking-form textarea{
+    min-height:46px!important;
+    font-size:16px!important;
+  }
+  .booking-form textarea{min-height:86px!important}
+  .form-step>.button{width:100%!important}
+  .form-nav{gap:8px!important}
+  .form-nav .button{flex:1;min-width:0}
+
+  .faq-grid{gap:24px!important}
+  .faq-grid>div:first-child>p:not(.eyebrow){margin:14px 0 18px!important;font-size:13px!important;line-height:1.5!important}
+  .accordion{width:100%!important;min-width:0!important}
+  .accordion summary{
+    min-height:48px!important;
+    padding:14px 0!important;
+    font-size:12.5px!important;
+    line-height:1.35!important;
+    gap:12px!important;
+  }
+  .accordion details p{
+    margin:-2px 24px 15px 0!important;
+    font-size:11.5px!important;
+    line-height:1.48!important;
+  }
+
+  .final-cta{padding:50px 0!important}
+  .final-cta h2{font-size:clamp(36px,10.5vw,44px)!important}
+  .final-cta .button{width:100%!important;margin:8px 0 0!important;min-height:46px}
+  .final-cta .container>div:last-child{display:grid!important;gap:2px!important;margin-top:20px!important}
+
+  footer{padding:48px 0 20px!important}
+  .footer-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:18px 14px!important;
+  }
+  .footer-brand{grid-column:1/-1!important}
+  .footer-brand img{width:138px!important;height:auto!important}
+  .footer-brand p{font-size:11px!important;line-height:1.45!important}
+  .footer-grid h3{margin:8px 0 10px!important}
+  .footer-grid a,.footer-grid button{min-height:34px!important;margin:3px 0!important;font-size:11px!important}
+  .footer-bottom{margin-top:24px!important;padding-top:16px!important}
+
+  dialog{
+    width:calc(100% - 16px)!important;
+    max-width:none!important;
+    max-height:calc(100dvh - 16px)!important;
+    padding:23px 18px!important;
+  }
+}
+
+@media (max-width:390px){
+  .site-header .brand.gc-full-logo{
+    width:124px!important;
+    flex-basis:124px!important;
+  }
+  .trust-row{grid-template-columns:minmax(0,1fr)!important}
+  .trust-row div{padding:6px 0 6px 9px!important}
+  #services .service-card{
+    flex-basis:84vw!important;
+    width:84vw!important;
+    min-width:84vw!important;
+    max-width:84vw!important;
+  }
+  .issue-card{grid-template-columns:92px minmax(0,1fr)!important}
+  .issue-card>img{width:92px!important}
+  .campus-tips,
+  .benefit-grid,
+  .footer-grid{grid-template-columns:minmax(0,1fr)!important}
+  .footer-brand{grid-column:auto!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal,
+  .reveal.visible{
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  #services .service-grid{scroll-behavior:auto!important}
+}
