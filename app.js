@@ -71,7 +71,7 @@
   $$('.accordion details').forEach(detail => detail.addEventListener('toggle', () => { if (detail.open) $$('.accordion details').filter(item => item !== detail).forEach(item => { item.open = false; }); }));
 
   const bookingForm = $('#booking-form');
-  if (!bookingForm) return;
+  if (bookingForm) {
   bookingForm.elements.formStartedAt.value = String(Date.now());
   const serviceMode = bookingForm.elements.serviceMode;
   const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
@@ -84,6 +84,10 @@
     const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
     const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Request appointment';
   };
+  const requestParams = new URLSearchParams(window.location.search);
+  if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
+  const requestedService = requestParams.get('service');
+  if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
   serviceMode?.addEventListener('change', updateServiceMode); updateServiceMode();
 
   let currentStep = 1;
@@ -107,14 +111,14 @@
   };
   $$('.form-next').forEach(button => button.addEventListener('click', () => { if (validateStep(currentStep)) showStep(currentStep + 1); }));
   $$('.button-back').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
-  $$('[data-book-service]').forEach(button => button.addEventListener('click', () => { const issue = $('[name="issue"]'); if (issue) issue.value = button.dataset.bookService || ''; $('#book')?.scrollIntoView({ behavior: 'smooth' }); }));
-  $$('[data-start-mail-in]').forEach(button => button.addEventListener('click', () => { if (serviceMode) serviceMode.value = 'mail_in'; updateServiceMode(); }));
-
   bookingForm.addEventListener('submit', async event => {
     event.preventDefault(); if (!validateStep(3)) return;
     const submit = bookingForm.querySelector('[type="submit"]'); if (!submit) return;
+    const submitError = $('.request-submit-error', bookingForm);
+    if (submitError) submitError.textContent = '';
     submit.disabled = true; submit.textContent = 'Sending request…';
     try {
+      if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
       const payload = Object.fromEntries(new FormData(bookingForm));
       const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body: payload });
       if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send request.');
@@ -122,10 +126,11 @@
       $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
       $('.form-success', bookingForm)?.classList.add('active');
       showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
-    } catch (error) { showToast(error?.message || 'Unable to submit. Please contact the shop.'); }
+    } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
     finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
   });
   $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
+  }
 
   const tracker = $('#tracker-dialog'), trackerForm = $('#tracker-form'), trackerResult = $('.tracker-result');
   const resetTracker = () => { trackerForm?.reset(); trackerForm?.classList.remove('hidden'); trackerResult?.classList.remove('active'); const error = $('.tracker-error'); if (error) error.textContent = ''; };
