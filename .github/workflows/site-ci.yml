@@ -1,0 +1,97 @@
+name: Public Site CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: JavaScript syntax
+        run: |
+          set -euo pipefail
+          node --check app.js
+          node --check supabase.js
+
+      - name: Public site architecture
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          supabase = Path('supabase.js').read_text(encoding='utf-8')
+          app = Path('app.js').read_text(encoding='utf-8')
+          release = Path('site-release.css').read_text(encoding='utf-8')
+          guide = Path('repair-guide.css').read_text(encoding='utf-8')
+
+          for css in Path('.').glob('*.css'):
+              text = css.read_text(encoding='utf-8')
+              if text.count('{') != text.count('}'):
+                  raise SystemExit(f'Unbalanced CSS braces: {css}')
+
+          refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', html)
+          missing = []
+          for ref in refs:
+              ref = ref.split('?',1)[0].split('#',1)[0]
+              if not ref or ref.startswith(('http://','https://','mailto:','tel:','#')):
+                  continue
+              if not Path(ref).exists():
+                  missing.append(ref)
+          if missing:
+              raise SystemExit('Missing local references: ' + ', '.join(sorted(set(missing))))
+
+          css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
+          css_files = [ref.split('?',1)[0] for ref in css_refs]
+          required = ['styles.css','hardening.css','repair-guide.css','site-release.css']
+          positions = []
+          for name in required:
+              if name not in css_files:
+                  raise SystemExit(f'Missing required first-paint stylesheet: {name}')
+              positions.append(css_files.index(name))
+          if positions != sorted(positions) or css_files[-1] != 'site-release.css':
+              raise SystemExit('site-release.css must remain the final first-paint stylesheet.')
+
+          if 'id="repair-guide"' not in html:
+              raise SystemExit('Repair education must remain static in index.html.')
+          if 'service-rail-hint' not in html:
+              raise SystemExit('Mobile service rail needs a static swipe affordance.')
+
+          forbidden_supabase = ['createElement(', 'site-final-polish', 'site-mobile-fix', 'repair-guide.css']
+          for token in forbidden_supabase:
+              if token in supabase:
+                  raise SystemExit(f'Supabase client must not own presentation/runtime injection: {token}')
+
+          for retired in ['site-final-polish.js','site-mobile-fix.js','site-mobile-fix.css']:
+              if Path(retired).exists():
+                  raise SystemExit(f'Retired runtime presentation file returned: {retired}')
+
+          compact = re.sub(r'\s+', '', release)
+          if '@media(max-width:700px)' not in compact:
+              raise SystemExit('Authoritative mobile breakpoint missing from site-release.css.')
+          if '.reveal,.reveal.visible{opacity:1!important;transform:none!important;transition:none!important' not in compact:
+              raise SystemExit('Mobile content must never depend on scroll reveal visibility.')
+          if '#services.service-grid' in compact:
+              raise SystemExit('Unexpected selector shape for service rail.')
+          if 'overflow-x:auto!important' not in compact or 'touch-action:auto!important' not in compact:
+              raise SystemExit('Services rail must use native mobile scrolling.')
+          for selector in ['.process-grid','.mail-in-grid','.why-grid','.faq-grid','.booking-shell']:
+              if selector not in release:
+                  raise SystemExit(f'Mobile width containment missing for {selector}')
+
+          combined = (html + supabase + app + release + guide).lower()
+          if 'wearable' in combined:
+              raise SystemExit('Public GotCracked site must not advertise wearable repair.')
+
+          print('Public site integrity checks passed.')
