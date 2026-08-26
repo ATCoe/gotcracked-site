@@ -123,9 +123,8 @@ jobs:
               raise SystemExit('Legacy Custom PC repair URLs must redirect from both Cloudflare pretty and .html request paths.')
           if "location.assign('pc-build.html')" not in chat:
               raise SystemExit('Custom PC CTA click routing guard is missing.')
-          ram_copy = pc_html.lower()
-          if ('temporary ram market notice' not in ram_copy or 'through 2027' not in ram_copy or '2028' not in ram_copy or 'industry outlook' not in ram_copy):
-              raise SystemExit('Temporary RAM-market notice must explain the 2027 constraint, 2028 capacity outlook, and forecast uncertainty.')
+          if pc_html.count('Temporary RAM market notice.') != 1:
+              raise SystemExit('Custom PC page must keep exactly one RAM-market notice, in the results/sidebar area.')
           if 'https://gotcracked.co/pc-build.html' not in sitemap:
               raise SystemExit('Custom PC planner must remain in the public sitemap.')
 
@@ -135,6 +134,8 @@ jobs:
                   raise SystemExit(f'Recorded mobile-layout fix missing: {token}')
           if 'width:50px!important' not in chat_css or 'font-size:0!important' not in chat_css:
               raise SystemExit('Mobile chat launcher must remain compact enough not to cover content.')
+          if pc_html.count('customer-chat.css?v=20260826-release5') != 1 or pc_html.count('customer-chat.js?v=20260826-release5') != 1:
+              raise SystemExit('pc-build.html must load the same compact mobile chat release as the homepage.')
 
           # Customer data collection must remain transparent and linked to privacy terms.
           if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html:
@@ -201,3 +202,4 @@ jobs:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
           print('Public site integrity checks passed.')
+
