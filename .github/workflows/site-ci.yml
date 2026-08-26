@@ -109,8 +109,9 @@ jobs:
               raise SystemExit('Custom PC planner is not wired to its research endpoint.')
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js:
               raise SystemExit('Customer custom-PC flow must disclose Newegg compatibility verification.')
-          if 'Temporary RAM market notice' not in pc_html or 'late 2027 into 2028' not in pc_html:
-              raise SystemExit('Temporary RAM-market notice is missing from the custom PC planner.')
+          ram_copy = pc_html.lower()
+          if ('temporary ram market notice' not in ram_copy or 'through 2027' not in ram_copy or '2028' not in ram_copy or 'industry outlook' not in ram_copy):
+              raise SystemExit('Temporary RAM-market notice must explain the 2027 constraint, 2028 capacity outlook, and forecast uncertainty.')
           if 'https://gotcracked.co/pc-build.html' not in sitemap:
               raise SystemExit('Custom PC planner must remain in the public sitemap.')
           if "location.replace('pc-build.html')" not in chat:
