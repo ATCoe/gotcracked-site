@@ -12,8 +12,12 @@
   <link rel="canonical" href="https://gotcracked.co/">
   <title>GotCracked | Device Repair Done Right</title>
   <link rel="icon" href="assets/gotcracked-favicon.png" type="image/png">
-  <link rel="stylesheet" href="styles.css?v=20260825b">
-  <link rel="stylesheet" href="hardening.css?v=20260825-final3">
+
+  <!-- First-paint cascade. Nothing visual is injected by runtime JavaScript. -->
+  <link rel="stylesheet" href="styles.css?v=20260826-release1">
+  <link rel="stylesheet" href="hardening.css?v=20260826-release1">
+  <link rel="stylesheet" href="repair-guide.css?v=20260826-release1">
+  <link rel="stylesheet" href="site-release.css?v=20260826-release1">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -21,7 +25,7 @@
 
   <header class="site-header" id="top">
     <div class="nav-wrap">
-      <a class="brand" href="#top" aria-label="GotCracked home"><img src="assets/gotcracked-mark.png" alt=""><span class="brand-fallback"><b>GOT</b>CRACKED</span></a>
+      <a class="brand gc-full-logo" href="#top" aria-label="GotCracked home"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked"><span class="brand-fallback"><b>GOT</b>CRACKED</span></a>
       <nav id="site-nav" aria-label="Primary navigation">
         <a href="#services">Services</a>
         <a href="#process">How it works</a>
@@ -63,7 +67,7 @@
     <section class="section services" id="services">
       <div class="container">
         <div class="section-heading reveal"><div><p class="eyebrow"><span></span>Everything we do</p><h2>Repair, protect,<br>recover, and upgrade.</h2></div><p>From a simple cleaning to a custom gaming PC, we diagnose clearly, explain the options, and help you make the smartest next move.</p></div>
-        <div class="service-grid">
+        <div class="service-grid" aria-label="Repair services">
           <article class="service-card featured reveal" data-service="Screen repair"><div class="service-number">01</div><div class="service-icon phone-icon"><span></span></div><h3>Screen & device repair</h3><p>Displays, batteries, charging ports, cameras, speakers, buttons, liquid damage, consoles, and more.</p><button class="card-link" data-book-service="Screen repair">Start a repair <span>&#8594;</span></button></article>
           <article class="service-card reveal" data-service="Free diagnostic"><div class="service-number">02</div><div class="service-icon diagnostic-icon"><span></span></div><h3>Free diagnostics</h3><p>Not sure what failed? We identify the likely cause and explain practical repair options before work begins.</p><button class="card-link" data-book-service="Free diagnostic">Get a diagnosis <span>&#8594;</span></button></article>
           <article class="service-card reveal" data-service="Device cleaning"><div class="service-number">03</div><div class="service-icon cleaning-icon"><span></span></div><h3>Professional cleanings</h3><p>Careful exterior, port, vent, fan, and internal cleaning for eligible phones, computers, and consoles.</p><button class="card-link" data-book-service="Device cleaning">Book a cleaning <span>&#8594;</span></button></article>
@@ -73,7 +77,35 @@
           <article class="service-card reveal" data-service="Data recovery evaluation"><div class="service-number">07</div><div class="service-icon recovery-icon"><span></span></div><h3>Data recovery evaluation</h3><p>We assess accessible drives and devices and attempt responsible recovery when appropriate. Results are never guaranteed.</p><button class="card-link" data-book-service="Data recovery evaluation">Request an evaluation <span>&#8594;</span></button></article>
           <article class="service-card reveal" data-service="Battery replacement"><div class="service-number">08</div><div class="service-icon battery-icon"><span></span></div><h3>Battery replacement</h3><p>Restore dependable battery life on eligible phones, tablets, laptops, and other devices.</p><button class="card-link" data-book-service="Battery replacement">Replace my battery <span>&#8594;</span></button></article>
         </div>
+        <div class="service-rail-hint" aria-hidden="true"><span>Swipe to explore more services</span><b>&#8594;</b></div>
         <p class="more-services">Returning customer? Ask about frequent-repair savings on eligible services. <a href="#book">Tell us what you need &#8594;</a></p>
+      </div>
+    </section>
+
+    <section class="section repair-guide" id="repair-guide">
+      <div class="container">
+        <div class="guide-heading reveal">
+          <div><p class="eyebrow"><span></span>Common repair symptoms</p><h2>Know the warning signs.<br>We’ll handle the diagnosis.</h2></div>
+          <p>Tell us what changed, what the device is doing, and when it started. You do not need to diagnose the failure yourself—we confirm the repair path before billable work begins.</p>
+        </div>
+
+        <div class="guide-visual reveal">
+          <div class="guide-visual-image"><img src="assets/repair-bench.webp" alt="Precision electronics repair bench" loading="lazy" decoding="async"></div>
+          <div class="guide-visual-copy"><p class="eyebrow"><span></span>Professional diagnostics</p><h3>Start with the symptom, not a guess.</h3><p>Screen damage, charging problems, heat, battery issues, and no-power faults can overlap. We document what is happening, inspect the device, and explain the practical next step.</p></div>
+        </div>
+
+        <div class="issue-grid">
+          <article class="issue-card reveal"><img src="assets/phone-screen-repair.webp" alt="Phone screen repair on an electronics workbench" loading="lazy" decoding="async"><div class="issue-card-body"><p class="issue-kicker">Phones & tablets</p><h3>Cracked glass, display damage, or touch problems</h3><p class="issue-summary">Black spots, colored lines, flickering, dead touch areas, sharp glass, or spreading cracks are all good reasons to have the device inspected.</p><details><summary>What happens next</summary><p>We identify which display components are affected and confirm the available repair options before work begins.</p></details></div></article>
+          <article class="issue-card reveal"><img src="assets/issue-battery-health.svg" alt="Battery health illustration" loading="lazy" decoding="async"><div class="issue-card-body"><p class="issue-kicker">Battery & power</p><h3>Fast drain, shutdowns, unusual heat, or swelling</h3><p class="issue-summary">Battery wear and power faults can create similar symptoms, so we verify the cause before recommending replacement.</p><details><summary>Safety first</summary><p>If a battery appears swollen or the device becomes unusually hot, stop using and charging it and have it evaluated promptly.</p></details></div></article>
+          <article class="issue-card reveal"><img src="assets/laptop-service.webp" alt="Laptop cooling system being professionally serviced" loading="lazy" decoding="async"><div class="issue-card-body"><p class="issue-kicker">Laptops & computers</p><h3>Overheating, loud fans, crashes, or slow performance</h3><p class="issue-summary">Cooling, storage, hardware, and software problems can feel very similar from the outside.</p><details><summary>What we evaluate</summary><p>We look at the symptoms and overall system health, then explain whether cleaning, repair, upgrade, or software service makes sense.</p></details></div></article>
+          <article class="issue-card reveal"><img src="assets/issue-console-hdmi.svg" alt="Game console HDMI port illustration" loading="lazy" decoding="async"><div class="issue-card-body"><p class="issue-kicker">Game consoles</p><h3>No display, intermittent video, or HDMI damage</h3><p class="issue-summary">Loose or damaged video connections can cause no picture, flickering, dropouts, or intermittent signal.</p><details><summary>How we approach it</summary><p>We inspect the connection and related circuitry, then confirm whether the issue is the port or another part of the video path.</p></details></div></article>
+        </div>
+
+        <div class="campus-guide reveal">
+          <div class="campus-copy"><p class="eyebrow"><span></span>Blacksburg & campus life</p><h3>When your device is also your class, work, and social life.</h3><p>Tell us about class deadlines, travel dates, remote-work needs, or other timing constraints so we can give you realistic options before the repair begins.</p></div>
+          <div class="campus-tips"><div class="campus-tip"><strong>Back up when possible</strong><span>If the device still works, save important files before service whenever you can.</span></div><div class="campus-tip"><strong>Bring related accessories</strong><span>For charging or power problems, the charger or cable can help us reproduce the issue.</span></div><div class="campus-tip"><strong>Liquid exposure</strong><span>Power the device down and avoid repeatedly testing or charging it before inspection.</span></div><div class="campus-tip"><strong>We diagnose first</strong><span>Symptoms can overlap. We confirm what failed before recommending paid repair work.</span></div></div>
+        </div>
+        <p class="repair-guide-note">General customer guidance only. Actual repair needs, parts, pricing, and turnaround are confirmed after inspection.</p>
       </div>
     </section>
 
@@ -87,12 +119,10 @@
       <ol class="mail-in-steps reveal"><li><span>01</span><div><h3>Request approval first</h3><p>Tell us the device and issue. Wait for confirmation before shipping.</p></div></li><li><span>02</span><div><h3>Pack securely</h3><p>Use protective packing and include your GotCracked request number. Send accessories only when requested.</p></div></li><li><span>03</span><div><h3>Approve the repair</h3><p>We inspect the device and send a clear estimate before billable repair work begins.</p></div></li><li><span>04</span><div><h3>Insured return shipping</h3><p>Return shipping, insurance, and any applicable charge are documented on your work order.</p></div></li></ol>
     </div></section>
 
-    <section class="section why-us" id="why-us"><div class="container">
-      <div class="why-grid">
-        <div class="why-visual reveal"><div class="brand-panel"><img src="assets/repair-bench.webp" alt="GotCracked technician performing precision electronics repair"></div><div class="warranty-badge"><strong>6</strong><span>month eligible<br>repair warranty</span></div></div>
-        <div class="why-copy reveal"><p class="eyebrow"><span></span>Why GotCracked</p><h2>Built on clarity.<br>Backed by care.</h2><p class="large-copy">A good repair is more than a working device. It is honest advice, clear communication, and confidence that the job was done right.</p><div class="benefit-grid"><div><span>&#10003;</span><h3>Upfront approval</h3><p>No surprise work. You approve the estimate first.</p></div><div><span>&#10003;</span><h3>Repair history</h3><p>Your device, service, and warranty details stay organized.</p></div><div><span>&#10003;</span><h3>Quality testing</h3><p>Every completed repair is checked before pickup.</p></div><div><span>&#10003;</span><h3>Human support</h3><p>Questions are answered by people who understand the work.</p></div></div></div>
-      </div>
-    </div></section>
+    <section class="section why-us" id="why-us"><div class="container"><div class="why-grid">
+      <div class="why-visual reveal"><div class="brand-panel"><img src="assets/repair-bench.webp" alt="GotCracked technician performing precision electronics repair" loading="lazy" decoding="async"></div><div class="warranty-badge"><strong>6</strong><span>month eligible<br>repair warranty</span></div></div>
+      <div class="why-copy reveal"><p class="eyebrow"><span></span>Why GotCracked</p><h2>Built on clarity.<br>Backed by care.</h2><p class="large-copy">A good repair is more than a working device. It is honest advice, clear communication, and confidence that the job was done right.</p><div class="benefit-grid"><div><span>&#10003;</span><h3>Upfront approval</h3><p>No surprise work. You approve the estimate first.</p></div><div><span>&#10003;</span><h3>Repair history</h3><p>Your device, service, and warranty details stay organized.</p></div><div><span>&#10003;</span><h3>Quality testing</h3><p>Every completed repair is checked before pickup.</p></div><div><span>&#10003;</span><h3>Human support</h3><p>Questions are answered by people who understand the work.</p></div></div></div>
+    </div></div></section>
 
     <section class="section social-feed" id="videos"><div class="container">
       <div class="section-heading reveal"><div><p class="eyebrow"><span></span>From the repair bench</p><h2>Repairs, tips,<br>and real results.</h2></div><p>Watch recent GotCracked videos from YouTube and TikTok. New posts published through the Portal appear here automatically.</p></div>
@@ -113,27 +143,35 @@
       </form>
     </div></section>
 
-    <section class="section faq" id="faq"><div class="container faq-grid"><div class="reveal"><p class="eyebrow"><span></span>Good questions</p><h2>Before you hand<br>over your device.</h2><p>Still unsure? Start a request and tell us what you are seeing. We will help you choose the right next step.</p><a class="button button-dark" href="#book">Ask about a repair</a></div><div class="accordion reveal">
-      <details><summary>How long will my repair take?<span>+</span></summary><p>Many common repairs can be completed the same day. Timing depends on diagnosis, device model, parts availability, and your approval. We confirm the expected turnaround before work begins.</p></details>
-      <details><summary>Will I know the price before you start?<span>+</span></summary><p>Yes. After diagnosis, you receive a clear estimate. Work begins only after you approve it.</p></details>
-      <details><summary>What should I do before bringing in my device?<span>+</span></summary><p>Back up important data when possible and bring any accessories related to the problem. Do not submit passwords or passcodes through this website.</p></details>
-      <details><summary>Do repairs include a warranty?<span>+</span></summary><p>Eligible repairs include a six-month workmanship warranty. Coverage depends on the service and parts used, and your final service record identifies the terms for your repair.</p></details>
-      <details><summary>Can you recover my data?<span>+</span></summary><p>We can evaluate many accessible drives and devices and attempt recovery when appropriate. Data recovery is highly dependent on the device and damage, so no amount or outcome can be guaranteed.</p></details>
-      <details><summary>Do repeat customers receive a discount?<span>+</span></summary><p>Frequent-repair savings may be available on eligible services. Ask the shop to apply the current offer to your work order.</p></details>
-      <details><summary>What kinds of devices do you repair?<span>+</span></summary><p>We service many phones, tablets, computers, and game consoles. Submit your model and issue and we will confirm service availability.</p></details>
-      <details><summary>Can I mail my device to GotCracked?<span>+</span></summary><p>Yes, after we approve your mail-in request. Do not ship before confirmation. Securely pack the device, include the request number, and send it to GotCracked, 700 North Main St, Ste D, Blacksburg, VA 24060. Return shipping and insurance are documented on the estimate or work order.</p></details>
-    </div></div></section>
+    <section class="section faq" id="faq"><div class="container faq-grid">
+      <div class="reveal"><p class="eyebrow"><span></span>Good questions</p><h2>Before you hand<br>over your device.</h2><p>Still unsure? Start a request and tell us what you are seeing. We will help you choose the right next step.</p><a class="button button-dark" href="#book">Ask about a repair</a></div>
+      <div class="accordion reveal">
+        <details><summary>How long will my repair take?<span>+</span></summary><p>Many common repairs can be completed the same day. Timing depends on diagnosis, device model, parts availability, and your approval. We confirm the expected turnaround before work begins.</p></details>
+        <details><summary>Will I know the price before you start?<span>+</span></summary><p>Yes. After diagnosis, you receive a clear estimate. Work begins only after you approve it.</p></details>
+        <details><summary>What should I do before bringing in my device?<span>+</span></summary><p>Back up important data when possible and bring any accessories related to the problem. Do not submit passwords or passcodes through this website.</p></details>
+        <details><summary>Do repairs include a warranty?<span>+</span></summary><p>Eligible repairs include a six-month workmanship warranty. Coverage depends on the service and parts used, and your final service record identifies the terms for your repair.</p></details>
+        <details><summary>Can you recover my data?<span>+</span></summary><p>We can evaluate many accessible drives and devices and attempt recovery when appropriate. Data recovery is highly dependent on the device and damage, so no amount or outcome can be guaranteed.</p></details>
+        <details><summary>Do repeat customers receive a discount?<span>+</span></summary><p>Frequent-repair savings may be available on eligible services. Ask the shop to apply the current offer to your work order.</p></details>
+        <details><summary>What kinds of devices do you repair?<span>+</span></summary><p>We service many phones, tablets, computers, and game consoles. Submit your model and issue and we will confirm service availability.</p></details>
+        <details><summary>Can I mail my device to GotCracked?<span>+</span></summary><p>Yes, after we approve your mail-in request. Do not ship before confirmation. Securely pack the device, include the request number, and send it to GotCracked, 700 North Main St, Ste D, Blacksburg, VA 24060. Return shipping and insurance are documented on the estimate or work order.</p></details>
+        <details><summary>My screen is cracked but still works. Should I have it checked?<span>+</span></summary><p>Yes if the crack is spreading, glass is sharp, touch is unreliable, or the display develops lines, spots, or flickering. We can confirm which part of the display assembly is affected.</p></details>
+        <details><summary>What should I do if my device will not charge?<span>+</span></summary><p>Bring the device and, when practical, the charger or cable you normally use. Charging trouble can come from more than one component, so we confirm the cause before recommending repair.</p></details>
+        <details><summary>What should I do if the battery looks swollen?<span>+</span></summary><p>Stop using and charging the device and have it evaluated promptly. Do not press the enclosure closed or puncture the battery.</p></details>
+        <details><summary>What should I do after liquid exposure?<span>+</span></summary><p>Power the device down and avoid repeatedly turning it on or charging it. Bring it in for evaluation so we can assess the extent of the damage.</p></details>
+        <details><summary>Do I need an appointment?<span>+</span></summary><p>Not always. Walk-ins are welcome, and appointments are useful when you want to reserve a time window. For mail-in service, submit a request and wait for approval before shipping your device.</p></details>
+      </div>
+    </div></section>
 
     <section class="final-cta"><div class="final-flare"></div><div class="container reveal"><img src="assets/gotcracked-mark.png" alt="" aria-hidden="true"><p class="eyebrow">Ready when you are</p><h2>Life cracked it.<br><em>Let’s fix it.</em></h2><div><a class="button" href="#book">Start a repair &#8594;</a><button class="button button-ghost" data-open-tracker>Track a repair</button></div></div></section>
   </main>
 
-  <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked"><p>Professional device repair with clear communication from check-in to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="#services">Services</a><a href="#process">How it works</a><a href="#mail-in">Mail-in repairs</a><a href="#why-us">Why us</a><a href="#faq">FAQ</a></div><div><h3>Customers</h3><button data-open-tracker>Track a repair</button><a href="#book">Request service</a><a href="mailto:hello@gotcracked.co">Email support</a></div><div><h3>Team</h3><a href="https://portal.gotcracked.co/">Staff portal</a><small>Authorized staff only</small></div></div><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We fix what life cracks.</span></div></footer>
+  <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked" loading="lazy" decoding="async"><p>Professional device repair with clear communication from check-in to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="#services">Services</a><a href="#process">How it works</a><a href="#mail-in">Mail-in repairs</a><a href="#why-us">Why us</a><a href="#faq">FAQ</a></div><div><h3>Customers</h3><button data-open-tracker>Track a repair</button><a href="#book">Request service</a><a href="mailto:hello@gotcracked.co">Email support</a></div><div><h3>Team</h3><a href="https://portal.gotcracked.co/">Staff portal</a><small>Authorized staff only</small></div></div><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We fix what life cracks.</span></div></footer>
 
   <dialog id="tracker-dialog" aria-labelledby="tracker-title"><button class="dialog-close" data-close-dialog aria-label="Close">&times;</button><div class="dialog-brand"><img src="assets/gotcracked-mark.png" alt=""></div><p class="eyebrow"><span></span>Customer repair status</p><h2 id="tracker-title">Track your repair</h2><p>Enter the ticket number and the phone number used at check-in.</p><form id="tracker-form" novalidate><label>Ticket number<input name="ticket" placeholder="GC-1042" required></label><label>Phone number<input name="trackerPhone" type="tel" placeholder="(555) 555-5555" required></label><button class="button" type="submit">Find my repair &#8594;</button><p class="tracker-error" role="alert"></p></form><div class="tracker-result"><div class="tracker-result-top"><div><small>Repair ticket</small><strong id="tracked-ticket"></strong></div><span class="status-pill">In repair</span></div><div class="tracker-device"><span>&#9638;</span><div><strong>Your device repair</strong><small>Last updated recently</small></div></div><ol class="tracker-timeline"><li class="complete">Checked in</li><li class="complete">Diagnosis complete</li><li class="complete">Approved</li><li class="current">In repair</li><li>Ready for pickup</li></ol><div class="tracker-shipping" hidden></div><p class="tracker-demo-note">For questions about this repair, contact the GotCracked shop.</p><button class="text-link" id="track-another">Track another ticket</button></div></dialog>
 
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
-  <script src="app.js?v=20260825d"></script>
+  <script src="supabase.js?v=20260826-release1"></script>
+  <script src="app.js?v=20260826-release1"></script>
 </body>
 </html>
