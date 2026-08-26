@@ -52,6 +52,18 @@ jobs:
           if missing:
               raise SystemExit('Missing local references: ' + ', '.join(sorted(set(missing))))
 
+          # Catch truncated WebP uploads before Cloudflare caches them for a year.
+          for ref in sorted(set(refs)):
+              asset = ref.split('?',1)[0].split('#',1)[0]
+              if not asset.lower().endswith('.webp'):
+                  continue
+              data = Path(asset).read_bytes()
+              if len(data) < 20 or data[:4] != b'RIFF' or data[8:12] != b'WEBP':
+                  raise SystemExit(f'Invalid WebP header: {asset}')
+              declared_size = int.from_bytes(data[4:8], 'little') + 8
+              if declared_size != len(data):
+                  raise SystemExit(f'Truncated WebP asset: {asset} ({len(data)} bytes, expected {declared_size})')
+
           css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
           css_files = [ref.split('?',1)[0] for ref in css_refs]
           required = ['styles.css','hardening.css','repair-guide.css','site-release.css']

@@ -63,9 +63,14 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
 }
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 
-/* Desktop reveal is decorative only; content remains normal without JS. */
-.reveal{will-change:opacity,transform}
-.reveal.visible{will-change:auto}
+/* Content must never disappear when a fast swipe skips an observer threshold. */
+.reveal,
+.reveal.visible{
+  opacity:1;
+  transform:none;
+  transition:none;
+  will-change:auto;
+}
 
 /* Hero: protect the first viewport from accidental over-height. */
 .hero{min-height:min(760px,calc(100svh - 98px))}
