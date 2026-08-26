@@ -1,8 +1,9 @@
 (()=>{'use strict';
   const params=new URLSearchParams(location.search);
+  const pagePath=location.pathname.replace(/\/+$/,'');
   const customPcSelector='[data-service="Custom PC build"] a, a[href*="service=Custom%20PC%20build"], a[href*="service=Custom+PC+build"]';
   const routeCustomPcLinks=()=>document.querySelectorAll(customPcSelector).forEach(link=>{link.href='pc-build.html';if(link.classList.contains('card-link'))link.innerHTML='Plan my build <span>→</span>';});
-  if(location.pathname.endsWith('/request.html')&&params.get('service')==='Custom PC build'){location.replace('pc-build.html');return;}
+  if((pagePath.endsWith('/request')||pagePath.endsWith('/request.html'))&&params.get('service')==='Custom PC build'){location.replace('pc-build.html');return;}
   routeCustomPcLinks();
   document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target:null;const link=target?.closest(customPcSelector);if(!link)return;event.preventDefault();event.stopPropagation();location.assign('pc-build.html');},true);
 
