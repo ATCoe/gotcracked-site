@@ -1,4 +1,8 @@
 (()=>{'use strict';
+  const params=new URLSearchParams(location.search);
+  if(location.pathname.endsWith('/request.html')&&params.get('service')==='Custom PC build'){location.replace('pc-build.html');return;}
+  document.querySelectorAll('[data-service="Custom PC build"] a, a[href*="service=Custom%20PC%20build"]').forEach(link=>{link.href='pc-build.html';if(link.classList.contains('card-link'))link.innerHTML='Plan my build <span>→</span>';});
+
   const footerCustomer=[...document.querySelectorAll('footer h3')].find(node=>node.textContent?.trim()==='Customers')?.parentElement;
   if(footerCustomer&&!footerCustomer.querySelector('a[href="privacy.html"]')){const link=document.createElement('a');link.href='privacy.html';link.textContent='Privacy Notice';footerCustomer.appendChild(link);}
   const footerAddress=document.querySelector('.footer-brand address');
