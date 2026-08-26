@@ -22,6 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check app.js
+          node --check analytics-loader.js
           node --check customer-chat.js
           node --check pc-build.js
           node --check store-hours.js
@@ -39,8 +40,10 @@ jobs:
           pc_html = Path('pc-build.html').read_text(encoding='utf-8')
           privacy_html = Path('privacy.html').read_text(encoding='utf-8')
           sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
+          headers = Path('_headers').read_text(encoding='utf-8')
           supabase = Path('supabase.js').read_text(encoding='utf-8')
           app = Path('app.js').read_text(encoding='utf-8')
+          analytics = Path('analytics-loader.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
           chat_css = Path('customer-chat.css').read_text(encoding='utf-8')
           pc_js = Path('pc-build.js').read_text(encoding='utf-8')
@@ -138,7 +141,7 @@ jobs:
               raise SystemExit('Customer submission flows must link the Privacy Notice.')
           if 'https://gotcracked.co/privacy.html' not in sitemap:
               raise SystemExit('Privacy Notice must remain in the public sitemap.')
-          for required_copy in ['Information we collect','How we use it','AI-assisted custom PC research','Repair tracking','Customer chat','Data retention']:
+          for required_copy in ['Information we collect','How we use it','AI-assisted custom PC research','Repair tracking','Customer chat','Website analytics','Data retention']:
               if required_copy not in privacy_html:
                   raise SystemExit(f'Privacy Notice is missing required section: {required_copy}')
           if 'passwords or payment-card details' not in chat:
@@ -156,6 +159,18 @@ jobs:
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
               if token not in store_hours_js:
                   raise SystemExit(f'Store-hours scheduling guard is incomplete: {token}')
+
+          # GA4 must remain opt-in by configuration, DNT-aware, and ad-signal disabled.
+          if "import('./analytics-loader.js" not in supabase:
+              raise SystemExit('Primary customer flows must load the analytics runtime after Supabase bootstrap.')
+          if 'analytics-loader.js' not in privacy_html:
+              raise SystemExit('Privacy page must load the standalone analytics runtime consistently.')
+          for token in ['google_analytics_measurement_id','doNotTrack','allow_google_signals: false','allow_ad_personalization_signals: false','googletagmanager.com/gtag/js']:
+              if token not in analytics:
+                  raise SystemExit(f'GA4 privacy guard is incomplete: {token}')
+          for token in ['https://www.googletagmanager.com','https://www.google-analytics.com','https://region1.google-analytics.com']:
+              if token not in headers:
+                  raise SystemExit(f'GA4 CSP endpoint missing: {token}')
 
           forbidden_supabase = ['createElement(', 'site-final-polish', 'site-mobile-fix', 'repair-guide.css']
           for token in forbidden_supabase:
@@ -181,7 +196,7 @@ jobs:
               if selector not in release:
                   raise SystemExit(f'Mobile width containment missing for {selector}')
 
-          combined = (pages + supabase + app + release + guide + chat_css + pc_js + pc_css + store_hours_js).lower()
+          combined = (pages + supabase + app + analytics + release + guide + chat_css + pc_js + pc_css + store_hours_js).lower()
           if 'wearable' in combined:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
