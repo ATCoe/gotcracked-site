@@ -22,6 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check app.js
+          node --check customer-chat.js
           node --check supabase.js
 
       - name: Public site architecture
@@ -32,6 +33,7 @@ jobs:
 
           html = Path('index.html').read_text(encoding='utf-8')
           request_html = Path('request.html').read_text(encoding='utf-8')
+          appointment_html = Path('appointment.html').read_text(encoding='utf-8')
           supabase = Path('supabase.js').read_text(encoding='utf-8')
           app = Path('app.js').read_text(encoding='utf-8')
           release = Path('site-release.css').read_text(encoding='utf-8')
@@ -42,7 +44,7 @@ jobs:
               if text.count('{') != text.count('}'):
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
 
-          refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', html + request_html)
+          refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', html + request_html + appointment_html)
           missing = []
           for ref in refs:
               ref = ref.split('?',1)[0].split('#',1)[0]
@@ -88,6 +90,10 @@ jobs:
               raise SystemExit('Mail-in calls to action must open the dedicated request page.')
           if 'request.css' not in request_html:
               raise SystemExit('Dedicated request page stylesheet is missing.')
+          if 'id="appointment-form"' not in appointment_html or 'const appointmentForm' not in app:
+              raise SystemExit('Dedicated appointment flow is not wired.')
+          if 'customer-chat.js' not in html or 'customer-chat.js' not in request_html:
+              raise SystemExit('Quick-question chat must be available across customer flows.')
 
           forbidden_supabase = ['createElement(', 'site-final-polish', 'site-mobile-fix', 'repair-guide.css']
           for token in forbidden_supabase:

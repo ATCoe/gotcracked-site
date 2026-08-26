@@ -132,6 +132,27 @@
   $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }
 
+  const appointmentForm = $('#appointment-form');
+  if (appointmentForm) {
+    appointmentForm.elements.formStartedAt.value = String(Date.now());
+    appointmentForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const button = appointmentForm.querySelector('[type="submit"]'), errorOutput = $('.request-submit-error', appointmentForm);
+      if (!appointmentForm.checkValidity()) { appointmentForm.reportValidity(); return; }
+      button.disabled = true; button.textContent = 'Sending request…'; if (errorOutput) errorOutput.textContent = '';
+      try {
+        const fields = Object.fromEntries(new FormData(appointmentForm));
+        const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
+        const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, date:fields.date, time:fields.time, consent:fields.consent };
+        const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
+        if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to request the appointment.');
+        $('#appointment-reference').textContent = data.reference;
+        $('.form-step', appointmentForm).style.display = 'none'; $('.form-success', appointmentForm).classList.add('active');
+      } catch (error) { if (errorOutput) errorOutput.textContent = error.message || 'Unable to request the appointment.'; }
+      finally { button.disabled = false; button.textContent = 'Request appointment →'; }
+    });
+  }
+
   const tracker = $('#tracker-dialog'), trackerForm = $('#tracker-form'), trackerResult = $('.tracker-result');
   const resetTracker = () => { trackerForm?.reset(); trackerForm?.classList.remove('hidden'); trackerResult?.classList.remove('active'); const error = $('.tracker-error'); if (error) error.textContent = ''; };
   const openTracker = () => { if (!tracker) return; setMenu(false); tracker.showModal(); document.body.classList.add('dialog-open'); setTimeout(() => $('[name="ticket"]', tracker)?.focus(), 50); };

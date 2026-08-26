@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="repair-guide.css?v=20260826-release3">
   <link rel="stylesheet" href="site-release.css?v=20260826-release3">
   <link rel="stylesheet" href="request.css?v=20260826-release3">
+  <link rel="stylesheet" href="customer-chat.css?v=20260826-release4">
 </head>
 <body class="request-page">
   <a class="skip-link" href="#main">Skip to form</a>
@@ -46,12 +47,13 @@
     </section>
   </main>
 
-  <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked" loading="lazy" decoding="async"><p>Professional device repair with clear communication from check-in to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="index.html#services">Services</a><a href="index.html#process">How it works</a><a href="index.html#mail-in">Mail-in repairs</a></div><div><h3>Customers</h3><button data-open-tracker>Track a repair</button><a href="mailto:hello@gotcracked.co">Email support</a></div></div><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We fix what life cracks.</span></div></footer>
+  <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked" loading="lazy" decoding="async"><p>Professional device repair with clear communication from check-in to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="index.html#services">Services</a><a href="index.html#process">How it works</a><a href="index.html#mail-in">Mail-in repairs</a></div><div><h3>Customers</h3><button data-open-tracker>Track a repair</button><a href="mailto:hello@gotcracked.co">Email support</a></div></div><p class="container trademark-notice">Product names, logos, and likenesses are trademarks or property of their respective owners. GotCracked is an independent repair provider and is not affiliated with, sponsored by, or endorsed by those owners. References identify devices GotCracked may service.</p><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We fix what life cracks.</span></div></footer>
 
   <dialog id="tracker-dialog" aria-labelledby="tracker-title"><button class="dialog-close" data-close-dialog aria-label="Close">&times;</button><div class="dialog-brand"><img src="assets/gotcracked-mark.png" alt=""></div><p class="eyebrow"><span></span>Customer repair status</p><h2 id="tracker-title">Track your repair</h2><p>Enter the ticket number and the phone number used at check-in.</p><form id="tracker-form" novalidate><label>Ticket number<input name="ticket" placeholder="GC-1042" required></label><label>Phone number<input name="trackerPhone" type="tel" placeholder="(555) 555-5555" required></label><button class="button" type="submit">Find my repair &#8594;</button><p class="tracker-error" role="alert"></p></form><div class="tracker-result"><div class="tracker-result-top"><div><small>Repair ticket</small><strong id="tracked-ticket"></strong></div><span class="status-pill">In repair</span></div><div class="tracker-device"><span>&#9638;</span><div><strong>Your device repair</strong><small>Last updated recently</small></div></div><ol class="tracker-timeline"><li class="complete">Checked in</li><li class="complete">Diagnosis complete</li><li class="complete">Approved</li><li class="current">In repair</li><li>Ready for pickup</li></ol><div class="tracker-shipping" hidden></div><p class="tracker-demo-note">For questions about this repair, contact the GotCracked shop.</p><button class="text-link" id="track-another">Track another ticket</button></div></dialog>
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js?v=20260826-release3"></script>
   <script src="app.js?v=20260826-release3"></script>
+  <script src="customer-chat.js?v=20260826-release4"></script>
 </body>
 </html>
