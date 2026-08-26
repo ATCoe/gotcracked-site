@@ -82,8 +82,8 @@ jobs:
               raise SystemExit('Authoritative mobile breakpoint missing from site-release.css.')
           if '.reveal,.reveal.visible{opacity:1!important;transform:none!important;transition:none!important' not in compact:
               raise SystemExit('Mobile content must never depend on scroll reveal visibility.')
-          if '#services.service-grid' in compact:
-              raise SystemExit('Unexpected selector shape for service rail.')
+          if '#services .service-grid' not in release:
+              raise SystemExit('Services rail selector missing from authoritative release CSS.')
           if 'overflow-x:auto!important' not in compact or 'touch-action:auto!important' not in compact:
               raise SystemExit('Services rail must use native mobile scrolling.')
           for selector in ['.process-grid','.mail-in-grid','.why-grid','.faq-grid','.booking-shell']:
