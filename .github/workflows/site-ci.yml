@@ -34,8 +34,11 @@ jobs:
           html = Path('index.html').read_text(encoding='utf-8')
           request_html = Path('request.html').read_text(encoding='utf-8')
           appointment_html = Path('appointment.html').read_text(encoding='utf-8')
+          privacy_html = Path('privacy.html').read_text(encoding='utf-8')
+          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
           supabase = Path('supabase.js').read_text(encoding='utf-8')
           app = Path('app.js').read_text(encoding='utf-8')
+          chat = Path('customer-chat.js').read_text(encoding='utf-8')
           release = Path('site-release.css').read_text(encoding='utf-8')
           guide = Path('repair-guide.css').read_text(encoding='utf-8')
 
@@ -44,7 +47,8 @@ jobs:
               if text.count('{') != text.count('}'):
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
 
-          refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', html + request_html + appointment_html)
+          pages = html + request_html + appointment_html + privacy_html
+          refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', pages)
           missing = []
           for ref in refs:
               ref = ref.split('?',1)[0].split('#',1)[0]
@@ -95,10 +99,31 @@ jobs:
           if 'customer-chat.js' not in html or 'customer-chat.js' not in request_html:
               raise SystemExit('Quick-question chat must be available across customer flows.')
 
+          # Customer data collection must remain transparent and linked to privacy terms.
+          if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html:
+              raise SystemExit('Customer submission flows must link the Privacy Notice.')
+          if 'https://gotcracked.co/privacy.html' not in sitemap:
+              raise SystemExit('Privacy Notice must remain in the public sitemap.')
+          for required_copy in ['Information we collect','How we use it','Repair tracking','Customer chat','Data retention']:
+              if required_copy not in privacy_html:
+                  raise SystemExit(f'Privacy Notice is missing required section: {required_copy}')
+          if 'passwords or payment-card details' not in chat:
+              raise SystemExit('Website chat must warn customers not to send sensitive credentials/payment data.')
+
+          # Appointment availability must match the configured Blacksburg operating window.
+          if '4–7 PM' in request_html or '4–7 PM' in appointment_html:
+              raise SystemExit('Customer forms must not offer appointments after the 6 PM closing time.')
+          if 'Late afternoon (4–6 PM)' not in request_html or 'Late afternoon (4–6 PM)' not in appointment_html:
+              raise SystemExit('Late-afternoon appointment window is missing.')
+          if "dateInput.min = localDateISO(new Date())" not in app:
+              raise SystemExit('Same-day appointment requests must remain selectable.')
+
           forbidden_supabase = ['createElement(', 'site-final-polish', 'site-mobile-fix', 'repair-guide.css']
           for token in forbidden_supabase:
               if token in supabase:
                   raise SystemExit(f'Supabase client must not own presentation/runtime injection: {token}')
+          if "createElement('link')" in app or 'createElement("link")' in app:
+              raise SystemExit('Public app runtime must not inject first-paint stylesheets.')
 
           for retired in ['site-final-polish.js','site-mobile-fix.js','site-mobile-fix.css']:
               if Path(retired).exists():
@@ -117,7 +142,7 @@ jobs:
               if selector not in release:
                   raise SystemExit(f'Mobile width containment missing for {selector}')
 
-          combined = (html + supabase + app + release + guide).lower()
+          combined = (pages + supabase + app + release + guide).lower()
           if 'wearable' in combined:
               raise SystemExit('Public GotCracked site must not advertise wearable repair.')
 
