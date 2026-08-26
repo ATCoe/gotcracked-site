@@ -1,4 +1,9 @@
 (()=>{'use strict';
+  const footerCustomer=[...document.querySelectorAll('footer h3')].find(node=>node.textContent?.trim()==='Customers')?.parentElement;
+  if(footerCustomer&&!footerCustomer.querySelector('a[href="privacy.html"]')){const link=document.createElement('a');link.href='privacy.html';link.textContent='Privacy Notice';footerCustomer.appendChild(link);}
+  const footerAddress=document.querySelector('.footer-brand address');
+  if(footerAddress&&!document.getElementById('store-hours')){const hours=document.createElement('div');hours.id='store-hours';hours.setAttribute('aria-label','Shop hours');hours.innerHTML='<div><span>Monday–Friday</span> <strong>9 AM–6 PM</strong></div><div><span>Saturday</span> <strong>10 AM–4 PM</strong></div><div><span>Sunday</span> <strong>Closed</strong></div>';footerAddress.insertAdjacentElement('afterend',hours);const directions=document.createElement('a');directions.href='https://www.google.com/maps/dir/?api=1&destination=700+North+Main+St+Ste+D+Blacksburg+VA+24060';directions.target='_blank';directions.rel='noopener';directions.textContent='Get directions →';hours.insertAdjacentElement('afterend',directions);}
+
   const client=window.supabaseClient;if(!client)return;
   const esc=value=>String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[c]);
   const storageKey='gc-public-chat-v1',maxSessionAge=30*24*60*60*1000;let session=null,pollTimer=null,startedAt=Date.now();
