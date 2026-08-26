@@ -1,0 +1,65 @@
+/* GotCracked mobile fixes from production screen-recording audit, 2026-08-26. */
+
+@media (max-width:700px){
+  /* Some section shells are both .container and a grid class. Preserve the
+     mobile gutter after site-release.css makes those grids single-column. */
+  .container.process-grid,
+  .container.mail-in-grid,
+  .container.why-grid,
+  .container.booking-shell,
+  .container.faq-grid{
+    width:calc(100% - (var(--gc-mobile-gutter,14px) * 2))!important;
+    max-width:none!important;
+    margin-inline:auto!important;
+  }
+
+  /* The console platform visual occupies the image column just like the
+     photographic repair cards. It must not expand across the text column. */
+  .issue-card>.console-platforms{
+    width:104px!important;
+    min-width:104px!important;
+    max-width:104px!important;
+    min-height:180px!important;
+    align-self:stretch!important;
+    padding:9px 6px!important;
+    gap:6px!important;
+    overflow:hidden!important;
+  }
+  .issue-card>.console-platforms span{
+    min-width:0!important;
+    min-height:42px!important;
+    padding:5px 2px!important;
+    font-size:8px!important;
+    line-height:1.15!important;
+    overflow-wrap:anywhere!important;
+  }
+
+  /* Keep chat available without covering cards, buttons, or body copy. */
+  .gc-chat-launcher{
+    right:12px!important;
+    bottom:max(12px,env(safe-area-inset-bottom))!important;
+    width:50px!important;
+    min-width:50px!important;
+    height:50px!important;
+    padding:0!important;
+    gap:0!important;
+    justify-content:center!important;
+    border-radius:50%!important;
+    font-size:0!important;
+  }
+  .gc-chat-launcher span{
+    display:block!important;
+    font-size:20px!important;
+    line-height:1!important;
+  }
+}
+
+@media (max-width:390px){
+  .issue-card>.console-platforms{
+    width:92px!important;
+    min-width:92px!important;
+    max-width:92px!important;
+    padding-inline:5px!important;
+  }
+  .issue-card>.console-platforms span{font-size:7.5px!important}
+}
