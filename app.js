@@ -1,14 +1,6 @@
 (() => {
   'use strict';
 
-  const HARDENING_VERSION = '20260825-final1';
-  if (![...document.styleSheets].some(sheet => sheet.href?.includes('hardening.css'))) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `hardening.css?v=${HARDENING_VERSION}`;
-    document.head.appendChild(link);
-  }
-
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
   const escapeHTML = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
@@ -72,64 +64,64 @@
 
   const bookingForm = $('#booking-form');
   if (bookingForm) {
-  bookingForm.elements.formStartedAt.value = String(Date.now());
-  const serviceMode = bookingForm.elements.serviceMode;
-  const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
-  const updateServiceMode = () => {
-    const mailIn = serviceMode.value === 'mail_in';
-    if (walkInFields) walkInFields.hidden = mailIn;
-    if (mailInFields) mailInFields.hidden = !mailIn;
-    ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
-    ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
-    const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
-    const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Request appointment';
-  };
-  const requestParams = new URLSearchParams(window.location.search);
-  if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
-  const requestedService = requestParams.get('service');
-  if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
-  serviceMode?.addEventListener('change', updateServiceMode); updateServiceMode();
+    bookingForm.elements.formStartedAt.value = String(Date.now());
+    const serviceMode = bookingForm.elements.serviceMode;
+    const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
+    const updateServiceMode = () => {
+      const mailIn = serviceMode.value === 'mail_in';
+      if (walkInFields) walkInFields.hidden = mailIn;
+      if (mailInFields) mailInFields.hidden = !mailIn;
+      ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
+      ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
+      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
+      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Request appointment';
+    };
+    const requestParams = new URLSearchParams(window.location.search);
+    if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
+    const requestedService = requestParams.get('service');
+    if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
+    serviceMode?.addEventListener('change', updateServiceMode); updateServiceMode();
 
-  let currentStep = 1;
-  const showStep = step => {
-    currentStep = Math.min(3, Math.max(1, step));
-    $$('.form-step', bookingForm).forEach(element => element.classList.toggle('active', Number(element.dataset.step) === currentStep));
-    $$('.form-progress span', bookingForm).forEach((element, index) => element.classList.toggle('active', index < currentStep));
-    $(`.form-step[data-step="${currentStep}"]`, bookingForm)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
-  };
-  const validateStep = step => {
-    let valid = true;
-    $$(`[data-step="${step}"] [required]`, bookingForm).forEach(field => {
-      const ok = field.type === 'checkbox' ? field.checked : field.checkValidity();
-      field.classList.toggle('invalid', !ok);
-      const error = field.closest('label')?.querySelector('.field-error') || (field.name === 'consent' ? $('.consent-error') : null);
-      if (error) error.textContent = ok ? '' : (field.type === 'email' ? 'Enter a valid email address.' : 'This field is required.');
-      if (!ok) valid = false;
+    let currentStep = 1;
+    const showStep = step => {
+      currentStep = Math.min(3, Math.max(1, step));
+      $$('.form-step', bookingForm).forEach(element => element.classList.toggle('active', Number(element.dataset.step) === currentStep));
+      $$('.form-progress span', bookingForm).forEach((element, index) => element.classList.toggle('active', index < currentStep));
+      $(`.form-step[data-step="${currentStep}"]`, bookingForm)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    };
+    const validateStep = step => {
+      let valid = true;
+      $$(`[data-step="${step}"] [required]`, bookingForm).forEach(field => {
+        const ok = field.type === 'checkbox' ? field.checked : field.checkValidity();
+        field.classList.toggle('invalid', !ok);
+        const error = field.closest('label')?.querySelector('.field-error') || (field.name === 'consent' ? $('.consent-error') : null);
+        if (error) error.textContent = ok ? '' : (field.type === 'email' ? 'Enter a valid email address.' : 'This field is required.');
+        if (!ok) valid = false;
+      });
+      if (!valid) { const invalid = $(`[data-step="${step}"] .invalid`, bookingForm); invalid?.focus({ preventScroll: true }); invalid?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return valid;
+    };
+    $$('.form-next').forEach(button => button.addEventListener('click', () => { if (validateStep(currentStep)) showStep(currentStep + 1); }));
+    $$('.button-back').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
+    bookingForm.addEventListener('submit', async event => {
+      event.preventDefault(); if (!validateStep(3)) return;
+      const submit = bookingForm.querySelector('[type="submit"]'); if (!submit) return;
+      const submitError = $('.request-submit-error', bookingForm);
+      if (submitError) submitError.textContent = '';
+      submit.disabled = true; submit.textContent = 'Sending request…';
+      try {
+        if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
+        const payload = Object.fromEntries(new FormData(bookingForm));
+        const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body: payload });
+        if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send request.');
+        const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
+        $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
+        $('.form-success', bookingForm)?.classList.add('active');
+        showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
+      } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
+      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
     });
-    if (!valid) { const invalid = $(`[data-step="${step}"] .invalid`, bookingForm); invalid?.focus({ preventScroll: true }); invalid?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    return valid;
-  };
-  $$('.form-next').forEach(button => button.addEventListener('click', () => { if (validateStep(currentStep)) showStep(currentStep + 1); }));
-  $$('.button-back').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
-  bookingForm.addEventListener('submit', async event => {
-    event.preventDefault(); if (!validateStep(3)) return;
-    const submit = bookingForm.querySelector('[type="submit"]'); if (!submit) return;
-    const submitError = $('.request-submit-error', bookingForm);
-    if (submitError) submitError.textContent = '';
-    submit.disabled = true; submit.textContent = 'Sending request…';
-    try {
-      if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
-      const payload = Object.fromEntries(new FormData(bookingForm));
-      const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body: payload });
-      if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send request.');
-      const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
-      $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
-      $('.form-success', bookingForm)?.classList.add('active');
-      showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
-    } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
-    finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
-  });
-  $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
+    $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }
 
   const appointmentForm = $('#appointment-form');
@@ -143,7 +135,7 @@
       try {
         const fields = Object.fromEntries(new FormData(appointmentForm));
         const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
-        const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, date:fields.date, time:fields.time, consent:fields.consent };
+        const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, preferredContact:fields.preferredContact, timing:fields.timing, date:fields.date, time:fields.time, consent:fields.consent };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
         if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to request the appointment.');
         $('#appointment-reference').textContent = data.reference;
