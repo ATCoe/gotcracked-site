@@ -51,15 +51,19 @@
     if (time.selectedOptions[0]?.disabled) time.value = '';
     const note = noteFor(time);
     if (!selectedDay) {
+      date.setCustomValidity('');
       time.disabled = false;
       time.setCustomValidity('');
       note.textContent = 'Appointment windows update automatically from current store hours.';
     } else if (!Array.isArray(range) || !available) {
+      const message = `GotCracked is closed on ${selectedDay.label}. Choose another day.`;
+      date.setCustomValidity(message);
       time.value = '';
       time.disabled = true;
-      time.setCustomValidity(`GotCracked is closed on ${selectedDay.label}. Choose another day.`);
-      note.textContent = `GotCracked is closed on ${selectedDay.label}. Choose another day.`;
+      time.setCustomValidity('');
+      note.textContent = message;
     } else {
+      date.setCustomValidity('');
       time.disabled = false;
       time.setCustomValidity('');
       const open = range[0].replace(/^0/,'');
