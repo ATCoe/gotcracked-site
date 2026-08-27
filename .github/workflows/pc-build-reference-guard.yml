@@ -1,0 +1,23 @@
+name: PC Build Reference Guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify-pc-build-references:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify compatibility research references
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -qi 'PCPartPicker' pc-build.html
+          grep -qi 'PCPartPicker' pc-build.js
+          grep -qi 'Newegg PC Builder' pc-build.html
+          grep -qi 'Newegg PC Builder' pc-build.js
+          grep -qi 'manufacturer' pc-build.html
+          grep -qi 'manufacturer' pc-build.js
+          echo 'PC build compatibility reference guard passed.'
