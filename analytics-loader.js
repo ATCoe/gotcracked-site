@@ -1,6 +1,8 @@
 (() => {
   'use strict';
 
+  import('./site-traffic.js?v=20260827-live1').catch(error => console.warn('Live traffic telemetry unavailable:', error));
+
   const SETTINGS_URL = 'https://uvpmmbioerejeyybfntb.supabase.co/functions/v1/public-media';
   const ID_PATTERN = /^G-[A-Z0-9]+$/;
 
