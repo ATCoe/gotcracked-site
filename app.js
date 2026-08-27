@@ -18,6 +18,20 @@
     }).join('');
   };
 
+  const PLANNED_OPENING_DATE = '2026-10-01';
+  const PLANNED_OPENING_LABEL = 'October 1, 2026';
+  const openingBanner = $('.announcement') || (() => {
+    const banner = document.createElement('div');
+    banner.className = 'announcement';
+    const skip = $('.skip-link');
+    if (skip) skip.insertAdjacentElement('afterend', banner);
+    else document.body.prepend(banner);
+    return banner;
+  })();
+  openingBanner.innerHTML = `<span class="pulse"></span><strong>Opening soon:</strong>&nbsp; GotCracked is not open yet. Our current planned opening date is ${PLANNED_OPENING_LABEL}.`;
+  openingBanner.setAttribute('role', 'status');
+  document.documentElement.dataset.gcPreopening = 'true';
+
   const toast = $('.toast');
   const showToast = message => {
     if (!toast) return;
@@ -52,7 +66,7 @@
   })();
 
   const dateInput = $('[name="date"]');
-  if (dateInput) dateInput.min = localDateISO(new Date());
+  if (dateInput) dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop();
 
   const menu = $('.menu-button'), nav = $('#site-nav');
   function setMenu(open) {
