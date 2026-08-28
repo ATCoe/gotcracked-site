@@ -154,8 +154,8 @@ jobs:
               raise SystemExit('Customer forms must not offer appointments after the 6 PM closing time.')
           if 'Late afternoon (4–6 PM)' not in request_html or 'Late afternoon (4–6 PM)' not in appointment_html:
               raise SystemExit('Late-afternoon appointment window is missing.')
-          if "dateInput.min = localDateISO(new Date())" not in app:
-              raise SystemExit('Same-day appointment requests must remain selectable.')
+          if "dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop()" not in app:
+              raise SystemExit('Appointment requests must start no earlier than today or the planned opening date.')
           if 'store-hours.js' not in request_html or 'store-hours.js' not in appointment_html:
               raise SystemExit('Customer appointment forms must load live store-hours availability.')
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
