@@ -175,7 +175,7 @@
 
   const tracker = $('#tracker-dialog'), trackerForm = $('#tracker-form'), trackerResult = $('.tracker-result');
   const resetTracker = () => { trackerForm?.reset(); trackerForm?.classList.remove('hidden'); trackerResult?.classList.remove('active'); const error = $('.tracker-error'); if (error) error.textContent = ''; };
-  const openTracker = () => { if (!tracker) return; setMenu(false); tracker.showModal(); document.body.classList.add('dialog-open'); setTimeout(() => $('[name="ticket"]', tracker)?.focus(), 50); };
+  const openTracker = () => { setMenu(false); window.location.href = 'account.html'; };
   $$('[data-open-tracker]').forEach(button => button.addEventListener('click', openTracker));
   $('[data-close-dialog]')?.addEventListener('click', () => tracker?.close());
   tracker?.addEventListener('close', () => { document.body.classList.remove('dialog-open'); resetTracker(); });
