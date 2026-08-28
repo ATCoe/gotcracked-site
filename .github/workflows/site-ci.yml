@@ -32,7 +32,7 @@ jobs:
           from pathlib import Path
           import re
 
-          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','customer-account.html']
+          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html']
           for name in required_pages:
               if not Path(name).exists():
                   raise SystemExit(f'Missing public page: {name}')
@@ -42,7 +42,7 @@ jobs:
           appointment_html = Path('appointment.html').read_text(encoding='utf-8')
           pc_html = Path('pc-build.html').read_text(encoding='utf-8')
           privacy_html = Path('privacy.html').read_text(encoding='utf-8')
-          account_html = Path('customer-account.html').read_text(encoding='utf-8')
+          account_html = Path('account.html').read_text(encoding='utf-8')
           pages = html + request_html + appointment_html + pc_html + privacy_html + account_html
           app = Path('app.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
@@ -55,7 +55,6 @@ jobs:
           headers = Path('_headers').read_text(encoding='utf-8')
           sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
 
-          # All local static references used by customer pages must exist.
           refs = re.findall(r'(?:src|href)=["\']([^"\']+)["\']', pages)
           missing = []
           for ref in refs:
@@ -66,7 +65,6 @@ jobs:
           if missing:
               raise SystemExit('Missing local references: ' + ', '.join(sorted(set(missing))))
 
-          # CSS must parse structurally and the authoritative release sheet remains last on the homepage.
           for css in Path('.').glob('*.css'):
               text = css.read_text(encoding='utf-8')
               if text.count('{') != text.count('}'):
@@ -77,7 +75,6 @@ jobs:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
           if css_files[-1] != 'site-release.css': raise SystemExit('site-release.css must remain the final homepage stylesheet.')
 
-          # Customer repair flows stay dedicated, privacy-linked, and within store hours.
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
           if 'id="appointment-form"' not in appointment_html: raise SystemExit('Appointment form missing.')
@@ -87,19 +84,16 @@ jobs:
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
 
-          # Customer account/payment entry stays server mediated; the public site never owns a service credential.
           account_js = Path('customer-account.js').read_text(encoding='utf-8')
           if "functions.invoke('customer-account'" not in account_js: raise SystemExit('Customer account is not wired to its server endpoint.')
           if 'SUPABASE_SERVICE_ROLE_KEY' in pages + app + chat + pc_js + account_js + supabase: raise SystemExit('Server-only credential marker found in public runtime.')
 
-          # Custom PC planner stays separate from repair intake and keeps compatibility disclosure.
           if 'id="pc-build-form"' not in pc_html or 'pc-build.js' not in pc_html or 'pc-build.css' not in pc_html: raise SystemExit('Custom PC planner incomplete.')
           if "functions.invoke('custom-pc-build'" not in pc_js: raise SystemExit('Custom PC research endpoint missing.')
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js: raise SystemExit('Custom PC compatibility disclosure missing.')
           if html.count('href="pc-build.html"') < 2: raise SystemExit('Homepage custom-PC links missing.')
           if 'https://gotcracked.co/pc-build.html' not in sitemap: raise SystemExit('Custom PC sitemap entry missing.')
 
-          # Mobile layout fixes stay in first-paint CSS rather than runtime injection.
           for token in ['body .container.process-grid','body .container.mail-in-grid','body .container.faq-grid','body .issue-card>.console-platforms','body .gc-chat-launcher']:
               if token not in chat_css: raise SystemExit(f'Mobile layout guard missing: {token}')
           compact = re.sub(r'\s+', '', release)
@@ -107,7 +101,6 @@ jobs:
           if 'overflow-x:auto!important' not in compact or 'touch-action:auto!important' not in compact: raise SystemExit('Native mobile service scrolling guard missing.')
           if "createElement('link')" in app or 'createElement("link")' in app: raise SystemExit('Public app must not inject first-paint styles.')
 
-          # Analytics stays configuration-driven, DNT-aware, and non-ad-personalized.
           if "import('./analytics-loader.js" not in supabase: raise SystemExit('Analytics loader bootstrap missing.')
           for token in ['google_analytics_measurement_id','doNotTrack','allow_google_signals: false','allow_ad_personalization_signals: false']:
               if token not in analytics: raise SystemExit(f'Analytics privacy guard missing: {token}')
