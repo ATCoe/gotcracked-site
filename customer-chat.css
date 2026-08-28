@@ -65,3 +65,5 @@
   }
   body .issue-card>.console-platforms span{font-size:7.5px!important}
 }
+
+.gc-chat-form .gc-chat-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.gc-chat-form .gc-chat-human{background:#eef3f8;color:#24344a;border:1px solid #cbd5e1}.gc-chat-form .gc-chat-human:hover{background:#e2e8f0}
