@@ -79,7 +79,8 @@ jobs:
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
           if 'id="appointment-form"' not in appointment_html: raise SystemExit('Appointment form missing.')
           if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html: raise SystemExit('Customer forms must link the Privacy Notice.')
-          if 'Late afternoon (4-6 PM)' not in request_html or 'Late afternoon (4-6 PM)' not in appointment_html: raise SystemExit('Late-afternoon appointment window missing.')
+          appointment_window = re.compile(r'Late afternoon \(4[-–]6 PM\)')
+          if not appointment_window.search(request_html) or not appointment_window.search(appointment_html): raise SystemExit('Late-afternoon appointment window missing.')
           if "dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop()" not in app: raise SystemExit('Appointment minimum-date guard missing.')
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
