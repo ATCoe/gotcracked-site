@@ -68,7 +68,7 @@
 .issue-card h3{margin:0 0 7px;font-size:18px;line-height:1.15}
 .issue-summary{margin:0 0 14px;color:#69788a;font-size:12.5px;line-height:1.55}
 .issue-card details{border-top:1px solid #e8eef5;padding-top:11px}
-.issue-card summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;color:#126ec6;font-size:11px;font-weight:850}
+.issue-card summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:8px 0;color:#126ec6;font-size:11px;font-weight:850}
 .issue-card summary::-webkit-details-marker{display:none}
 .issue-card summary::after{content:'+';font-size:16px;line-height:1}
 .issue-card details[open] summary::after{content:'–'}
@@ -129,3 +129,4 @@
   .issue-card>img{width:100%;height:150px;min-height:150px}
   .campus-tips{grid-template-columns:1fr}
 }
+
