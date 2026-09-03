@@ -1,6 +1,6 @@
 /* Local visual asset pass. The repair illustrations are kept on-site so the
    customer experience does not depend on a third-party CDN. */
-.service-icon{position:relative;overflow:hidden;background:#071b31!important;border-color:rgba(45,167,255,.28)!important;background-size:cover;background-position:center}
+.service-icon{position:relative;overflow:hidden;background-color:#071b31!important;border-color:rgba(45,167,255,.28)!important;background-size:cover;background-position:center}
 .service-icon:before{display:none!important}
 .service-icon:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(3,10,22,.12),rgba(3,10,22,.58));pointer-events:none}
 .phone-icon{background-image:url("assets/issue-cracked-screen.svg")}
