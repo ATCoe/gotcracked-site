@@ -205,7 +205,7 @@
     const parts = localParts();
     const issue = [state.service, state.notes ? `Customer notes: ${state.notes}` : '', state.appointment ? `Appointment reference: ${state.appointment}` : ''].filter(Boolean).join('\n\n');
     return {
-      companyWebsite: '', formStartedAt: String(Date.now() - 3000), serviceMode: 'walk_in',
+      companyWebsite: '', formStartedAt: String(Date.now() - 3000), clientRequestId: state.clientRequestId || (state.clientRequestId = crypto.randomUUID()), serviceMode: 'walk_in',
       deviceType: state.device, model: state.device, issue, firstName, lastName,
       phone: state.phone, email: state.email, preferredContact: 'Text', timing: 'Submitted from the self-service check-in kiosk.',
       date: `${parts.year}-${parts.month}-${parts.day}`, time: currentBookingWindow(Number(parts.hour)), consent: 'on', source: 'gotcracked-kiosk'
