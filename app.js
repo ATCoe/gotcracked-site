@@ -167,6 +167,11 @@
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
         if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to request the appointment.');
         $('#appointment-reference').textContent = data.reference;
+        const guidance = $('#appointment-guidance');
+        if (guidance) {
+          guidance.textContent = data.timingGuidance || 'Your requested window is recorded, but it is not held until the GotCracked team confirms it.';
+          guidance.hidden = false;
+        }
         $('.form-step', appointmentForm).style.display = 'none'; $('.form-success', appointmentForm).classList.add('active');
       } catch (error) { if (errorOutput) errorOutput.textContent = error.message || 'Unable to request the appointment.'; }
       finally { button.disabled = false; button.textContent = 'Request appointment →'; }
@@ -212,3 +217,4 @@
   });
   $('#track-another')?.addEventListener('click', resetTracker);
 })();
+
