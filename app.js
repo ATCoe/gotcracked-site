@@ -107,6 +107,7 @@
 
   const bookingForm = $('#booking-form');
   if (bookingForm) {
+    let clientRequestId = crypto.randomUUID();
     bookingForm.elements.formStartedAt.value = String(Date.now());
     const serviceMode = bookingForm.elements.serviceMode;
     const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
@@ -154,7 +155,7 @@
       submit.disabled = true; submit.textContent = 'Sending request…';
       try {
         if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
-        const payload = Object.fromEntries(new FormData(bookingForm));
+        const payload = { ...Object.fromEntries(new FormData(bookingForm)), clientRequestId };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body: payload });
         if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send request.');
         const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
@@ -164,11 +165,12 @@
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
       finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
     });
-    $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
+    $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); clientRequestId = crypto.randomUUID(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }
 
   const appointmentForm = $('#appointment-form');
   if (appointmentForm) {
+    const clientRequestId = crypto.randomUUID();
     appointmentForm.elements.formStartedAt.value = String(Date.now());
     appointmentForm.addEventListener('submit', async event => {
       event.preventDefault();
@@ -178,7 +180,7 @@
       try {
         const fields = Object.fromEntries(new FormData(appointmentForm));
         const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
-        const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, preferredContact:fields.preferredContact, timing:fields.timing, date:fields.date, time:fields.time, consent:fields.consent };
+        const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, clientRequestId, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, preferredContact:fields.preferredContact, timing:fields.timing, date:fields.date, time:fields.time, consent:fields.consent };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
         if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to request the appointment.');
         $('#appointment-reference').textContent = data.reference;
