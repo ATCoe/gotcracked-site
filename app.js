@@ -83,10 +83,25 @@
   document.addEventListener('click', event => { if (nav?.classList.contains('open') && event.target instanceof Element && !event.target.closest('.site-header')) setMenu(false); });
   window.addEventListener('resize', () => { if (!window.matchMedia('(max-width: 980px)').matches) setMenu(false); });
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
-    $$('.reveal').forEach(element => observer.observe(element));
-  } else $$('.reveal').forEach(element => element.classList.add('visible'));
+  const revealItems = $$('.reveal');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    revealItems.forEach(element => element.classList.add('visible'));
+    document.documentElement.classList.add('gc-motion-reduced');
+  } else {
+    document.documentElement.classList.add('gc-motion-ready');
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+    revealItems.forEach(element => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.top < window.innerHeight * .94 && bounds.bottom > 0) element.classList.add('visible');
+      else observer.observe(element);
+    });
+  }
 
   $$('.accordion details').forEach(detail => detail.addEventListener('toggle', () => { if (detail.open) $$('.accordion details').filter(item => item !== detail).forEach(item => { item.open = false; }); }));
 
