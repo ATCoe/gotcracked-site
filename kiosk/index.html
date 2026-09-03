@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111e" />
+    <meta name="description" content="GotCracked self-service repair check-in kiosk." />
+    <title>GotCracked | Self-service check-in</title>
+    <link rel="icon" href="assets/gc-kiosk-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#kiosk-main">Skip to check-in</a>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <div class="kiosk-shell">
+      <header class="kiosk-header">
+        <a class="brand" href="#" aria-label="GotCracked check-in home">
+          <img src="assets/gc-kiosk-mark.svg" alt="GotCracked" width="220" height="56" />
+        </a>
+        <div class="header-context">
+          <div class="store-context">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Blacksburg service desk</span>
+          </div>
+          <span class="connection-state" id="connectionState">Connecting…</span>
+          <button class="staff-button" id="staffButton" type="button">Staff assistance</button>
+        </div>
+      </header>
+
+      <div class="kiosk-layout">
+        <aside class="progress-panel" aria-label="Check-in progress">
+          <div class="progress-intro">
+            <span class="eyebrow">SELF-SERVICE CHECK-IN</span>
+            <h1>Let’s get your repair moving.</h1>
+            <p>Usually less than two minutes. A team member can step in at any time.</p>
+          </div>
+          <ol class="progress-list" id="progressList">
+            <li data-progress="mode"><span class="progress-number">1</span><span>Start</span></li>
+            <li data-progress="customer"><span class="progress-number">2</span><span>Your details</span></li>
+            <li data-progress="device"><span class="progress-number">3</span><span>Device &amp; service</span></li>
+            <li data-progress="details"><span class="progress-number">4</span><span>Finish check-in</span></li>
+            <li data-progress="done"><span class="progress-number">5</span><span>Receipt</span></li>
+          </ol>
+          <div class="progress-help">
+            <span class="help-icon" aria-hidden="true">?</span>
+            <div><strong>Need a hand?</strong><span>Tap Staff assistance above.</span></div>
+          </div>
+        </aside>
+
+        <main id="kiosk-main" class="kiosk-main" tabindex="-1">
+          <div class="screen-heading">
+            <div>
+              <span class="step-kicker" id="stepKicker">STEP 1 OF 4</span>
+              <h2 id="screenTitle">How can we help today?</h2>
+            </div>
+            <div class="clock" aria-label="Current time"><span id="currentTime">--:--</span><span>Local time</span></div>
+          </div>
+          <div id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+          <div id="screenView" class="screen-view"></div>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="staff-dialog" id="staffDialog" aria-labelledby="staffDialogTitle">
+      <div class="dialog-header">
+        <div><span class="eyebrow">STAFF HANDOFF</span><h2 id="staffDialogTitle">How can our team help?</h2></div>
+        <button class="icon-button" id="closeStaffButton" type="button" aria-label="Close staff assistance">×</button>
+      </div>
+      <p class="dialog-copy">A staff member can take over this kiosk without losing your place.</p>
+      <div class="dialog-actions">
+        <button class="button button-primary" id="handoffButton" type="button">Start staff handoff</button>
+        <button class="button button-secondary" id="resetButton" type="button">Restart check-in</button>
+      </div>
+      <div class="debug-actions" id="debugActions" hidden>
+        <span class="eyebrow">QA PREVIEW</span>
+        <button type="button" data-preview-state="error">Preview backend error</button>
+        <button type="button" data-preview-state="timeout">Preview connection timeout</button>
+      </div>
+    </dialog>
+
+    <div class="system-toast" id="systemToast" role="status" aria-live="assertive" hidden></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
+    <script src="../supabase.js?v=20260903-kiosk1"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+
