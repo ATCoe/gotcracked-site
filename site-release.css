@@ -69,10 +69,22 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 
 /* Hero: protect the first viewport from accidental over-height. */
-.hero{min-height:min(760px,calc(100svh - 98px))}
+.hero{min-height:min(760px,calc(100svh - 98px));background-image:linear-gradient(90deg,rgba(3,10,22,.97) 0%,rgba(3,10,22,.78) 48%,rgba(3,10,22,.42) 100%),url("assets/hero-repair-signal-wide-v1.png");background-size:cover;background-position:center}
+.request-page-hero{background-image:linear-gradient(90deg,rgba(3,10,22,.96),rgba(3,10,22,.56)),url("assets/hero-repair-signal-wide-v1.png")!important;background-size:cover;background-position:center right}
 .hero-grid{min-height:0}
 .hero-visual{min-width:0}
 .logo-stage img{height:auto}
+.service-icon{overflow:hidden;border-radius:14px}
+.service-icon img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+@media (max-width:700px){.hero{background-image:linear-gradient(180deg,rgba(3,10,22,.92) 0%,rgba(3,10,22,.7) 54%,rgba(3,10,22,.42) 100%),url("assets/hero-repair-signal-mobile-v1.png");background-position:center top}}
+
+/* Footer hours are injected by the live-hours runtime. Keep each label and
+   value in explicit columns so typography cannot collapse them together. */
+#store-hours{display:grid;gap:5px;margin-top:14px;color:#9aadbf;font-size:11px;line-height:1.45}
+#store-hours>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:baseline}
+#store-hours>div span{color:#7890aa}
+#store-hours>div strong{color:#b9cee4;font-weight:800;white-space:nowrap}
+#store-hours+a{display:inline-block;margin-top:12px;color:#7dbaf0;font-size:11px}
 
 /* Services: desktop grid, native mobile rail below. */
 .service-grid{min-width:0}
@@ -110,10 +122,23 @@ footer{
 .why-grid,
 .faq-grid{width:100%}
 
+/* Journey artwork fills the non-service moments with one distinct visual
+   per task while preserving the copy as the accessible source of meaning. */
+.journey-section-art{display:block;width:min(100%,320px);height:176px;margin:0 0 22px;border:1px solid rgba(93,176,255,.16);border-radius:18px;object-fit:cover;object-position:center;box-shadow:0 18px 42px rgba(3,10,22,.18)}
+.process-art{width:min(100%,350px);height:194px}
+.guide-visual-image img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.appointment-art{display:block;width:min(100%,250px);height:146px;margin:0 0 22px;border-radius:16px;object-fit:cover;object-position:center;box-shadow:0 14px 34px rgba(3,10,22,.16)}
+.tracker-result::before{content:"";display:block;width:118px;height:92px;margin:0 auto 10px;background:url("assets/journey-account-tracking-v1.png") center/contain no-repeat;filter:drop-shadow(0 8px 14px rgba(24,119,242,.18))}
+.cta-support-art{display:block;width:156px;height:112px;margin:0 auto 8px;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,112,255,.22))}
+
 /* Social content should never reserve a giant empty panel while data loads. */
 .media-placeholder{
-  min-height:0!important;
+  min-height:110px!important;
   padding:30px 22px!important;
+  display:flex;align-items:center;gap:18px;
+  background:linear-gradient(135deg,#071525,#0b2139)!important;
+  border:1px solid rgba(77,166,238,.18);
+  color:#b9cce0;
 }
 .social-media-grid:empty{display:none}
 
@@ -702,5 +727,30 @@ html.gc-motion-ready #services .service-card:nth-child(8){transition-delay:.28s}
   .nav-open .menu-button>span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .nav-open .menu-button>span:nth-child(2){opacity:0;transform:scaleX(.4)}
   .nav-open .menu-button>span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+/* GotCracked asset system: one visual language for hero, service, support,
+   tracker, and form states. Raster art stays decorative and never carries
+   customer-facing meaning by itself. */
+.media-placeholder span{display:block;line-height:1.45}
+.media-status-art{filter:drop-shadow(0 10px 14px rgba(0,0,0,.24))}
+.support-accent{filter:drop-shadow(0 12px 18px rgba(13,86,153,.2))}
+.request-submit-error:not(:empty){display:flex;align-items:center;gap:10px}
+.request-submit-error:not(:empty)::before{content:"";flex:0 0 68px;height:58px;background:url("assets/state-attention-v1.png") center/contain no-repeat;filter:drop-shadow(0 8px 12px rgba(245,179,66,.18))}
+.tracker-result{position:relative}
+.tracker-status-art{filter:drop-shadow(0 8px 14px rgba(24,119,242,.2))}
+.form-success{position:relative}.form-success::before{content:"";display:block;width:112px;height:96px;margin:0 auto 4px;background:url("assets/state-ready-v1.png") center/contain no-repeat;filter:drop-shadow(0 9px 14px rgba(24,119,242,.18))}
+@media(max-width:700px){
+  .request-page-hero{background-image:linear-gradient(180deg,rgba(3,10,22,.94),rgba(3,10,22,.62)),url("assets/hero-repair-signal-mobile-v1.png")!important;background-position:center top}
+  .journey-section-art{width:100%;max-width:none;height:166px;margin-bottom:18px}
+  .process-art{height:152px}
+  .appointment-art{width:100%;max-width:none;height:132px}
+  .tracker-result::before{width:96px;height:76px}
+  .cta-support-art{width:132px;height:94px}
+  .form-success::before{width:92px;height:82px}
+  .request-submit-error:not(:empty)::before{flex-basis:56px;height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-icon img,.media-status-art,.support-accent,.tracker-status-art,.tracker-result::before,.cta-support-art,.form-success::before,.request-submit-error:not(:empty)::before{filter:none}
 }
 
