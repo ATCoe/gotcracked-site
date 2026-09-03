@@ -68,15 +68,6 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
 .site-nav-icon,.site-action-icon{mask-image:var(--site-icon);-webkit-mask-image:var(--site-icon)}
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 
-/* Content must never disappear when a fast swipe skips an observer threshold. */
-.reveal,
-.reveal.visible{
-  opacity:1;
-  transform:none;
-  transition:none;
-  will-change:auto;
-}
-
 /* Hero: protect the first viewport from accidental over-height. */
 .hero{min-height:min(760px,calc(100svh - 98px))}
 .hero-grid{min-height:0}
@@ -626,6 +617,10 @@ body:has(.gc-chat-launcher) footer{
     transition:none!important;
   }
   #services .service-grid{scroll-behavior:auto!important}
+  .site-header nav,.site-header nav a,.nav-actions a,.nav-actions button,.menu-button,
+  .menu-button>span:not(.sr-only),.service-card,.service-card .card-link{
+    transition:none!important;animation:none!important;transform:none!important;
+  }
 }
 
 .request-bridge{background:#eaf1f8}
@@ -643,5 +638,69 @@ body:has(.gc-chat-launcher) footer{
   .service-feature{grid-template-columns:minmax(0,1fr)}.service-feature img{min-height:220px}.service-feature>div{padding:26px 22px}.service-feature h3{font-size:28px}
   .console-platforms{width:100%;min-height:180px}
   .brand-coverage-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* Bounded interaction motion. Content remains visible unless the runtime has
+   explicitly enabled the reveal observer, so a slow or blocked script cannot
+   hide the customer journey. */
+.reveal,
+.reveal.visible{
+  opacity:1;
+  transform:none;
+  transition:none;
+  will-change:auto;
+}
+.site-header nav a,
+.nav-actions a,
+.nav-actions button,
+.menu-button,
+.menu-button>span:not(.sr-only),
+.service-card,
+.service-card .card-link{
+  transition:color .18s ease,background-color .18s ease,border-color .18s ease,
+    box-shadow .22s ease,transform .22s cubic-bezier(.2,.75,.25,1),opacity .18s ease;
+}
+.site-header nav a:hover,.nav-actions a:hover{transform:translateY(-1px)}
+.service-card .card-link{transform:translateX(0)}
+.service-card:hover .card-link{transform:translateX(3px)}
+
+html.gc-motion-ready .reveal:not(.visible){
+  opacity:0!important;
+  transform:translate3d(0,18px,0)!important;
+  transition:opacity .55s cubic-bezier(.2,.75,.25,1),transform .55s cubic-bezier(.2,.75,.25,1)!important;
+  will-change:opacity,transform;
+}
+html.gc-motion-ready .reveal.visible{
+  opacity:1!important;
+  transform:none!important;
+  transition:opacity .55s cubic-bezier(.2,.75,.25,1),transform .55s cubic-bezier(.2,.75,.25,1)!important;
+  will-change:auto;
+}
+html.gc-motion-ready #services .service-card:nth-child(2){transition-delay:.04s}
+html.gc-motion-ready #services .service-card:nth-child(3){transition-delay:.08s}
+html.gc-motion-ready #services .service-card:nth-child(4){transition-delay:.12s}
+html.gc-motion-ready #services .service-card:nth-child(5){transition-delay:.16s}
+html.gc-motion-ready #services .service-card:nth-child(6){transition-delay:.2s}
+html.gc-motion-ready #services .service-card:nth-child(7){transition-delay:.24s}
+html.gc-motion-ready #services .service-card:nth-child(8){transition-delay:.28s}
+
+@media(max-width:980px){
+  .site-header nav{
+    display:flex!important;
+    visibility:hidden;
+    opacity:0;
+    transform:translate3d(0,-8px,0);
+    pointer-events:none;
+    transition:opacity .2s ease,transform .2s cubic-bezier(.2,.75,.25,1),visibility .2s ease!important;
+  }
+  .site-header nav.open{
+    visibility:visible;
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
+  }
+  .nav-open .menu-button>span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-open .menu-button>span:nth-child(2){opacity:0;transform:scaleX(.4)}
+  .nav-open .menu-button>span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 }
 
