@@ -39,7 +39,7 @@
 
         <h3>Customer repair account</h3>
         <p>The GotCracked customer account lets a customer locate repairs using the phone number or email address associated with their customer record. Before repair information is shown, GotCracked sends a short-lived one-time verification code to the verified email address associated with that customer identity. The account may display customer-safe repair status, device and service details, estimates and customer decisions, payment status and balance, shipping updates, receipts, and warranty information. Internal technician notes, staff information, inventory records, costs, margins, and other operational information are not provided through the customer account.</p>
-        <p>After successful verification, the browser stores an opaque customer-session token so the customer can remain signed in on that device for a limited period. GotCracked stores only a cryptographic hash of that session token on the server, and the session can be revoked by signing out. Verification attempts are rate-limited to help prevent abuse.</p>
+        <p>After successful verification, GotCracked uses an essential Secure, HttpOnly browser cookie to keep the customer signed in for up to seven days. Website scripts cannot read this cookie. Cloudflare and Supabase process the opaque session value only to operate the customer account; the server stores only its cryptographic hash. Signing out revokes the session, and clearing browser cookies signs that device out. The cookie is not used for advertising or cross-site tracking. Verification attempts are rate-limited to help prevent abuse.</p>
 
         <h3>Customer chat</h3>
         <p>Website chat messages are delivered to the GotCracked team so staff can respond. The browser stores a limited chat-session identifier so the conversation can continue when you return from the same device. Avoid sending passwords, payment-card details, or other unnecessary sensitive information in chat.</p>
@@ -73,4 +73,5 @@
   <script src="analytics-loader.js?v=20260826-production1"></script>
 </body>
 </html>
+
 
