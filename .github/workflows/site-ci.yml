@@ -86,7 +86,7 @@ jobs:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
 
           account_js = Path('customer-account.js').read_text(encoding='utf-8')
-          if "customer-account" not in account_js or 'supabase.co/functions/v1/' not in account_js: raise SystemExit('Customer account is not wired to its server endpoint.')
+          if "customer-account" not in account_js or not any(token in account_js for token in ['supabase.co/functions/v1/', "'/api/customer-account'", '"/api/customer-account"']): raise SystemExit('Customer account is not wired to its server endpoint.')
           if 'SUPABASE_SERVICE_ROLE_KEY' in pages + app + chat + pc_js + account_js + supabase: raise SystemExit('Server-only credential marker found in public runtime.')
 
           if 'id="pc-build-form"' not in pc_html or 'pc-build.js' not in pc_html or 'pc-build.css' not in pc_html: raise SystemExit('Custom PC planner incomplete.')
