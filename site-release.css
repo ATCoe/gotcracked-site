@@ -61,6 +61,11 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
   object-position:left center;
   display:block;
 }
+.site-header nav a,.nav-actions button,.nav-actions a{display:inline-flex;align-items:center;gap:7px}
+.site-nav-icon,.site-action-icon{display:inline-block;flex:0 0 auto;background:currentColor;mask:center/contain no-repeat;-webkit-mask:center/contain no-repeat}
+.site-nav-icon{width:14px;height:14px;opacity:.7}.site-action-icon{width:15px;height:15px}
+.site-nav-services{--site-icon:url("assets/nav-services.svg")}.site-nav-process{--site-icon:url("assets/nav-process.svg")}.site-nav-mail{--site-icon:url("assets/nav-mail.svg")}.site-nav-track{--site-icon:url("assets/nav-track.svg")}.site-nav-start{--site-icon:url("assets/nav-start.svg")}.site-nav-faq{--site-icon:url("assets/nav-faq.svg")}
+.site-nav-icon,.site-action-icon{mask-image:var(--site-icon);-webkit-mask-image:var(--site-icon)}
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 
 /* Content must never disappear when a fast swipe skips an observer threshold. */
@@ -639,3 +644,4 @@ body:has(.gc-chat-launcher) footer{
   .console-platforms{width:100%;min-height:180px}
   .brand-coverage-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
