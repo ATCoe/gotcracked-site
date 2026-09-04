@@ -371,3 +371,14 @@ html body #services .service-icon:after{
 @media(prefers-reduced-motion:reduce){
   .logo-stage img,.floating-card{filter:none!important}
 }
+
+/* Reliability: customer content never waits on scroll observers. */
+.reveal,
+.reveal.visible,
+html.gc-motion-ready .reveal:not(.visible),
+html.gc-motion-ready .reveal.visible{
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+  will-change:auto!important;
+}
