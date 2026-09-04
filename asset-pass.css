@@ -225,7 +225,7 @@ html body #services .service-icon:after{
 .issue-card{
   grid-template-columns:180px minmax(0,1fr)!important;
 }
-.issue-card:before{
+.issue-card:nth-child(-n+3):before{
   content:"";
   display:block;
   min-height:255px;
@@ -238,6 +238,13 @@ html body #services .service-icon:after{
 .issue-card:nth-child(1):before{background-image:url("assets/issue-cracked-screen.svg")}
 .issue-card:nth-child(2):before{background-image:url("assets/issue-battery-health.svg")}
 .issue-card:nth-child(3):before{background-image:url("assets/issue-laptop-thermal.svg")}
+.issue-card:nth-child(4)>.console-platforms{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  min-height:255px!important;
+  align-self:stretch!important;
+}
 
 /* Process, shipping, warranty, support, and form states stay diagrammatic. */
 .process-copy:before{
@@ -359,14 +366,16 @@ html body #services .service-icon:after{
   .guide-visual-image:before{left:14%;width:30%;border-radius:12px}
   .guide-visual-image:after{left:44%;right:7%;height:40px}
   .issue-card{grid-template-columns:104px minmax(0,1fr)!important}
-  .issue-card:before{min-height:180px;background-size:cover}
+  .issue-card:nth-child(-n+3):before{min-height:180px;background-size:cover}
+  .issue-card:nth-child(4)>.console-platforms{width:104px!important;min-width:104px!important;max-width:104px!important;min-height:180px!important}
   .process-copy:before{width:100%;height:145px;margin-bottom:18px}
   .mail-in-copy:before{height:166px;margin:18px 0}
   .booking-intro:has(.appointment-art):before{width:100%;height:130px}
 }
 @media(max-width:390px){
   .issue-card{grid-template-columns:92px minmax(0,1fr)!important}
-  .issue-card:before{min-height:190px}
+  .issue-card:nth-child(-n+3):before{min-height:190px}
+  .issue-card:nth-child(4)>.console-platforms{width:92px!important;min-width:92px!important;max-width:92px!important;min-height:190px!important}
 }
 @media(prefers-reduced-motion:reduce){
   .logo-stage img,.floating-card{filter:none!important}

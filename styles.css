@@ -12,7 +12,7 @@
 .service-icon{background-size:cover;background-position:center}
 .phone-icon{background-image:url("assets/issue-cracked-screen.svg")}
 .diagnostic-icon{background-image:url("assets/issue-laptop-thermal.svg")}
-.cleaning-icon,.tuneup-icon{background-image:url("assets/laptop-service-v2.webp")}
+.cleaning-icon,.tuneup-icon{background-image:none}
 .security-icon,.battery-icon{background-image:url("assets/issue-battery-health.svg")}
 .recovery-icon{background-image:url("assets/issue-console-hdmi.svg")}
 
