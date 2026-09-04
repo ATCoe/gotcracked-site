@@ -1,8 +1,373 @@
-/* Local visual asset pass. The repair illustrations are kept on-site so the
-   customer experience does not depend on a third-party CDN. */
-.service-icon{position:relative;overflow:hidden;background-color:#071b31!important;border-color:rgba(45,167,255,.28)!important}
-.service-icon:before{display:none!important}
-.service-icon:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(3,10,22,.12),rgba(3,10,22,.58));pointer-events:none}
-.service-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.92;z-index:0}
-.service-icon:after{z-index:1}
+/* GotCracked customer visual standard.
+   No people, staged repair benches, fake storefronts, or synthetic product photography.
+   Brand assets stay real; supporting visuals are restrained interface diagrams. */
+:root{
+  --gc-visual-blue:#138cf6;
+  --gc-visual-cyan:#39c8ff;
+  --gc-visual-navy:#061222;
+  --gc-visual-panel:#0a1b2f;
+  --gc-visual-line:rgba(83,174,255,.24);
+  --gc-visual-grid:rgba(104,184,255,.055);
+}
 
+/* Matte, diagram-led page backgrounds. */
+html body .hero,
+html body .request-page-hero{
+  background-color:#030a16!important;
+  background-image:
+    radial-gradient(circle at 78% 34%,rgba(16,126,235,.18),transparent 30%),
+    linear-gradient(var(--gc-visual-grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--gc-visual-grid) 1px,transparent 1px),
+    linear-gradient(135deg,#020813 0%,#061426 58%,#030a16 100%)!important;
+  background-size:auto,52px 52px,52px 52px,auto!important;
+  background-position:center!important;
+}
+html body .hero:after{
+  background-image:linear-gradient(110deg,rgba(3,10,22,.08),rgba(3,10,22,.62))!important;
+  mask-image:none!important;
+}
+.hero-visual{
+  isolation:isolate;
+  border:1px solid rgba(94,178,255,.12);
+  border-radius:28px;
+  background:
+    linear-gradient(rgba(97,180,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(97,180,255,.045) 1px,transparent 1px),
+    linear-gradient(145deg,rgba(10,32,57,.64),rgba(3,12,24,.2));
+  background-size:34px 34px,34px 34px,auto;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025);
+}
+.logo-stage{
+  width:min(430px,82%)!important;
+  border:1px solid rgba(81,171,255,.16);
+  border-radius:24px;
+  background:rgba(3,13,26,.66);
+  box-shadow:0 24px 52px rgba(0,0,0,.24),inset 0 0 48px rgba(17,126,237,.07);
+}
+.logo-stage:before{
+  width:76%!important;
+  height:1px!important;
+  border-radius:0!important;
+  background:linear-gradient(90deg,transparent,var(--gc-visual-cyan),transparent)!important;
+  filter:none!important;
+  opacity:.45!important;
+}
+.logo-stage img{
+  width:84%!important;
+  min-height:0!important;
+  filter:drop-shadow(0 14px 24px rgba(0,0,0,.48))!important;
+}
+.orbit{border-color:rgba(83,174,255,.12)!important}
+.floating-card{
+  background:rgba(5,17,33,.9)!important;
+  backdrop-filter:none!important;
+  border-color:rgba(90,176,255,.2)!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.22)!important;
+}
+
+/* Remove every decorative raster introduced by the synthetic asset pass. */
+.service-icon img,
+.service-feature>img,
+.guide-visual-image img,
+.issue-card>img,
+.journey-section-art,
+.mail-in-photo,
+.brand-panel img,
+.media-status-art,
+.support-accent,
+.cta-support-art,
+.appointment-art{
+  display:none!important;
+}
+
+/* Service cards use compact, purpose-built line symbols. */
+html body #services .service-icon{
+  position:relative!important;
+  width:78px!important;
+  height:72px!important;
+  margin:24px 0 18px!important;
+  overflow:hidden!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(67,164,247,.22)!important;
+  border-radius:16px!important;
+  background:
+    linear-gradient(rgba(90,174,255,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,174,255,.06) 1px,transparent 1px),
+    #07192c!important;
+  background-size:16px 16px!important;
+  transform:none!important;
+  box-shadow:inset 0 0 24px rgba(20,139,244,.045)!important;
+}
+html body #services .service-icon:before,
+html body #services .service-icon:after{
+  content:""!important;
+  position:absolute!important;
+  display:block!important;
+  inset:auto!important;
+  z-index:2!important;
+  opacity:1!important;
+  filter:none!important;
+  box-sizing:border-box!important;
+}
+.service-card[data-service="Screen repair"] .service-icon:before{
+  width:30px!important;height:50px!important;border:2px solid #45c6ff!important;border-radius:7px!important;
+  background:linear-gradient(145deg,transparent 42%,rgba(69,198,255,.9) 43% 46%,transparent 47%)!important;
+}
+.service-card[data-service="Screen repair"] .service-icon:after{
+  width:22px!important;height:2px!important;background:#bcefff!important;transform:rotate(-53deg)!important;
+  box-shadow:-8px -8px 0 -1px #45c6ff,7px 8px 0 -1px #45c6ff!important;
+}
+.service-card[data-service="Free diagnostic"] .service-icon:before{
+  width:45px!important;height:45px!important;border:2px solid #45c6ff!important;border-radius:50%!important;
+  background:linear-gradient(90deg,transparent 48%,rgba(69,198,255,.28) 49% 51%,transparent 52%),linear-gradient(transparent 48%,rgba(69,198,255,.28) 49% 51%,transparent 52%)!important;
+}
+.service-card[data-service="Free diagnostic"] .service-icon:after{
+  width:28px!important;height:12px!important;border-bottom:2px solid #d7f5ff!important;border-left:2px solid transparent!important;transform:skewX(-28deg)!important;
+}
+.service-card[data-service="Device cleaning"] .service-icon:before{
+  width:44px!important;height:29px!important;border:2px solid #45c6ff!important;border-top:0!important;border-radius:5px 5px 12px 12px!important;
+}
+.service-card[data-service="Device cleaning"] .service-icon:after{
+  width:5px!important;height:5px!important;border-radius:50%!important;background:#bcefff!important;
+  box-shadow:-14px -12px 0 #45c6ff,0 -17px 0 #45c6ff,14px -12px 0 #45c6ff!important;
+}
+.service-card[data-service="Computer tune-up"] .service-icon:before{
+  width:48px!important;height:34px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
+  box-shadow:0 9px 0 -7px #45c6ff!important;
+}
+.service-card[data-service="Computer tune-up"] .service-icon:after{
+  width:22px!important;height:2px!important;background:#d7f5ff!important;
+  box-shadow:0 -8px 0 rgba(69,198,255,.8),0 8px 0 rgba(69,198,255,.8)!important;
+}
+.service-card[data-service="Custom PC build"] .service-icon:before{
+  width:39px!important;height:52px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
+  background:radial-gradient(circle at 50% 29%,transparent 0 7px,#45c6ff 8px 9px,transparent 10px),radial-gradient(circle at 50% 73%,transparent 0 7px,#45c6ff 8px 9px,transparent 10px)!important;
+}
+.service-card[data-service="Custom PC build"] .service-icon:after{
+  width:5px!important;height:5px!important;border-radius:50%!important;background:#bcefff!important;right:24px!important;top:15px!important;
+}
+.service-card[data-service="Virus removal"] .service-icon:before{
+  width:44px!important;height:49px!important;background:#45c6ff!important;clip-path:polygon(50% 0,92% 16%,84% 69%,50% 100%,16% 69%,8% 16%)!important;
+}
+.service-card[data-service="Virus removal"] .service-icon:after{
+  width:29px!important;height:31px!important;background:#07192c!important;clip-path:polygon(50% 5%,86% 19%,78% 65%,50% 91%,22% 65%,14% 19%)!important;
+  box-shadow:inset 0 0 0 2px rgba(215,245,255,.25)!important;
+}
+.service-card[data-service="Data recovery evaluation"] .service-icon:before{
+  width:48px!important;height:38px!important;border:2px solid #45c6ff!important;border-radius:6px!important;
+  background:radial-gradient(circle at 22% 72%,#bcefff 0 2px,transparent 3px)!important;
+}
+.service-card[data-service="Data recovery evaluation"] .service-icon:after{
+  width:22px!important;height:22px!important;border:2px solid #d7f5ff!important;border-left-color:transparent!important;border-radius:50%!important;
+  transform:rotate(-28deg)!important;
+}
+.service-card[data-service="Battery replacement"] .service-icon:before{
+  width:48px!important;height:28px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
+  background:linear-gradient(90deg,#45c6ff 0 63%,transparent 64%)!important;
+}
+.service-card[data-service="Battery replacement"] .service-icon:after{
+  width:5px!important;height:12px!important;border-radius:0 3px 3px 0!important;background:#45c6ff!important;right:12px!important;
+}
+
+/* Custom PC feature becomes a blueprint, not a fabricated product render. */
+.service-feature{
+  position:relative!important;
+  border:1px solid rgba(78,169,249,.2)!important;
+  box-shadow:0 22px 50px rgba(4,24,48,.13)!important;
+}
+.service-feature:before{
+  content:"";
+  display:block;
+  min-height:340px;
+  border-right:1px solid rgba(78,169,249,.17);
+  background:
+    radial-gradient(circle at 27% 30%,transparent 0 28px,rgba(59,190,255,.75) 29px 31px,transparent 32px),
+    radial-gradient(circle at 27% 70%,transparent 0 28px,rgba(59,190,255,.75) 29px 31px,transparent 32px),
+    linear-gradient(90deg,transparent 18%,rgba(194,237,255,.8) 18.3% 18.6%,transparent 18.9% 72%,rgba(59,190,255,.7) 72.3% 72.6%,transparent 72.9%),
+    linear-gradient(transparent 15%,rgba(59,190,255,.36) 15.3% 15.6%,transparent 15.9% 84%,rgba(59,190,255,.36) 84.3% 84.6%,transparent 84.9%),
+    linear-gradient(rgba(91,176,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(91,176,255,.055) 1px,transparent 1px),
+    #071729;
+  background-size:auto,auto,auto,auto,28px 28px,28px 28px,auto;
+  box-shadow:inset 0 0 0 42px rgba(3,12,24,.16),inset 0 0 0 44px rgba(74,167,249,.24);
+}
+
+/* Diagnostics panel: a literal interface diagram, never a fake workbench. */
+.guide-visual-image{
+  position:relative!important;
+  min-height:330px!important;
+  background:
+    linear-gradient(rgba(90,174,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,174,255,.055) 1px,transparent 1px),
+    #041223!important;
+  background-size:28px 28px!important;
+}
+.guide-visual-image:before{
+  content:"";
+  position:absolute;
+  width:min(39%,170px);
+  aspect-ratio:.64;
+  left:18%;top:50%;transform:translateY(-50%);
+  border:3px solid #42c4ff;border-radius:18px;
+  background:linear-gradient(145deg,rgba(66,196,255,.04),rgba(66,196,255,.12));
+  box-shadow:0 0 0 8px rgba(66,196,255,.04);
+}
+.guide-visual-image:after{
+  content:"";
+  position:absolute;
+  left:48%;right:9%;top:48%;height:50px;
+  background:linear-gradient(135deg,transparent 0 12%,#d8f6ff 13% 15%,transparent 16% 28%,#42c4ff 29% 32%,transparent 33% 47%,#d8f6ff 48% 51%,transparent 52% 66%,#42c4ff 67% 70%,transparent 71%);
+  border-bottom:1px solid rgba(66,196,255,.28);
+}
+
+/* Human-free symptom cards use the existing controlled SVG diagrams. */
+.issue-card{
+  grid-template-columns:180px minmax(0,1fr)!important;
+}
+.issue-card:before{
+  content:"";
+  display:block;
+  min-height:255px;
+  border-right:1px solid #dfeaf4;
+  background-color:#061426;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+.issue-card:nth-child(1):before{background-image:url("assets/issue-cracked-screen.svg")}
+.issue-card:nth-child(2):before{background-image:url("assets/issue-battery-health.svg")}
+.issue-card:nth-child(3):before{background-image:url("assets/issue-laptop-thermal.svg")}
+
+/* Process, shipping, warranty, support, and form states stay diagrammatic. */
+.process-copy:before{
+  content:"";
+  display:block;
+  width:min(100%,350px);height:176px;margin:0 0 22px;border:1px solid rgba(93,176,255,.17);border-radius:18px;
+  background:
+    radial-gradient(circle at 12% 50%,#39c8ff 0 5px,rgba(57,200,255,.17) 6px 18px,transparent 19px),
+    radial-gradient(circle at 37% 50%,#39c8ff 0 5px,rgba(57,200,255,.17) 6px 18px,transparent 19px),
+    radial-gradient(circle at 63% 50%,#39c8ff 0 5px,rgba(57,200,255,.17) 6px 18px,transparent 19px),
+    radial-gradient(circle at 88% 50%,#39c8ff 0 5px,rgba(57,200,255,.17) 6px 18px,transparent 19px),
+    linear-gradient(90deg,transparent 12%,rgba(57,200,255,.42) 12.5% 87.5%,transparent 88%),
+    linear-gradient(rgba(90,174,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,174,255,.045) 1px,transparent 1px),#07172a;
+  background-size:auto,auto,auto,auto,auto,24px 24px,24px 24px,auto;
+}
+.mail-in-copy:before{
+  content:"";
+  display:block;
+  width:100%;height:220px;margin:24px 0;border:1px solid #d7e6f3;border-radius:18px;
+  background:
+    linear-gradient(145deg,transparent 0 38%,rgba(22,143,241,.19) 38.5% 61.5%,transparent 62%),
+    linear-gradient(35deg,transparent 0 46%,rgba(22,143,241,.38) 46.5% 48%,transparent 48.5%),
+    linear-gradient(rgba(63,147,225,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(63,147,225,.06) 1px,transparent 1px),#f8fbfe;
+  background-size:auto,auto,26px 26px,26px 26px,auto;
+  box-shadow:inset 0 0 0 30px rgba(255,255,255,.34);
+}
+.brand-panel{
+  position:relative!important;
+  display:grid!important;
+  place-items:center!important;
+  background:
+    linear-gradient(rgba(87,174,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(87,174,255,.055) 1px,transparent 1px),
+    linear-gradient(145deg,#061629,#030a16)!important;
+  background-size:30px 30px,30px 30px,auto!important;
+}
+.brand-panel:before{
+  content:"";
+  width:40%;aspect-ratio:.82;
+  background:linear-gradient(160deg,#38c7ff,#0874ef);
+  clip-path:polygon(50% 0,91% 15%,84% 69%,50% 100%,16% 69%,9% 15%);
+  box-shadow:0 20px 45px rgba(5,124,237,.24);
+}
+.brand-panel:after{
+  content:"";
+  position:absolute;
+  width:72px;height:34px;
+  border-left:8px solid #fff;border-bottom:8px solid #fff;
+  transform:rotate(-45deg) translate(4px,-8px);
+}
+.media-placeholder:before{
+  content:"▶";
+  flex:0 0 44px;width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(79,184,255,.38);border-radius:50%;color:#54cbff;background:#081c31;font-size:16px;
+}
+.media-thumb img{display:none!important}
+.media-thumb:before{content:"▶";display:grid;place-items:center;width:54px;height:54px;border:1px solid rgba(255,255,255,.46);border-radius:50%;color:#fff;font-size:19px;background:rgba(3,13,26,.38)}
+.faq-grid>div:first-child:before{
+  content:"?";
+  width:72px;height:72px;margin:0 0 22px;display:grid;place-items:center;border:1px solid rgba(33,144,234,.28);border-radius:18px;background:#eaf6ff;color:#0878e3;font-size:34px;font-weight:850;
+}
+.final-cta .container:before{
+  content:"";
+  display:block;width:150px;height:58px;margin:0 auto 13px;
+  background:radial-gradient(circle at 10% 50%,#39c8ff 0 4px,transparent 5px),radial-gradient(circle at 35% 50%,#39c8ff 0 4px,transparent 5px),radial-gradient(circle at 65% 50%,#39c8ff 0 4px,transparent 5px),radial-gradient(circle at 90% 50%,#39c8ff 0 4px,transparent 5px),linear-gradient(90deg,transparent 10%,rgba(57,200,255,.42) 10.5% 89.5%,transparent 90%);
+}
+.booking-intro:has(.appointment-art):before{
+  content:"";
+  display:block;width:min(100%,250px);height:142px;margin:0 0 22px;border:1px solid rgba(84,173,255,.2);border-radius:16px;
+  background:
+    radial-gradient(circle at 76% 60%,transparent 0 24px,#39c8ff 25px 27px,transparent 28px),
+    linear-gradient(90deg,transparent 15%,rgba(216,246,255,.78) 15.5% 16.5%,transparent 17% 53%,rgba(216,246,255,.78) 53.5% 54.5%,transparent 55%),
+    linear-gradient(transparent 27%,rgba(57,200,255,.4) 27.5% 29%,transparent 29.5%),
+    linear-gradient(rgba(90,174,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,174,255,.05) 1px,transparent 1px),#07192c;
+  background-size:auto,auto,auto,22px 22px,22px 22px,auto;
+}
+
+/* State art becomes compact UI feedback instead of decorative renders. */
+.tracker-result:before,
+.form-success:before,
+.account-login-card:before,
+.account-empty:before{
+  background:none!important;
+  filter:none!important;
+  box-sizing:border-box!important;
+}
+.tracker-result:before,
+.form-success:before{
+  content:"✓"!important;
+  width:64px!important;height:64px!important;margin:0 auto 14px!important;display:grid!important;place-items:center!important;
+  border:1px solid rgba(52,193,151,.45)!important;border-radius:50%!important;background:rgba(52,193,151,.1)!important;color:#55d8ae!important;font-size:27px!important;font-weight:900!important;
+}
+.request-submit-error:not(:empty):before{
+  content:"!"!important;
+  flex:0 0 34px!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;
+  border:1px solid rgba(180,35,24,.28)!important;border-radius:10px!important;background:#fff1ef!important;color:#b42318!important;font-weight:900!important;
+}
+.account-login-card:before{
+  content:""!important;
+  width:76px!important;height:76px!important;margin:-3px auto 16px!important;display:block!important;
+  border:2px solid #78baff!important;border-radius:20px!important;
+  background:linear-gradient(90deg,transparent 43%,#78baff 44% 56%,transparent 57%),linear-gradient(transparent 58%,#78baff 59% 65%,transparent 66%)!important;
+}
+.account-empty:before{
+  content:""!important;
+  width:74px!important;height:52px!important;margin:0 auto 14px!important;display:block!important;
+  border:2px solid #4f83b6!important;border-top:0!important;border-radius:6px 6px 14px 14px!important;
+  background:linear-gradient(135deg,transparent 45%,rgba(92,154,214,.18) 46% 54%,transparent 55%)!important;
+}
+
+@media(max-width:700px){
+  .hero-visual{border-radius:18px!important}
+  .logo-stage{width:min(270px,80vw)!important;border-radius:18px!important}
+  html body #services .service-icon{width:68px!important;height:62px!important;margin:12px 0 10px!important;transform:none!important}
+  .service-feature:before{min-height:210px;border-right:0;border-bottom:1px solid rgba(78,169,249,.17);box-shadow:inset 0 0 0 24px rgba(3,12,24,.16),inset 0 0 0 26px rgba(74,167,249,.24)}
+  .guide-visual-image{min-height:190px!important}
+  .guide-visual-image:before{left:14%;width:30%;border-radius:12px}
+  .guide-visual-image:after{left:44%;right:7%;height:40px}
+  .issue-card{grid-template-columns:104px minmax(0,1fr)!important}
+  .issue-card:before{min-height:180px;background-size:cover}
+  .process-copy:before{width:100%;height:145px;margin-bottom:18px}
+  .mail-in-copy:before{height:166px;margin:18px 0}
+  .booking-intro:has(.appointment-art):before{width:100%;height:130px}
+}
+@media(max-width:390px){
+  .issue-card{grid-template-columns:92px minmax(0,1fr)!important}
+  .issue-card:before{min-height:190px}
+}
+@media(prefers-reduced-motion:reduce){
+  .logo-stage img,.floating-card{filter:none!important}
+}
