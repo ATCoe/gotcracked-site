@@ -1,3 +1,5 @@
+@import url("asset-pass.css?v=20260903-no-synthetic1");
+
 .request-page{background:#f4f7fb}
 .request-page-main{overflow:hidden}
 .request-page-hero{padding:76px 0 132px;background:radial-gradient(circle at 78% 15%,rgba(0,185,255,.19),transparent 34%),#030a16;color:#fff}
@@ -18,4 +20,3 @@
   .request-page-form{margin-top:-50px;padding-bottom:60px}
   .request-page-shell{border-radius:20px!important}
 }
-
