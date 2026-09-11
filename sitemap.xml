@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gotcracked.co/</loc></url>
-  <url><loc>https://gotcracked.co/request.html</loc></url>
-  <url><loc>https://gotcracked.co/appointment.html</loc></url>
-  <url><loc>https://gotcracked.co/pc-build.html</loc></url>
-  <url><loc>https://gotcracked.co/privacy.html</loc></url>
+  <url><loc>https://gotcracked.co/request</loc></url>
+  <url><loc>https://gotcracked.co/appointment</loc></url>
+  <url><loc>https://gotcracked.co/pc-build</loc></url>
+  <url><loc>https://gotcracked.co/privacy</loc></url>
 </urlset>
