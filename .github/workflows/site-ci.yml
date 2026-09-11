@@ -71,9 +71,9 @@ jobs:
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
           css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
           css_files = [ref.split('?',1)[0] for ref in css_refs]
-          for required in ['styles.css','hardening.css','repair-guide.css','site-release.css']:
+          for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-1] != 'site-release.css': raise SystemExit('site-release.css must remain the final homepage stylesheet.')
+          if css_files[-1] != 'asset-pass.css': raise SystemExit('asset-pass.css must remain the final homepage stylesheet.')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
@@ -93,7 +93,10 @@ jobs:
           if "functions.invoke('custom-pc-build'" not in pc_js: raise SystemExit('Custom PC research endpoint missing.')
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js: raise SystemExit('Custom PC compatibility disclosure missing.')
           if html.count('href="pc-build.html"') < 2: raise SystemExit('Homepage custom-PC links missing.')
-          if 'https://gotcracked.co/pc-build.html' not in sitemap: raise SystemExit('Custom PC sitemap entry missing.')
+          sitemap_locs = re.findall(r'<loc>([^<]+)</loc>', sitemap)
+          for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/privacy']:
+              if required_loc not in sitemap_locs: raise SystemExit(f'Canonical sitemap entry missing: {required_loc}')
+          if any(loc.endswith('.html') for loc in sitemap_locs): raise SystemExit('Sitemap must use canonical extensionless URLs.')
 
           for token in ['body .container.process-grid','body .container.mail-in-grid','body .container.faq-grid','body .issue-card>.console-platforms','body .gc-chat-launcher']:
               if token not in chat_css: raise SystemExit(f'Mobile layout guard missing: {token}')
