@@ -61,7 +61,12 @@ jobs:
               ref = ref.split('?',1)[0].split('#',1)[0]
               if not ref or ref.startswith(('http://','https://','mailto:','tel:','#')):
                   continue
-              if not Path(ref).exists(): missing.append(ref)
+              if ref.startswith('/'):
+                  # canonical root-relative route: resolve to its page file
+                  target = 'index.html' if ref == '/' else ref.lstrip('/') + '.html'
+              else:
+                  target = ref
+              if not Path(target).exists(): missing.append(ref)
           if missing:
               raise SystemExit('Missing local references: ' + ', '.join(sorted(set(missing))))
 
