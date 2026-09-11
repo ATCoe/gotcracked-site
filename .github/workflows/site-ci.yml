@@ -97,7 +97,7 @@ jobs:
           if 'id="pc-build-form"' not in pc_html or 'pc-build.js' not in pc_html or 'pc-build.css' not in pc_html: raise SystemExit('Custom PC planner incomplete.')
           if "functions.invoke('custom-pc-build'" not in pc_js: raise SystemExit('Custom PC research endpoint missing.')
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js: raise SystemExit('Custom PC compatibility disclosure missing.')
-          if html.count('href="pc-build.html"') < 2: raise SystemExit('Homepage custom-PC links missing.')
+          if html.count('href="/pc-build"') < 2: raise SystemExit('Homepage custom-PC links missing.')
           sitemap_locs = re.findall(r'<loc>([^<]+)</loc>', sitemap)
           for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/privacy']:
               if required_loc not in sitemap_locs: raise SystemExit(f'Canonical sitemap entry missing: {required_loc}')
