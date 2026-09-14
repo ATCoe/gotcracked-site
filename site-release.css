@@ -759,3 +759,5 @@ html.gc-motion-ready #services .service-card:nth-child(8){transition-delay:.28s}
 .device-strip p,.service-number,.service-card p,.more-services,.issue-kicker,.campus-tip span,.why-copy .eyebrow,.large-copy,.benefit-grid p,.request-bridge-grid .eyebrow,.faq-grid>div:first-child>p:not(.eyebrow),.footer-grid small{color:#46576a!important}
 .service-card .card-link,.more-services .text-link,.request-bridge-actions .text-link{color:#0759b7!important}
 .gc-chat-launcher{background:#056bd8!important}
+
+#services .section-heading .eyebrow,.faq-grid>.reveal .eyebrow,.footer-grid>div:last-child small{color:#3f5266!important}
