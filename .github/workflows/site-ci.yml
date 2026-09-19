@@ -59,7 +59,7 @@ jobs:
           missing = []
           for ref in refs:
               ref = ref.split('?',1)[0].split('#',1)[0]
-              if not ref or ref.startswith(('http://','https://','mailto:','tel:','#')):
+              if not ref or ref.startswith(('http://','https://','mailto:','tel:','sms:','#')):
                   continue
               if ref.startswith('/'):
                   # canonical root-relative route: resolve to its page file
