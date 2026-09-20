@@ -391,3 +391,30 @@ html.gc-motion-ready .reveal.visible{
   transition:none!important;
   will-change:auto!important;
 }
+
+/* Customer growth, Learn bridge, and genuine social brand controls */
+.repair-finder{padding:48px 0 28px;background:#fff}
+.repair-finder-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,440px);gap:40px;align-items:end;margin-bottom:22px}
+.repair-finder-heading h2{margin:0;font-size:clamp(34px,3.6vw,49px);line-height:1;letter-spacing:-.045em}
+.repair-finder-heading>p{margin:0;color:#657487;font-size:13px;line-height:1.65}
+.repair-finder-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.repair-finder-grid>a{min-height:190px;padding:21px;border:1px solid #e3eaf2;border-radius:16px;background:#f7f9fc;color:#0c1728;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s}
+.repair-finder-grid>a:hover{transform:translateY(-4px);border-color:#9fd8ff;box-shadow:0 16px 38px rgba(5,26,57,.1)}
+.repair-finder-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e5f4ff;color:#077bea;font-size:21px;font-weight:800;margin-bottom:20px}
+.repair-finder-grid strong{font-size:16px;line-height:1.2}
+.repair-finder-grid small{font-size:11px;color:#6f7f92;line-height:1.5;margin:8px 0 17px}
+.repair-finder-grid b{margin-top:auto;color:#087cf0;font-size:11px}
+.repair-finder-grid>a.repair-finder-unsure{background:#06101f;color:#fff;border-color:#17314e}
+.repair-finder-unsure .repair-finder-icon{background:#0d2c4c;color:#37beff}
+.repair-finder-grid>a.repair-finder-unsure small{color:#93a8bd}.repair-finder-grid>a.repair-finder-unsure b{color:#3ec4ff}
+.learn-bridge{margin-top:24px;border:1px solid #d9e6f2;border-radius:18px;padding:24px 26px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:linear-gradient(135deg,#f7fbff,#edf6ff)}
+.learn-bridge .eyebrow{margin-bottom:7px}.learn-bridge h3{margin:0;font-size:22px;letter-spacing:-.035em}.learn-bridge p:not(.eyebrow){margin:6px 0 0;color:#68798c;font-size:12px;max-width:700px}
+.social-media-links,.footer-social-links{display:flex;flex-wrap:wrap;gap:10px}
+.social-profile-button{display:inline-flex!important;align-items:center;gap:9px;min-height:44px;padding:7px 12px 7px 8px!important;border:1px solid #31516f!important;border-radius:12px!important;background:#0b1e31!important;color:#fff!important;text-decoration:none!important;font-size:12px!important;font-weight:800!important;margin:0!important}
+.social-profile-button:hover{border-color:#2dbbff!important;background:#10283f!important}
+.social-profile-button>span:last-child{color:#6a9fc4;font-size:11px;margin-left:2px}
+.social-profile-icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;overflow:hidden;background:#050b12;flex:0 0 30px}
+.social-profile-icon img{width:22px;height:22px;object-fit:contain;display:block}
+.footer-social-links{margin-top:18px}.footer-social-links .social-profile-button{padding:6px!important;min-height:38px}.footer-social-links .social-profile-button>span:not(.social-profile-icon){display:none}.footer-social-links .social-profile-icon{width:28px;height:28px;flex-basis:28px}.footer-social-links .social-profile-icon img{width:21px;height:21px}
+@media(max-width:980px){.repair-finder-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.repair-finder-heading{grid-template-columns:1fr;gap:12px}}
+@media(max-width:650px){.repair-finder{padding:34px 0 18px}.repair-finder-grid{grid-template-columns:1fr 1fr}.repair-finder-grid>a{min-height:170px;padding:17px}.repair-finder-grid>a.repair-finder-unsure{grid-column:1/-1}.learn-bridge{align-items:flex-start;flex-direction:column;padding:20px}.learn-bridge .button{width:100%}}

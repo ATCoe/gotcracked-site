@@ -22,7 +22,7 @@ jobs:
       - name: JavaScript syntax
         run: |
           set -euo pipefail
-          for file in app.js analytics-loader.js customer-chat.js customer-account.js pc-build.js store-hours.js supabase.js; do
+          for file in app.js learn.js analytics-loader.js customer-chat.js customer-account.js pc-build.js store-hours.js supabase.js; do
             [ -f "$file" ] && node --check "$file"
           done
 
@@ -32,7 +32,7 @@ jobs:
           from pathlib import Path
           import re
 
-          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html']
+          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html']
           for name in required_pages:
               if not Path(name).exists():
                   raise SystemExit(f'Missing public page: {name}')
@@ -43,8 +43,10 @@ jobs:
           pc_html = Path('pc-build.html').read_text(encoding='utf-8')
           privacy_html = Path('privacy.html').read_text(encoding='utf-8')
           account_html = Path('account.html').read_text(encoding='utf-8')
-          pages = html + request_html + appointment_html + pc_html + privacy_html + account_html
+          learn_html = Path('learn.html').read_text(encoding='utf-8')
+          pages = html + request_html + appointment_html + pc_html + privacy_html + account_html + learn_html
           app = Path('app.js').read_text(encoding='utf-8')
+          learn_js = Path('learn.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
           chat_css = Path('customer-chat.css').read_text(encoding='utf-8')
           pc_js = Path('pc-build.js').read_text(encoding='utf-8')
@@ -99,9 +101,17 @@ jobs:
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js: raise SystemExit('Custom PC compatibility disclosure missing.')
           if html.count('href="/pc-build"') < 2: raise SystemExit('Homepage custom-PC links missing.')
           sitemap_locs = re.findall(r'<loc>([^<]+)</loc>', sitemap)
-          for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/privacy']:
+          for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/learn','https://gotcracked.co/privacy']:
               if required_loc not in sitemap_locs: raise SystemExit(f'Canonical sitemap entry missing: {required_loc}')
           if any(loc.endswith('.html') for loc in sitemap_locs): raise SystemExit('Sitemap must use canonical extensionless URLs.')
+
+          for asset in ['assets/social/youtube-official.png','assets/social/tiktok-official.png','assets/social/instagram-official.svg','assets/social/facebook-official.png']:
+              if not Path(asset).exists(): raise SystemExit(f'Missing official social asset: {asset}')
+          for token in ['youtube_channel_url','tiktok_profile_url','instagram_profile_url','facebook_profile_url']:
+              if token not in app or token not in learn_js: raise SystemExit(f'Public social profile wiring missing: {token}')
+          for token in ['id="learn-sponsor"','Advertising & affiliate disclosure','Advertise with GotCracked']:
+              if token not in learn_html: raise SystemExit(f'Learn monetization guard missing: {token}')
+          if 'site_sponsor_active' not in learn_js or 'rel="sponsored noopener noreferrer"' not in learn_js: raise SystemExit('Learn sponsor runtime guard missing.')
 
           for token in ['body .container.process-grid','body .container.mail-in-grid','body .container.faq-grid','body .issue-card>.console-platforms','body .gc-chat-launcher']:
               if token not in chat_css: raise SystemExit(f'Mobile layout guard missing: {token}')
