@@ -5,6 +5,19 @@
   const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
   const escapeHTML = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
   const safePublicUrl = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : '#'; } catch { return '#'; } };
+  const SOCIAL_PLATFORMS = [
+    { label:'YouTube', key:'youtube_channel_url', hosts:['youtube.com','youtu.be'], icon:'assets/social/youtube-official.png' },
+    { label:'TikTok', key:'tiktok_profile_url', hosts:['tiktok.com'], icon:'assets/social/tiktok-official.png' },
+    { label:'Instagram', key:'instagram_profile_url', hosts:['instagram.com'], icon:'assets/social/instagram-official.svg' },
+    { label:'Facebook', key:'facebook_profile_url', hosts:['facebook.com','fb.com'], icon:'assets/social/facebook-official.png' }
+  ];
+  const safePlatformUrl = (value, hosts) => {
+    const safe = safePublicUrl(value);
+    if (safe === '#') return '#';
+    const host = new URL(safe).hostname.toLowerCase().replace(/^www\./,'');
+    return hosts.some(allowed => host === allowed || host.endsWith('.' + allowed)) ? safe : '#';
+  };
+  const socialLinksMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
   const localDateISO = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const formatUpdatedAt = value => { const date = value ? new Date(value) : null; return date && !Number.isNaN(date.getTime()) ? date.toLocaleString() : 'recently'; };
   const formatHour = value => { const [hour,minute] = String(value || '').split(':').map(Number); if (!Number.isFinite(hour)) return ''; const date = new Date(2000,0,1,hour,minute||0); return date.toLocaleTimeString([], { hour:'numeric', minute:minute ? '2-digit' : undefined }); };
@@ -56,8 +69,11 @@
       const { data, error } = await window.supabaseClient.functions.invoke('public-media', { method: 'GET' });
       if (error) throw error;
       const posts = data?.posts || [];
-      grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener"><div class="media-thumb" aria-hidden="true"></div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
-      if (links) links.innerHTML = [['YouTube',data?.settings?.youtube_channel_url],['TikTok',data?.settings?.tiktok_profile_url]].filter(([,url]) => safePublicUrl(url) !== '#').map(([label,url]) => `<a href="${safePublicUrl(url)}" target="_blank" rel="noopener">Follow on ${label} →</a>`).join('');
+      grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => { const thumbnail = safePublicUrl(post.thumbnail_url); return `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${thumbnail !== '#' ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`; }).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
+      const socialMarkup = socialLinksMarkup(data?.settings || {});
+      if (links) { links.innerHTML = socialMarkup; links.hidden = !socialMarkup; }
+      const footerLinks = $('#footer-social-links');
+      if (footerLinks) { footerLinks.innerHTML = socialMarkup; footerLinks.hidden = !socialMarkup; }
       const hours = $('#store-hours');
       const hoursMarkup = storeHoursMarkup(data?.settings?.store_hours);
       if (hours && hoursMarkup) hours.innerHTML = hoursMarkup;
@@ -124,6 +140,8 @@
     if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
     const requestedService = requestParams.get('service');
     if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
+    const requestedDevice = requestParams.get('device');
+    if (requestedDevice && bookingForm.elements.deviceType && [...bookingForm.elements.deviceType.options].some(option => option.value === requestedDevice)) bookingForm.elements.deviceType.value = requestedDevice;
     serviceMode?.addEventListener('change', updateServiceMode); updateServiceMode();
 
     let currentStep = 1;
