@@ -26,6 +26,9 @@ jobs:
             [ -f "$file" ] && node --check "$file"
           done
 
+      - name: Store hours and appointment windows
+        run: node scripts/test-store-hours.mjs
+
       - name: Public site architecture
         shell: python
         run: |
@@ -94,10 +97,12 @@ jobs:
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
           if 'id="appointment-form"' not in appointment_html: raise SystemExit('Appointment form missing.')
           if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html: raise SystemExit('Customer forms must link the Privacy Notice.')
-          appointment_window = re.compile(r'Late afternoon \(4[-–]6 PM\)')
-          if not appointment_window.search(request_html) or not appointment_window.search(appointment_html): raise SystemExit('Late-afternoon appointment window missing.')
+          stale_windows = re.compile(r'Morning \(9 AM[-–]12 PM\)|Afternoon \(12[-–]4 PM\)|Late afternoon \(4[-–]6 PM\)')
+          if stale_windows.search(request_html) or stale_windows.search(appointment_html): raise SystemExit('Stale fixed appointment windows returned.')
+          for form_html in [request_html, appointment_html]:
+              if not re.search(r'<select name="time" required disabled>', form_html): raise SystemExit('Appointment time must wait for the settings-driven day selection.')
           if "dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop()" not in app: raise SystemExit('Appointment minimum-date guard missing.')
-          for token in ["functions.invoke('public-media'", 'setCustomValidity', 'WINDOWS', 'DEFAULT_HOURS']:
+          for token in ["functions.invoke('public-media'", 'setCustomValidity', 'windowsFor', 'range.length!==2', 'DEFAULT_HOURS']:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
 
           account_js = Path('customer-account.js').read_text(encoding='utf-8')

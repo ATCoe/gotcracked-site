@@ -1,29 +1,43 @@
 (() => {
   'use strict';
 
-  const WINDOWS = {
-    'Morning (9 AM–12 PM)': ['09:00','12:00'],
-    'Afternoon (12–4 PM)': ['12:00','16:00'],
-    'Late afternoon (4–6 PM)': ['16:00','18:00']
-  };
   const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
   const DAY_LABELS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const DEFAULT_HOURS = {mon:['09:00','18:00'],tue:['09:00','18:00'],wed:['09:00','18:00'],thu:['09:00','18:00'],fri:['09:00','18:00'],sat:['10:00','16:00'],sun:null};
+  const DEFAULT_HOURS = {mon:['10:00','20:00'],tue:['10:00','20:00'],wed:['10:00','20:00'],thu:['10:00','20:00'],fri:['10:00','20:00'],sat:['10:00','18:00'],sun:null};
   let storeHours = DEFAULT_HOURS;
 
   const minutes = value => {
-    const [hour, minute] = String(value || '').split(':').map(Number);
-    return Number.isFinite(hour) ? hour * 60 + (Number.isFinite(minute) ? minute : 0) : NaN;
+    const match = /^(?:[01]\d|2[0-3]):[0-5]\d$/.exec(String(value || ''));
+    if (!match) return NaN;
+    const [hour, minute] = match[0].split(':').map(Number);
+    return hour * 60 + minute;
   };
   const dayFor = value => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
     const date = new Date(`${value}T12:00:00Z`);
     return Number.isNaN(date.getTime()) ? null : { key:DAY_KEYS[date.getUTCDay()], label:DAY_LABELS[date.getUTCDay()] };
   };
-  const overlaps = (storeRange, windowRange) => {
-    if (!Array.isArray(storeRange) || !windowRange) return false;
-    return Math.max(minutes(storeRange[0]),minutes(windowRange[0])) < Math.min(minutes(storeRange[1]),minutes(windowRange[1]));
+  const timeValue = value => `${String(Math.floor(value/60)).padStart(2,'0')}:${String(value%60).padStart(2,'0')}`;
+  const formatHour = value => { const total=minutes(value); if(!Number.isFinite(total))return ''; const hour=Math.floor(total/60),minute=total%60; return `${hour%12||12}${minute?`:${String(minute).padStart(2,'0')}`:''} ${hour<12?'AM':'PM'}`; };
+  const windowsFor = range => {
+    if(!Array.isArray(range)||range.length!==2)return [];
+    const open=minutes(range[0]),close=minutes(range[1]);
+    if(!Number.isFinite(open)||!Number.isFinite(close)||close<=open)return [];
+    const windows=[];
+    for(let start=open;start<close;start+=180){const end=Math.min(start+180,close),label=`${formatHour(timeValue(start))}–${formatHour(timeValue(end))}`;windows.push({value:label,label});}
+    return windows;
   };
+  const hoursMarkup = hours => [['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']].map(([key,label])=>{const range=hours?.[key];const windows=windowsFor(range);const value=windows.length?`${formatHour(range[0])}–${formatHour(range[1])}`:'Closed';return `<div><span>${label}</span><strong>${value}</strong></div>`;}).join('');
+
+  function renderFooterHours(){document.querySelectorAll('#store-hours').forEach(node=>{node.innerHTML=hoursMarkup(storeHours);});}
+
+  function setOptions(select,windows,message='Choose a window'){
+    const previous=select.value;
+    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=message;
+    const options=windows.map(window=>{const option=document.createElement('option');option.value=window.value;option.textContent=window.label;return option;});
+    select.replaceChildren(placeholder,...options);
+    select.value=windows.some(window=>window.value===previous)?previous:'';
+  }
 
   function noteFor(select) {
     let note = select.parentElement?.querySelector('[data-store-hours-note]');
@@ -41,34 +55,27 @@
     if (!date || !time) return;
     const selectedDay = dayFor(date.value);
     const range = selectedDay ? storeHours?.[selectedDay.key] : null;
-    let available = 0;
-    [...time.options].forEach(option => {
-      if (!option.value) { option.disabled = false; return; }
-      const enabled = selectedDay ? overlaps(range,WINDOWS[option.value]) : true;
-      option.disabled = !enabled;
-      if (enabled) available += 1;
-    });
-    if (time.selectedOptions[0]?.disabled) time.value = '';
+    const windows=windowsFor(range);
     const note = noteFor(time);
     if (!selectedDay) {
+      setOptions(time,[],'Choose a day first');
       date.setCustomValidity('');
-      time.disabled = false;
+      time.disabled = true;
       time.setCustomValidity('');
-      note.textContent = 'Appointment windows update automatically from current store hours.';
-    } else if (!Array.isArray(range) || !available) {
+      note.textContent = 'Choose a day to see every available window for current store hours.';
+    } else if (!windows.length) {
       const message = `GotCracked is closed on ${selectedDay.label}. Choose another day.`;
+      setOptions(time,[],'Closed that day');
       date.setCustomValidity(message);
-      time.value = '';
       time.disabled = true;
       time.setCustomValidity('');
       note.textContent = message;
     } else {
+      setOptions(time,windows);
       date.setCustomValidity('');
       time.disabled = false;
       time.setCustomValidity('');
-      const open = range[0].replace(/^0/,'');
-      const close = range[1].replace(/^0/,'');
-      note.textContent = `${selectedDay.label} store hours: ${open}–${close}. Unavailable windows are disabled.`;
+      note.textContent = `${selectedDay.label} store hours: ${formatHour(range[0])}–${formatHour(range[1])}. Choose any available window.`;
     }
   }
 
@@ -85,6 +92,7 @@
 
   async function loadHours() {
     wireForms();
+    renderFooterHours();
     try {
       if (!window.supabaseClient?.functions) return;
       const { data, error } = await window.supabaseClient.functions.invoke('public-media',{method:'GET'});
@@ -93,10 +101,12 @@
     } catch (error) {
       console.warn('Using default GotCracked store hours because live hours could not be loaded.',error);
     }
+    renderFooterHours();
     wireForms();
     document.querySelectorAll('#booking-form,#appointment-form').forEach(updateForm);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',loadHours,{once:true});
-  else loadHours();
+  const start=()=>{void loadHours();setTimeout(renderFooterHours,0);};
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
 })();
