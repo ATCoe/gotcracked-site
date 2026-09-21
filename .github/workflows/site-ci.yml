@@ -32,7 +32,7 @@ jobs:
           from pathlib import Path
           import re
 
-          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html']
+          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html','credits.html']
           for name in required_pages:
               if not Path(name).exists():
                   raise SystemExit(f'Missing public page: {name}')
@@ -44,7 +44,8 @@ jobs:
           privacy_html = Path('privacy.html').read_text(encoding='utf-8')
           account_html = Path('account.html').read_text(encoding='utf-8')
           learn_html = Path('learn.html').read_text(encoding='utf-8')
-          pages = html + request_html + appointment_html + pc_html + privacy_html + account_html + learn_html
+          credits_html = Path('credits.html').read_text(encoding='utf-8')
+          pages = html + request_html + appointment_html + pc_html + privacy_html + account_html + learn_html + credits_html
           app = Path('app.js').read_text(encoding='utf-8')
           learn_js = Path('learn.js').read_text(encoding='utf-8')
           chat = Path('customer-chat.js').read_text(encoding='utf-8')
@@ -81,6 +82,13 @@ jobs:
           for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
           if css_files[-1] != 'asset-pass.css': raise SystemExit('asset-pass.css must remain the final homepage stylesheet.')
+          if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
+          for asset in ['assets/photos/repair-bench-phone.jpg','assets/photos/repair-detail-phone.jpg','assets/photos/repair-laptop-workbench.jpg','assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','ASSET_PROVENANCE.md']:
+              if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
+          for token in ['/credits#visual-assets','repair-bench-phone.jpg','repair-detail-phone.jpg','repair-laptop-workbench.jpg']:
+              if token not in html: raise SystemExit(f'Authentic homepage visual missing: {token}')
+          for token in ['Pexels License','Unsplash License','Illustrative Photography']:
+              if token not in credits_html: raise SystemExit(f'Public image credit missing: {token}')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
@@ -101,7 +109,7 @@ jobs:
           if 'Newegg PC Builder' not in pc_html or 'Newegg PC Builder' not in pc_js: raise SystemExit('Custom PC compatibility disclosure missing.')
           if html.count('href="/pc-build"') < 2: raise SystemExit('Homepage custom-PC links missing.')
           sitemap_locs = re.findall(r'<loc>([^<]+)</loc>', sitemap)
-          for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/learn','https://gotcracked.co/privacy']:
+          for required_loc in ['https://gotcracked.co/','https://gotcracked.co/request','https://gotcracked.co/appointment','https://gotcracked.co/pc-build','https://gotcracked.co/learn','https://gotcracked.co/privacy','https://gotcracked.co/credits']:
               if required_loc not in sitemap_locs: raise SystemExit(f'Canonical sitemap entry missing: {required_loc}')
           if any(loc.endswith('.html') for loc in sitemap_locs): raise SystemExit('Sitemap must use canonical extensionless URLs.')
 

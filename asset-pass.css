@@ -1,6 +1,7 @@
-/* GotCracked customer visual standard.
-   No people, staged repair benches, fake storefronts, or synthetic product photography.
-   Brand assets stay real; supporting visuals are restrained interface diagrams. */
+/* GotCracked customer visual standard and authoritative final visual layer.
+   Genuine, licensed electronics-repair photography may be used when it is
+   identified as illustrative. Never imply that stock-photo people, customers,
+   or locations are GotCracked staff, customers, or facilities. */
 :root{
   --gc-visual-blue:#138cf6;
   --gc-visual-cyan:#39c8ff;
@@ -372,6 +373,121 @@ html body #services .service-icon:after{
   .mail-in-copy:before{height:166px;margin:18px 0}
   .booking-intro:has(.appointment-art):before{width:100%;height:130px}
 }
+
+/* Authentic repair photography and the tighter editorial homepage rhythm.
+   These rules live in the final asset layer so legacy diagram styling cannot
+   win the cascade during first paint. Sources and hashes are recorded in
+   ASSET_PROVENANCE.md and the public credits page. */
+:root{
+  --gc-ink:#07111f;
+  --gc-blue:#078cf0;
+  --gc-cyan:#34c8ff;
+  --gc-paper:#f4f7fa;
+  --gc-line:#d9e3ed;
+}
+
+html body .hero{min-height:720px;background:#020812!important;background-image:none!important}
+html body .hero:after{background:linear-gradient(90deg,rgba(2,8,18,.16),rgba(2,8,18,.5))!important}
+html body .hero-grid{grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);gap:54px;min-height:610px;padding:52px 0 58px}
+html body .hero h1{font-size:clamp(52px,5.35vw,78px);max-width:760px}
+html body .hero-lede{max-width:650px}
+html body .hero-visual{
+  display:block!important;
+  position:relative;
+  height:560px!important;
+  min-height:560px;
+  overflow:hidden;
+  border:1px solid rgba(117,197,255,.28)!important;
+  border-radius:30px!important;
+  background:#071321!important;
+  box-shadow:0 34px 80px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.04)!important;
+}
+.hero-photo-wrap,.hero-photo-shade{position:absolute;inset:0}
+.hero-photo{width:100%;height:100%;display:block;object-fit:cover;object-position:56% center;filter:saturate(.82) contrast(1.05)}
+.hero-photo-shade{background:linear-gradient(180deg,rgba(3,10,22,.02) 30%,rgba(3,10,22,.9) 100%),linear-gradient(90deg,rgba(3,10,22,.3),transparent 48%)}
+html body .hero-visual .orbit,html body .hero-visual .logo-stage{display:none!important}
+html body .hero-visual .card-status{left:24px;top:24px;padding:14px 17px}
+html body .hero-visual .card-rating{left:24px;right:24px;bottom:48px;padding:16px 18px;display:grid;gap:4px}
+.hero-visual .card-rating strong{font-size:14px;color:#fff}
+.hero-visual .card-rating small{font-size:10px;color:#a7bfd5;letter-spacing:.06em}
+.photo-context{position:absolute;left:25px;bottom:15px;z-index:4;margin:0;color:#9cb0c4;font-size:9px;letter-spacing:.03em}
+.photo-context a{color:#bfeaff}
+.trust-row{margin-top:37px}
+
+.device-strip{background:#f8fbfe}
+.brand-coverage{padding:19px 0 23px}
+.repair-finder{background:#fff}
+.services{background:var(--gc-paper)}
+#services .service-card{background:#fff!important;border-color:var(--gc-line)!important;box-shadow:0 10px 28px rgba(18,45,74,.05)}
+#services .service-card.featured{background:#071421!important;border-color:#183859!important}
+html body .service-feature{
+  grid-template-columns:minmax(390px,.95fr) minmax(0,1.05fr)!important;
+  min-height:420px;
+  background:#071421!important;
+  border-color:rgba(88,177,255,.32)!important;
+}
+html body .service-feature:before{display:none!important}
+html body .service-feature>img{display:block!important;width:100%;height:100%;min-height:420px;object-fit:cover;object-position:center;filter:saturate(.78) contrast(1.05)}
+html body .service-feature>div{align-self:center;padding:52px!important}
+.guide-visual{box-shadow:0 24px 55px rgba(9,36,66,.14)}
+html body .guide-visual-image{min-height:360px!important;background:#061322!important}
+html body .guide-visual-image:before,html body .guide-visual-image:after{display:none!important}
+html body .guide-visual-image img{display:block!important;width:100%;height:100%;min-height:360px;object-fit:cover;object-position:center;filter:saturate(.82) contrast(1.04)}
+
+.legal-summary{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px;padding-top:24px;border-top:1px solid #142033}
+.legal-summary p{margin:0;color:#90a1b4;font-size:11px;line-height:1.65}
+.legal-summary strong{color:#d8e3ee}
+.booking-note a,
+footer .footer-grid a,
+footer .trademark-notice a,
+footer .legal-summary a,
+footer .footer-bottom a{color:#a9dcff;text-decoration-color:rgba(169,220,255,.58);text-underline-offset:3px}
+.booking-form .check-label a{color:#0669c8;text-decoration-color:rgba(6,105,200,.48);text-underline-offset:3px}
+.booking-note a:hover,
+footer a:hover{color:#fff;text-decoration-color:currentColor}
+.booking-note a:focus-visible,
+footer a:focus-visible{outline:3px solid #42c7ff;outline-offset:3px;border-radius:3px;color:#fff}
+.booking-form .check-label a:focus-visible{outline:3px solid #087cf3;outline-offset:3px;border-radius:3px}
+.footer-bottom{gap:24px}
+
+.credits-page .request-page-shell{grid-template-columns:minmax(250px,.56fr) minmax(0,1.44fr)}
+.credits-page .booking-form{display:block;background:#fff}
+.credits-page .booking-form h2{margin:34px 0 10px;font-size:22px;letter-spacing:-.02em}
+.credits-page .booking-form h2:first-child{margin-top:0}
+.credits-page .booking-form p,.credits-page .booking-form li{color:#4f6072;font-size:14px;line-height:1.72}
+.credits-page .booking-form ul{padding-left:20px}
+.credits-page .booking-form a{color:#0669c8;font-weight:700}
+.credits-page .credits-updated{font-size:12px;color:#718195}
+
+@media(max-width:980px){
+  html body .hero-grid{grid-template-columns:1fr;gap:36px;padding-top:64px}
+  .hero-copy{text-align:left}
+  .hero-lede{margin-left:0}.hero-actions,.trust-row{justify-content:flex-start}
+  html body .hero-visual{height:470px!important;min-height:470px}
+  html body .service-feature{grid-template-columns:1fr!important}
+  html body .service-feature>img{min-height:320px;max-height:380px}
+  .credits-page .request-page-shell{grid-template-columns:1fr}
+}
+
+@media(max-width:650px){
+  html body .hero-grid{padding:46px 0 44px;gap:28px}
+  html body .hero h1{font-size:46px}
+  .hero-actions{display:grid}
+  .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .trust-row div{padding-left:10px}
+  html body .hero-visual{height:360px!important;min-height:360px;border-radius:20px!important}
+  .hero-photo{object-position:60% center}
+  html body .hero-visual .card-status{left:14px;top:14px}
+  html body .hero-visual .card-rating{left:14px;right:14px;bottom:43px}
+  .photo-context{left:15px;bottom:13px}
+  html body .service-feature{min-height:0}
+  html body .service-feature>img{min-height:260px;max-height:300px;object-position:center 65%}
+  html body .service-feature>div{padding:28px 22px!important}
+  html body .guide-visual-image,html body .guide-visual-image img{min-height:220px!important}
+  .legal-summary{grid-template-columns:1fr;gap:14px}
+}
+
+@media(prefers-reduced-motion:reduce){.hero-photo,.service-feature>img,.guide-visual-image img{filter:none}}
 @media(max-width:390px){
   .issue-card{grid-template-columns:92px minmax(0,1fr)!important}
   .issue-card:nth-child(-n+3):before{min-height:190px}
