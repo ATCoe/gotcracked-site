@@ -29,6 +29,9 @@ jobs:
       - name: Store hours and appointment windows
         run: node scripts/test-store-hours.mjs
 
+      - name: Truthful custom-PC request copy
+        run: node scripts/test-pc-build-truthful-copy.mjs
+
       - name: Public site architecture
         shell: python
         run: |
