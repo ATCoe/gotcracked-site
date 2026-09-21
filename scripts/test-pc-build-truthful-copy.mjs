@@ -3,6 +3,7 @@ import fs from 'node:fs';
 
 const html=fs.readFileSync(new URL('../pc-build.html',import.meta.url),'utf8');
 const app=fs.readFileSync(new URL('../pc-build.js',import.meta.url),'utf8');
+const css=fs.readFileSync(new URL('../pc-build.css',import.meta.url),'utf8');
 
 for(const copy of [
   'Submit Build Request',
@@ -43,4 +44,8 @@ for(const verifiedResultGuard of [
   'No automated estimate was released'
 ]) assert.match(app,new RegExp(verifiedResultGuard.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')),`Verified or fail-closed result handling changed: ${verifiedResultGuard}`);
 
-console.log('PASS truthful custom-PC request copy and verified-result boundary.');
+assert.match(css,/\.pc-build-heading>\.eyebrow\{color:#8fc6ed\}/,'PC planner eyebrow must remain readable on the dark hero');
+assert.match(css,/\.pc-build-heading>p:last-child\{[^}]*color:#b8c7d9[^}]*line-height:1\.65/,'PC planner introduction must remain readable on the dark hero');
+assert.doesNotMatch(css,/\.pc-build-heading>p:last-child\{[^}]*var\(--muted/,'PC planner introduction must not inherit the light-theme muted token');
+
+console.log('PASS truthful custom-PC request copy, readable hero, and verified-result boundary.');

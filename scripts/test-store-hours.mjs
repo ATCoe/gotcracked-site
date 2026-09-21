@@ -61,10 +61,17 @@ date.change();
 assert.equal(time.disabled,true,'ranges with extra values must fail closed');
 assert.match(date.validity,/closed on Thursday/);
 
-for(const file of ['request.html','appointment.html']){
+const footerPages=['index.html','learn.html','pc-build.html','request.html','appointment.html'];
+for(const file of footerPages){
   const html=fs.readFileSync(new URL(`../${file}`,import.meta.url),'utf8');
   assert.doesNotMatch(html,/Morning \(9 AM–12 PM\)|Late afternoon \(4–6 PM\)/,`${file} must not ship stale fixed windows`);
-  assert.match(html,/store-hours\.js\?v=20260921-live-hours2/);
+  assert.match(html,/store-hours\.js\?v=20260921-shared-hours1/,`${file} must load the shared settings-driven hours runtime`);
+  assert.ok(html.indexOf('customer-chat.js')<html.indexOf('store-hours.js'),`${file} must create the footer hours host before the shared runtime starts`);
 }
 
-console.log('PASS live footer hours and complete, opening-safe appointment windows with safe date switching.');
+const chat=fs.readFileSync(new URL('../customer-chat.js',import.meta.url),'utf8');
+assert.doesNotMatch(chat,/9 AM–6 PM|10 AM–4 PM/,'the synchronous footer fallback must not use retired hours');
+assert.match(chat,/Monday–Friday<\/span> <strong>10 AM–8 PM/);
+assert.match(chat,/Saturday<\/span> <strong>10 AM–6 PM/);
+
+console.log('PASS shared live footer hours and complete, opening-safe appointment windows with safe date switching.');
