@@ -1,5 +1,5 @@
 /* GotCracked customer PWA: cache the public shell only. Repair accounts and APIs stay network-only. */
-const CACHE_NAME = 'gotcracked-customer-shell-v1';
+const CACHE_NAME = 'gotcracked-customer-shell-v2';
 const PUBLIC_SHELL = [
   '/',
   '/index.html',
@@ -11,7 +11,8 @@ const PUBLIC_SHELL = [
   '/hardening.css',
   '/app.js',
   '/customer-pwa.js',
-  '/assets/gotcracked-customer-app-icon-192.png'
+  '/assets/gotcracked-customer-app-icon-192.png?v=20260921-visual1',
+  '/assets/gotcracked-customer-app-icon-512.png?v=20260921-visual1'
 ];
 
 self.addEventListener('install', event => {

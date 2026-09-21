@@ -1,6 +1,6 @@
-/* GotCracked public site — authoritative production layout layer.
-   Loaded last in <head>. This file owns first-paint/mobile behavior so the
-   customer page never depends on runtime CSS injection or hidden content. */
+/* GotCracked public site — authoritative structural production layout layer.
+   It owns first-paint/mobile behavior; asset-pass.css loads last and owns the
+   final visual treatment. Runtime JavaScript never injects visual CSS. */
 
 :root{
   --gc-mobile-gutter:14px;
