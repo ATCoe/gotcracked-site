@@ -131,6 +131,11 @@ jobs:
 
           for token in ['body .container.process-grid','body .container.mail-in-grid','body .container.faq-grid','body .issue-card>.console-platforms','body .gc-chat-launcher']:
               if token not in chat_css: raise SystemExit(f'Mobile layout guard missing: {token}')
+
+          for token in ['gc-chat-contact', "action:'handoff'", 'preferredContact', 'requestHuman:handoffPending', 'requiresContact', 'handoffReady']:
+              if token not in chat and token not in chat_css: raise SystemExit(f'Customer human-handoff guard missing: {token}')
+          if 'TWILIO_AUTH_TOKEN' in chat or 'GOOGLE_CHAT_SERVICE_ACCOUNT_JSON' in chat:
+              raise SystemExit('Server-side communication credentials must never be exposed on the public site.')
           compact = re.sub(r'\s+', '', release)
           if '@media(max-width:700px)' not in compact: raise SystemExit('Authoritative mobile breakpoint missing.')
           if 'overflow-x:auto!important' not in compact or 'touch-action:auto!important' not in compact: raise SystemExit('Native mobile service scrolling guard missing.')
