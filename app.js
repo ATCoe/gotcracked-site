@@ -134,7 +134,7 @@
       ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
       ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
       const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
-      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Request appointment';
+      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Submit repair request';
     };
     const requestParams = new URLSearchParams(window.location.search);
     if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
@@ -181,7 +181,7 @@
         $('.form-success', bookingForm)?.classList.add('active');
         showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
-      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Request appointment'}</span> <span>→</span>`; }
+      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Submit repair request'}</span> <span>→</span>`; }
     });
     $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); clientRequestId = crypto.randomUUID(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }

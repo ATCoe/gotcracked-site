@@ -16,7 +16,7 @@
 
   const state = {
     step: 'mode', mode: '', name: '', phone: '', email: '', device: '', service: '', notes: '', consent: false,
-    appointment: '', receipt: null, systemState: 'ready'
+    appointment: '', receipt: null, systemState: 'ready', handoffReturnStep: 'mode'
   };
 
   const $ = (selector) => document.querySelector(selector);
@@ -162,10 +162,11 @@
   }
 
   function renderHandoff() {
-    setHeading('STAFF HANDOFF', 'A team member is taking over');
-    screenView.innerHTML = `<div class="handoff-screen"><div class="handoff-icon">${icon('phone')}</div><h3>Hi, staff member.</h3><p class="screen-intro">Review the customer’s details, add an internal note, and finish the check-in together.</p><div class="handoff-summary"><div><small>Customer</small><strong>${escapeHtml(state.name)}</strong><span>${escapeHtml(state.phone)} · ${escapeHtml(state.email)}</span></div><div><small>Repair</small><strong>${escapeHtml(state.service)}</strong><span>${escapeHtml(state.device)}</span></div></div><form class="kiosk-form" id="handoffForm"><div class="form-grid"><label class="field"><span>Staff name</span><input name="staff" autocomplete="name" required placeholder="Your name" /></label><label class="field"><span>Internal note <small>(optional)</small></span><input name="staffNote" placeholder="Anything to flag?" /></label></div><div class="form-actions"><button class="button button-secondary" type="button" data-back>Back to check-in</button><button class="button button-primary" type="submit">Complete handoff ${icon('arrow')}</button></div></form></div>`;
-    $('#handoffForm').addEventListener('submit', (event) => { event.preventDefault(); const staff = new FormData(event.currentTarget).get('staff'); if (!String(staff || '').trim()) return showInlineError('Add a staff name to complete the handoff.'); state.step = 'details'; announce('Staff handoff complete.'); render(); });
-    bindBack();
+    setHeading('STAFF ASSISTANCE', 'A team member is helping');
+    screenView.innerHTML = `<div class="handoff-screen"><div class="handoff-icon">${icon('phone')}</div><h3>Review this check-in together.</h3><p class="screen-intro">Confirm the customer and repair details, then continue. Add any private staff notes in Portal after the request is received.</p><div class="handoff-summary"><div><small>Customer</small><strong>${escapeHtml(state.name || 'Not entered yet')}</strong><span>${state.phone ? escapeHtml(state.phone) + ' · ' + escapeHtml(state.email) : 'Details will appear after entry.'}</span></div><div><small>Repair</small><strong>${escapeHtml(state.service || 'Not selected yet')}</strong><span>${escapeHtml(state.device || 'Choose a device during check-in.')}</span></div></div><div class="form-actions"><button class="button button-secondary" type="button" data-back>Back to check-in</button><button class="button button-primary" type="button" data-continue>Continue with staff ${icon('arrow')}</button></div></div>`;
+    const returnToCheckIn = () => { state.step = state.handoffReturnStep || 'mode'; announce('Continue the check-in with staff.'); render(); };
+    screenView.querySelector('[data-continue]').addEventListener('click', returnToCheckIn);
+    screenView.querySelector('[data-back]').addEventListener('click', returnToCheckIn);
   }
 
   function render() {
@@ -188,34 +189,64 @@
   function setConnection(label, kind) { const el = $('#connectionState'); el.textContent = label; el.dataset.state = kind || 'ready'; }
 
   function localParts() {
-    const values = new Intl.DateTimeFormat('en-US', { timeZone: config.timezone || 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false }).formatToParts(new Date());
+    const values = new Intl.DateTimeFormat('en-US', { timeZone: config.timezone || 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
     return Object.fromEntries(values.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
   }
 
-  function currentBookingWindow(hour) {
-    if (hour < 12) return 'Morning (9 AM–12 PM)';
-    if (hour < 16) return 'Afternoon (12–4 PM)';
-    return 'Late afternoon (4–6 PM)';
+  async function currentStoreHours() {
+    const fallback = window.GOTCRACKED_KIOSK_SCHEDULE.DEFAULT_HOURS;
+    let timeoutHandle;
+    try {
+      const response = await Promise.race([
+        window.supabaseClient.functions.invoke('public-media', { method: 'GET' }),
+        new Promise(resolve => { timeoutHandle = window.setTimeout(() => resolve(null), 2500); })
+      ]);
+      if (!response) return fallback;
+      const { data, error } = response;
+      if (!error && data?.settings?.store_hours && typeof data.settings.store_hours === 'object') return data.settings.store_hours;
+    } catch (error) {
+      console.warn('Kiosk could not load live shop hours; using published default hours.', error);
+    } finally {
+      window.clearTimeout(timeoutHandle);
+    }
+    return fallback;
   }
 
-  function intakePayload() {
+  async function intakePayload() {
     const names = state.name.split(/\s+/).filter(Boolean);
     const firstName = names.shift() || 'Customer';
     const lastName = names.join(' ') || 'Customer';
     const parts = localParts();
+    const date = `${parts.year}-${parts.month}-${parts.day}`;
+    const clockMinutes = Number(parts.hour) * 60 + Number(parts.minute);
+    const time = window.GOTCRACKED_KIOSK_SCHEDULE.bookingWindow(date, clockMinutes, await currentStoreHours());
+    if (!time) {
+      const error = new Error('The shop is currently closed for check-ins. Please ask a team member for help or request a future visit.');
+      error.name = 'KioskWindowError';
+      throw error;
+    }
     const issue = [state.service, state.notes ? `Customer notes: ${state.notes}` : '', state.appointment ? `Appointment reference: ${state.appointment}` : ''].filter(Boolean).join('\n\n');
     return {
       companyWebsite: '', formStartedAt: String(Date.now() - 3000), clientRequestId: state.clientRequestId || (state.clientRequestId = crypto.randomUUID()), serviceMode: 'walk_in',
       deviceType: state.device, model: state.device, issue, firstName, lastName,
-      phone: state.phone, email: state.email, preferredContact: 'Text', timing: 'Submitted from the self-service check-in kiosk.',
-      date: `${parts.year}-${parts.month}-${parts.day}`, time: currentBookingWindow(Number(parts.hour)), consent: 'on', source: 'gotcracked-kiosk'
+      phone: state.phone, email: state.email, preferredContact: 'Call', timing: 'Submitted from the self-service check-in kiosk.',
+      date, time, consent: 'on', source: 'gotcracked-kiosk'
     };
   }
 
   async function createCheckIn() {
     if (demoMode) { await new Promise((resolve) => window.setTimeout(resolve, 700)); return { reference: `GC-DEMO-${Math.floor(1000 + Math.random() * 8999)}`, eta: 'Staff will confirm', demo: true }; }
     if (!window.supabaseClient?.functions) throw new Error('The kiosk connection is not configured. Please ask a team member for help.');
-    const { data, error } = await window.supabaseClient.functions.invoke(config.intakeFunction || 'public-intake', { body: intakePayload() });
+    const body = await intakePayload();
+    const timeoutMs = Math.max(1000, Math.min(30000, Number(config.requestTimeoutMs) || 9000));
+    let timeoutHandle;
+    const timeout = new Promise((_, reject) => {
+      timeoutHandle = window.setTimeout(() => { const error = new Error('Check-in timed out.'); error.name = 'AbortError'; reject(error); }, timeoutMs);
+    });
+    let response;
+    try { response = await Promise.race([window.supabaseClient.functions.invoke(config.intakeFunction || 'public-intake', { body }), timeout]); }
+    finally { window.clearTimeout(timeoutHandle); }
+    const { data, error } = response;
     if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send this check-in.');
     return { reference: data.reference, eta: data.timingGuidance || 'Staff will confirm' };
   }
@@ -223,28 +254,28 @@
   async function submitCheckIn() {
     state.systemState = 'loading'; setConnection('Saving check-in…', 'loading'); renderLoading();
     try { state.receipt = await createCheckIn(); state.systemState = 'ready'; setConnection(state.receipt.demo ? 'Demo ready' : 'Connected', 'ready'); state.step = 'done'; announce(state.receipt.demo ? 'Demo check-in complete. No request was sent.' : 'Check-in complete. Your queue receipt is ready.'); render(); }
-    catch (error) { state.systemState = error && error.name === 'AbortError' ? 'timeout' : 'error'; setConnection(state.systemState === 'timeout' ? 'Connection timed out' : 'Action needed', state.systemState); renderSystemState(state.systemState); }
+    catch (error) { state.systemState = error && error.name === 'AbortError' ? 'timeout' : 'error'; setConnection(state.systemState === 'timeout' ? 'Connection timed out' : 'Action needed', state.systemState); renderSystemState(state.systemState, error?.name === 'KioskWindowError' ? error.message : ''); }
   }
 
   function renderLoading() { setHeading('SAVING CHECK-IN', 'One moment, please'); screenView.innerHTML = `<div class="system-state"><div class="loader-ring" aria-hidden="true"></div><h3>Sending your details securely…</h3><p class="screen-intro">Please keep this screen open. This usually takes a few seconds.</p></div>`; }
 
-  function renderSystemState(kind) { const timeout = kind === 'timeout'; setHeading(timeout ? 'CONNECTION TIMEOUT' : 'WE HIT A SNAG', timeout ? 'The connection is taking too long' : 'Your check-in was not sent'); screenView.innerHTML = `<div class="system-state error-state"><div class="state-symbol">${timeout ? '↻' : '!'}</div><h3>${timeout ? 'Nothing was lost.' : 'Let’s try that again.'}</h3><p class="screen-intro">${timeout ? 'The service desk did not respond in time. Check your connection or ask a team member to help.' : 'We couldn’t reach the service desk. Your details are still on this screen.'}</p><div class="state-actions"><button class="button button-primary" type="button" data-retry>Try again</button><button class="button button-secondary" type="button" data-staff>Get staff assistance</button></div></div>`; screenView.querySelector('[data-retry]').addEventListener('click', submitCheckIn); screenView.querySelector('[data-staff]').addEventListener('click', () => dialog.showModal()); announce(timeout ? 'Connection timed out. Nothing was lost.' : 'The check-in could not be sent.'); focusMain(); }
+  function renderSystemState(kind, message = '') { const timeout = kind === 'timeout'; setHeading(timeout ? 'CONNECTION TIMEOUT' : 'WE HIT A SNAG', timeout ? 'The connection is taking too long' : 'Your check-in was not sent'); screenView.innerHTML = `<div class="system-state error-state"><div class="state-symbol">${timeout ? '↻' : '!'}</div><h3>${timeout ? 'Nothing was lost.' : 'Let’s try that again.'}</h3><p class="screen-intro">${escapeHtml(message || (timeout ? 'The service desk did not respond in time. Check your connection or ask a team member to help.' : 'We couldn’t reach the service desk. Your details are still on this screen.'))}</p><div class="state-actions"><button class="button button-primary" type="button" data-retry>Try again</button><button class="button button-secondary" type="button" data-staff>Get staff assistance</button></div></div>`; screenView.querySelector('[data-retry]').addEventListener('click', submitCheckIn); screenView.querySelector('[data-staff]').addEventListener('click', () => dialog.showModal()); announce(timeout ? 'Connection timed out. Nothing was lost.' : 'The check-in could not be sent.'); focusMain(); }
 
-  function reset() { Object.assign(state, { step: 'mode', mode: '', name: '', phone: '', email: '', device: '', service: '', notes: '', consent: false, appointment: '', receipt: null, systemState: 'ready' }); setConnection(demoMode ? 'Demo ready' : 'Connected', 'ready'); render(); announce('Check-in restarted.'); }
+  function reset() { Object.assign(state, { step: 'mode', mode: '', name: '', phone: '', email: '', device: '', service: '', notes: '', consent: false, appointment: '', receipt: null, systemState: 'ready', handoffReturnStep: 'mode' }); setConnection(demoMode ? 'Demo ready' : 'Ready to check in', 'ready'); render(); announce('Check-in restarted.'); }
 
   function updateClock() { $('#currentTime').textContent = new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit' }).format(new Date()); }
 
   $('#staffButton').addEventListener('click', () => dialog.showModal());
   $('#closeStaffButton').addEventListener('click', () => dialog.close());
   $('#resetButton').addEventListener('click', () => { dialog.close(); reset(); });
-  $('#handoffButton').addEventListener('click', () => { dialog.close(); state.step = 'handoff'; render(); announce('Staff handoff started.'); });
+  $('#handoffButton').addEventListener('click', () => { dialog.close(); state.handoffReturnStep = state.step; state.step = 'handoff'; render(); announce('Staff assistance started.'); });
   dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && dialog.open) dialog.close(); });
   if (debugMode) { $('#debugActions').hidden = false; $('#debugActions').querySelectorAll('[data-preview-state]').forEach((button) => button.addEventListener('click', () => { dialog.close(); state.step = 'details'; render(); window.setTimeout(() => renderSystemState(button.dataset.previewState), 0); })); }
   document.querySelector('.brand').addEventListener('click', (event) => { event.preventDefault(); if (state.step !== 'mode') reset(); });
   reducedMotion.addEventListener?.('change', () => document.documentElement.dataset.reducedMotion = String(reducedMotion.matches));
   document.documentElement.dataset.reducedMotion = String(reducedMotion.matches);
-  setConnection(demoMode ? 'Demo ready' : (window.supabaseClient?.functions ? 'Connected' : 'Connection needed'), window.supabaseClient?.functions || demoMode ? 'ready' : 'error');
+  setConnection(demoMode ? 'Demo ready' : (window.supabaseClient?.functions ? 'Ready to check in' : 'Connection needed'), window.supabaseClient?.functions || demoMode ? 'ready' : 'error');
   updateClock(); window.setInterval(updateClock, 30000); render();
 })();
 
