@@ -29,6 +29,9 @@ jobs:
       - name: Store hours and appointment windows
         run: node scripts/test-store-hours.mjs
 
+      - name: Marlon browser audit safeguards
+        run: node scripts/test-marlon-browser-audit.mjs
+
       - name: Truthful custom-PC request copy
         run: node scripts/test-pc-build-truthful-copy.mjs
 
@@ -85,9 +88,9 @@ jobs:
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
           css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
           css_files = [ref.split('?',1)[0] for ref in css_refs]
-          for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css']:
+          for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css','device-photo-polish.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-1] != 'asset-pass.css': raise SystemExit('asset-pass.css must remain the final homepage stylesheet.')
+          if css_files[-2:] != ['asset-pass.css','device-photo-polish.css']: raise SystemExit('The asset and licensed device-photo polish styles must remain the final homepage stylesheets.')
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/photos/repair-bench-phone.jpg','assets/photos/repair-detail-phone.jpg','assets/photos/repair-laptop-workbench.jpg','assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')

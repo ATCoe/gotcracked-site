@@ -154,7 +154,7 @@ async function prepare(){
     if(!branch||!claim.run?.commit_sha) throw new Error('Waiting deployment is missing its preserved branch or commit.');
     git('fetch','origin',branch);
     git('checkout','-B',branch,`origin/${branch}`);
-    const state={runId,ticketId:ticket.id,ticketNumber:ticket.ticket_number,baseSha:String(meta.base_sha||''),diagnosis:claim.run?.diagnosis||ticket.diagnosis||'',patchSummary:claim.run?.patch_summary||ticket.action_taken||'',changedPaths:Array.isArray(meta.changed_paths)?meta.changed_paths:[],verificationPlan:Array.isArray(meta.verification_plan)?meta.verification_plan:[],changeSize:String(meta.change_size||'large'),featureUpdate:meta.feature_update===true,architectureImpact:String(meta.architecture_impact||'improves'),preservedCapabilities:Array.isArray(meta.preserved_capabilities)?meta.preserved_capabilities:[],branch,commitSha:String(claim.run.commit_sha),checks:Array.isArray(meta.checks)?meta.checks:[]};
+    const state={runId,ticketId:ticket.id,ticketNumber:ticket.ticket_number,baseSha:String(meta.base_sha||''),diagnosis:claim.run?.diagnosis||ticket.diagnosis||'',patchSummary:claim.run?.patch_summary||ticket.action_taken||'',changedPaths:Array.isArray(meta.changed_paths)?meta.changed_paths:[],verificationPlan:Array.isArray(meta.verification_plan)?meta.verification_plan:[],browserAudit:meta.browser_audit||null,changeSize:String(meta.change_size||'large'),featureUpdate:meta.feature_update===true,architectureImpact:String(meta.architecture_impact||'improves'),preservedCapabilities:Array.isArray(meta.preserved_capabilities)?meta.preserved_capabilities:[],branch,commitSha:String(claim.run.commit_sha),checks:Array.isArray(meta.checks)?meta.checks:[]};
     fs.writeFileSync(STATE,JSON.stringify(state,null,2));
     output('has_work','true'); output('resume','true'); output('branch',branch);
     return;
@@ -175,9 +175,12 @@ async function prepare(){
     const plan=planned.plan||{};
     if(!Array.isArray(plan.edits)||plan.edits.length===0){
       if(String(plan.outcome||'')==='clean'&&auditIntent(ticket)){
-        const patchSummary='Audit completed without a deterministic code change requirement.';
-        fs.writeFileSync(STATE,JSON.stringify({runId,ticketId:ticket.id,ticketNumber:ticket.ticket_number,baseSha:git('rev-parse','HEAD'),diagnosis:plan.diagnosis||'No deterministic repair was required by the supplied audit evidence.',patchSummary,changedPaths:[],verificationPlan:plan.verification||[],changeSize:'small',featureUpdate:false,architectureImpact:'neutral',preservedCapabilities:Array.isArray(plan.preservedCapabilities)?plan.preservedCapabilities:[],auditOnly:true},null,2));
-        output('has_work','true'); output('audit_only','true'); return;
+        await report(token,runId,'blocked',{
+          diagnosis:plan.diagnosis||'The source review found no bounded code change.',
+          error:'A clean source review cannot establish visual, functional, form, or hardware acceptance. Attach browser and end-user evidence before closing this audit.',
+          metadata:{audit_scope:'source_only',end_user_browser_verified:false,physical_hardware_verified:false}
+        });
+        output('has_work','false'); return;
       }
       await report(token,runId,'blocked',{diagnosis:plan.diagnosis||null,error:plan.blocker||'No deterministic safe patch was produced.',metadata:{prior_history_count:(claim.history||[]).length,outcome:plan.outcome||'blocked'}});
       output('has_work','false'); return;
@@ -227,12 +230,20 @@ async function waitWorkflow(file,sha,startedAt,token){
 
 async function checks(branch){
   const state=JSON.parse(fs.readFileSync(STATE,'utf8'));
+  const auditPath=process.env.MARLON_AUDIT_REPORT;
+  if(!auditPath||!fs.existsSync(auditPath))throw new Error('Candidate browser audit report is missing.');
+  const browserAudit=JSON.parse(fs.readFileSync(auditPath,'utf8'));
+  if(browserAudit.ok!==true||browserAudit.scope!=='customer_site'||browserAudit.coverage?.customerSite?.viewports<18){
+    throw new Error('Candidate browser smoke did not cover all public customer-site pages.');
+  }
+  state.browserAudit={coveredAt:browserAudit.finishedAt,coverage:browserAudit.coverage,
+    findings:(browserAudit.findings||[]).map(item=>({surface:item.surface,route:item.route,viewport:item.viewport,code:item.code,severity:item.severity})).slice(0,60)};
   const idToken=await oidc();
   startHeartbeat(idToken,state.runId,'testing');
   const apiToken=process.env.GITHUB_TOKEN;
   if(!apiToken) throw new Error('GitHub workflow token missing.');
   const sha=git('rev-parse','HEAD');
-  await report(idToken,state.runId,'testing',{commitSha:sha,metadata:{branch,base_sha:state.baseSha,changed_paths:state.changedPaths||[],verification_plan:state.verificationPlan||[],change_size:state.changeSize||'small',feature_update:state.featureUpdate===true,architecture_impact:state.architectureImpact||'neutral',preserved_capabilities:state.preservedCapabilities||[]}});
+  await report(idToken,state.runId,'testing',{commitSha:sha,metadata:{branch,base_sha:state.baseSha,changed_paths:state.changedPaths||[],verification_plan:state.verificationPlan||[],browser_audit:state.browserAudit,change_size:state.changeSize||'small',feature_update:state.featureUpdate===true,architecture_impact:state.architectureImpact||'neutral',preserved_capabilities:state.preservedCapabilities||[]}});
   const workflows=['site-ci.yml','pc-build-reference-guard.yml'];
   const startedAt=Date.now();
   for(const file of workflows) await dispatchWorkflow(file,branch,apiToken);
@@ -251,7 +262,7 @@ async function checks(branch){
   fs.writeFileSync(STATE,JSON.stringify(state,null,2));
   if(state.deploymentGate.allowed!==true){
     heartbeatStage='waiting_window';
-    await report(idToken,state.runId,'waiting_window',{commitSha:sha,patchSummary:state.patchSummary,verification:{checks:results},metadata:{branch,base_sha:state.baseSha,changed_paths:state.changedPaths||[],verification_plan:state.verificationPlan||[],checks:results,change_size:state.changeSize||'small',feature_update:state.featureUpdate===true,architecture_impact:state.architectureImpact||'neutral',preserved_capabilities:state.preservedCapabilities||[],deployment_gate:state.deploymentGate}});
+    await report(idToken,state.runId,'waiting_window',{commitSha:sha,patchSummary:state.patchSummary,verification:{checks:results,browser_audit:state.browserAudit},metadata:{branch,base_sha:state.baseSha,changed_paths:state.changedPaths||[],verification_plan:state.verificationPlan||[],browser_audit:state.browserAudit,checks:results,change_size:state.changeSize||'small',feature_update:state.featureUpdate===true,architecture_impact:state.architectureImpact||'neutral',preserved_capabilities:state.preservedCapabilities||[],deployment_gate:state.deploymentGate}});
     output('deploy_allowed','false');
     return;
   }
@@ -283,28 +294,18 @@ async function complete(){
   const sha=git('rev-parse','HEAD');
   state.commitSha=sha;
   if(state.auditOnly===true){
-    try{
-      const res=await fetch(`${LIVE}/?marlon-audit=${encodeURIComponent(sha)}`,{headers:{'Cache-Control':'no-cache'}});
-      if(!res.ok) throw new Error(`Live surface audit verification failed (${res.status}).`);
-      const body=await res.text();
-      if(body.length<100) throw new Error('Live surface audit verification returned an unexpectedly small response.');
-      const live={url:LIVE,status:res.status,content_type:res.headers.get('content-type'),verified_at:new Date().toISOString()};
-      heartbeatStage='verifying';
-      await report(token,state.runId,'verifying',{commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],audit_only:true,live}});
-      await report(token,state.runId,'completed',{diagnosis:state.diagnosis,patchSummary:state.patchSummary,resolution:'Production audit completed: repository guards passed and the live surface responded successfully. No deterministic code change was required by the audited evidence.',commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],audit_only:true,live}});
-      return;
-    }catch(error){
-      await report(token,state.runId,'failed',{commitSha:sha,error:String(error?.message||error),verification:{checks:state.checks||[],audit_only:true}}).catch(()=>{});
-      throw error;
-    }
+    await report(token,state.runId,'blocked',{commitSha:sha,
+      error:'Legacy audit-only run lacked browser and end-user evidence; it cannot be marked complete from a page response.',
+      verification:{checks:state.checks||[],audit_only:true,end_user_browser_verified:false,physical_hardware_verified:false}});
+    return;
   }
   heartbeatStage='deploying';
   await report(token,state.runId,'deploying',{commitSha:sha,metadata:{branch:state.branch,checks:state.checks||[]}});
   try{
     const live=await verifyLive(state);
     heartbeatStage='verifying';
-    await report(token,state.runId,'verifying',{commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],...live}});
-    await report(token,state.runId,'completed',{diagnosis:state.diagnosis,patchSummary:state.patchSummary,resolution:'Implemented, passed Public Site CI and the PC Build Reference Guard, then verified on the live Cloudflare deployment.',commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],...live}});
+    await report(token,state.runId,'verifying',{commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],browser_audit:state.browserAudit||null,...live}});
+    await report(token,state.runId,'completed',{diagnosis:state.diagnosis,patchSummary:state.patchSummary,resolution:'Implemented, passed website guards and candidate public-page browser smoke, then verified changed files on the live deployment. Submitted forms and physical hardware remain separate gates.',commitSha:sha,deploymentUrl:LIVE,verification:{checks:state.checks||[],browser_audit:state.browserAudit||null,...live}});
   }catch(error){
     await report(token,state.runId,'failed',{commitSha:sha,error:String(error?.message||error),verification:{checks:state.checks||[]}}).catch(()=>{});
     throw error;

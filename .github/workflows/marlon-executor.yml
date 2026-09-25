@@ -39,7 +39,7 @@ jobs:
   execute-one-ticket:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,6 +67,39 @@ jobs:
                   raise SystemExit(f'Unbalanced CSS braces: {path}')
           PY
 
+      - name: Install browser smoke runner
+        if: steps.prepare.outputs.has_work == 'true' && steps.prepare.outputs.resume != 'true' && steps.prepare.outputs.audit_only != 'true'
+        run: |
+          npm ci --prefix scripts/marlon-audit --ignore-scripts
+          npm exec --prefix scripts/marlon-audit -- playwright install --with-deps chromium
+
+      - name: Capture candidate customer-site browser evidence
+        if: steps.prepare.outputs.has_work == 'true' && steps.prepare.outputs.resume != 'true' && steps.prepare.outputs.audit_only != 'true'
+        shell: bash
+        env:
+          MARLON_AUDIT_SURFACE: customer_site
+          MARLON_SITE_URL: http://127.0.0.1:8767/
+          MARLON_AUDIT_OUT: marlon-audit-artifacts
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8767 --bind 127.0.0.1 >/tmp/marlon-site-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8767/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/marlon-audit/audit.mjs
+
+      - name: Save bounded website browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: marlon-website-browser-audit
+          path: marlon-audit-artifacts/
+          retention-days: 14
+          if-no-files-found: ignore
+
       - name: Commit patch to isolated branch
         id: commit
         if: steps.prepare.outputs.has_work == 'true' && steps.prepare.outputs.resume != 'true' && steps.prepare.outputs.audit_only != 'true'
@@ -88,6 +121,7 @@ jobs:
         if: steps.prepare.outputs.has_work == 'true' && steps.prepare.outputs.resume != 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          MARLON_AUDIT_REPORT: marlon-audit-artifacts/report.json
         shell: bash
         run: |
           branch="${{ steps.commit.outputs.branch }}"
