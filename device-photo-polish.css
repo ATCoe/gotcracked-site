@@ -1,0 +1,27 @@
+/* Device selection uses authentic photography, with text kept outside image overlays. */
+.repair-finder-grid>a:not(.repair-finder-unsure){padding:0 0 21px;overflow:hidden;background:#fff}
+.repair-finder-grid>a:not(.repair-finder-unsure) .repair-finder-photo{display:block;width:100%;height:148px;object-fit:cover;margin:0 0 18px;background:#dce5ee}
+.repair-finder-grid>a:nth-child(1) .repair-finder-photo{object-position:55% 51%}
+.repair-finder-grid>a:nth-child(2) .repair-finder-photo{object-position:center 55%}
+.repair-finder-grid>a:nth-child(3) .repair-finder-photo{object-position:center 48%}
+.repair-finder-grid>a:nth-child(4) .repair-finder-photo{object-position:center 52%}
+.repair-finder-grid>a:not(.repair-finder-unsure) strong,
+.repair-finder-grid>a:not(.repair-finder-unsure) small,
+.repair-finder-grid>a:not(.repair-finder-unsure) b{margin-left:19px;margin-right:19px}
+.repair-finder-grid>a:not(.repair-finder-unsure) strong{font-size:17px}
+.repair-finder-grid>a:not(.repair-finder-unsure) small{font-size:12px}
+.repair-finder-grid>a:focus-visible{outline:3px solid #078cf0;outline-offset:3px}
+html body #services .service-card.featured .card-link{color:#8fe6ff!important}
+html body #services .service-card.featured p{color:#c8d8e8!important}
+.service-card .card-link:focus-visible{outline:3px solid #078cf0;outline-offset:4px}
+.why-us .brand-panel img{display:block!important;object-position:53% center;filter:saturate(.9)}
+.why-us .brand-panel{background:#071421}
+@media(max-width:650px){
+  .repair-finder-grid>a:not(.repair-finder-unsure){min-height:235px;padding-bottom:16px}
+  .repair-finder-grid>a:not(.repair-finder-unsure) .repair-finder-photo{height:102px;margin-bottom:13px}
+  .repair-finder-grid>a:not(.repair-finder-unsure) strong,
+  .repair-finder-grid>a:not(.repair-finder-unsure) small,
+  .repair-finder-grid>a:not(.repair-finder-unsure) b{margin-left:13px;margin-right:13px}
+  .repair-finder-grid>a:not(.repair-finder-unsure) strong{font-size:15px}
+  .repair-finder-grid>a:not(.repair-finder-unsure) small{font-size:11px}
+}
