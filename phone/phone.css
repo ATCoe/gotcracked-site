@@ -1,0 +1,17 @@
+/* Small, optional presentation layer: all content remains usable without CSS. */
+body { margin: 8px; background: #ffffff; color: #172a3a; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.25; }
+h1 { margin: 0 0 5px; font-size: 18px; }
+p { margin: 6px 0; }
+a { color: #005ea8; text-decoration: underline; }
+a:focus { background: #fff0a8; color: #172a3a; outline: 2px solid #172a3a; }
+table { width: 100%; border-collapse: collapse; }
+td { padding: 0; vertical-align: middle; }
+img { border: 0; }
+.brand { width: 58px; }
+.small { font-size: 12px; }
+.menu td { border-top: 1px solid #c6d5df; }
+.menu a { display: block; padding: 5px 2px; font-weight: bold; }
+.back { margin-bottom: 9px; }
+ol { margin: 7px 0 8px; padding-left: 22px; }
+li { margin: 0 0 7px; }
+.note { padding-top: 6px; border-top: 1px solid #c6d5df; font-size: 13px; }
