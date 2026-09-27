@@ -10,3 +10,20 @@
 @media(max-width:620px){.account-header{padding:12px 16px}.account-brand img{width:145px;height:56px}.account-header-actions a{display:none}.account-main{padding:26px 16px 60px}.account-login-card{padding:22px 18px}.account-auth{gap:28px}.account-auth-copy h1{font-size:2.9rem}.account-trust{display:grid}.account-welcome{display:block}.account-live{margin-top:14px}.account-metrics{grid-template-columns:1fr 1fr;gap:8px}.account-metric{padding:14px}.account-metric strong{font-size:1.15rem}.repair-card{padding:18px 16px}.repair-top{display:grid;gap:10px}.repair-status{justify-self:start}.repair-stage-labels{font-size:.61rem}.repair-stage-labels span:nth-child(2),.repair-stage-labels span:nth-child(4){display:none}.repair-details,.account-history .repair-details{grid-template-columns:1fr 1fr}.account-side-column{grid-template-columns:1fr}.account-footer{padding:20px 16px;flex-wrap:wrap}.account-dialog{width:calc(100% - 18px)}.dialog-body{padding:22px 18px}.repair-actions>*{flex:1 1 130px}.account-section-head{align-items:center}}
 .account-login-card::before{content:"";display:block;width:128px;height:76px;margin:-7px auto 12px;background:none;filter:drop-shadow(0 8px 12px rgba(24,119,242,.18))}.account-empty::before{content:"";display:block;width:112px;height:92px;margin:0 auto 10px;background:none}@media(max-width:620px){.account-login-card::before{width:108px;height:64px;margin-top:-4px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.account-login-card::before{filter:none}}
 
+
+/* Preserve hidden authentication states when components define their layout. */
+.customer-account-page [hidden]{display:none!important}
+.account-help a{display:block;margin-top:10px;overflow-wrap:anywhere}
+/* The saved customer estimate is shown together with its decision controls. */
+.repair-estimate{margin-top:18px;padding:18px;border:1px solid #315478;border-radius:14px;background:#0b1e32}
+.repair-estimate h4{margin:0 0 12px;font-size:1rem;color:#eaf2ff}
+.repair-estimate p{color:#b9c9de;font-size:.86rem;line-height:1.6;margin:10px 0 0}
+.estimate-diagnosis{white-space:pre-wrap;overflow-wrap:anywhere}
+.estimate-items{list-style:none;margin:14px 0;padding:0;display:grid;gap:10px}
+.estimate-items li{display:flex;align-items:start;justify-content:space-between;gap:16px;padding-bottom:10px;border-bottom:1px solid #29435e;font-size:.86rem}
+.estimate-items li>span{min-width:0;overflow-wrap:anywhere}.estimate-items small{display:block;color:#9db2ca;margin-top:4px}.estimate-items strong{white-space:nowrap}
+.estimate-totals{margin:14px 0 0;display:grid;gap:8px}.estimate-totals>div{display:flex;justify-content:space-between;gap:16px;font-size:.86rem}.estimate-totals dt{color:#b9c9de}.estimate-totals dd{margin:0;font-weight:700}.estimate-totals .estimate-total{padding-top:10px;border-top:1px solid #315478;font-size:1rem}.estimate-total dt{color:#eaf2ff;font-weight:700}
+.repair-estimate .estimate-consent{font-size:.79rem;color:#9db2ca}
+.estimate-decision-status:empty{display:none}.estimate-decision-status{margin:14px 0 0;padding:12px;border-radius:10px;border:1px solid #4f6782;background:#172d46;color:#eaf2ff;line-height:1.5;font-size:.86rem}
+.repair-actions button:disabled{opacity:.6;cursor:wait}
+@media(max-width:620px){.repair-estimate{padding:14px}}
