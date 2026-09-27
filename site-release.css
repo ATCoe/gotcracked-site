@@ -63,8 +63,9 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
 }
 .site-header nav a,.nav-actions button,.nav-actions a{display:inline-flex;align-items:center;gap:7px}
 .site-nav-icon,.site-action-icon{display:inline-block;flex:0 0 auto;background:currentColor;mask:center/contain no-repeat;-webkit-mask:center/contain no-repeat}
-.site-nav-icon{width:14px;height:14px;opacity:.7}.site-action-icon{width:15px;height:15px}
-.site-nav-services{--site-icon:url("assets/nav-services.svg")}.site-nav-process{--site-icon:url("assets/nav-process.svg")}.site-nav-mail{--site-icon:url("assets/nav-mail.svg")}.site-nav-track{--site-icon:url("assets/nav-track.svg")}.site-nav-start{--site-icon:url("assets/nav-start.svg")}.site-nav-faq{--site-icon:url("assets/nav-faq.svg")}
+.site-nav-icon{width:18px;height:18px;opacity:.9}.site-action-icon{width:18px;height:18px}
+.site-nav-services{--site-icon:url("assets/icons/lucide/wrench.svg")}.site-nav-process{--site-icon:url("assets/icons/lucide/list-checks.svg")}.site-nav-mail{--site-icon:url("assets/icons/lucide/package.svg")}.site-nav-track{--site-icon:url("assets/icons/lucide/search.svg")}.site-nav-start{--site-icon:url("assets/icons/lucide/clipboard-plus.svg")}.site-nav-faq{--site-icon:url("assets/icons/lucide/circle-question-mark.svg")}
+.site-nav-learn{--site-icon:url("assets/icons/lucide/book-open.svg")}
 .site-nav-icon,.site-action-icon{mask-image:var(--site-icon);-webkit-mask-image:var(--site-icon)}
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 
