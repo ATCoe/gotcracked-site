@@ -81,95 +81,29 @@ html body .hero:after{
   display:none!important;
 }
 
-/* Service cards use compact, purpose-built line symbols. */
+/* One consistent, locally served Lucide line icon per repair service. */
 html body #services .service-icon{
-  position:relative!important;
-  width:78px!important;
-  height:72px!important;
-  margin:24px 0 18px!important;
-  overflow:hidden!important;
-  display:grid!important;
-  place-items:center!important;
-  border:1px solid rgba(67,164,247,.22)!important;
-  border-radius:16px!important;
-  background:
-    linear-gradient(rgba(90,174,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(90,174,255,.06) 1px,transparent 1px),
-    #07192c!important;
-  background-size:16px 16px!important;
-  transform:none!important;
-  box-shadow:inset 0 0 24px rgba(20,139,244,.045)!important;
-}
-html body #services .service-icon:before,
-html body #services .service-icon:after{
-  content:""!important;
-  position:absolute!important;
   display:block!important;
-  inset:auto!important;
-  z-index:2!important;
-  opacity:1!important;
-  filter:none!important;
-  box-sizing:border-box!important;
+  position:relative!important;
+  width:48px!important;
+  height:48px!important;
+  margin:24px 0 18px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#45c6ff!important;
+  box-shadow:none!important;
+  transform:none!important;
+  mask:var(--service-symbol) center/contain no-repeat;
+  -webkit-mask:var(--service-symbol) center/contain no-repeat;
 }
-.service-card[data-service="Screen repair"] .service-icon:before{
-  width:30px!important;height:50px!important;border:2px solid #45c6ff!important;border-radius:7px!important;
-  background:linear-gradient(145deg,transparent 42%,rgba(69,198,255,.9) 43% 46%,transparent 47%)!important;
-}
-.service-card[data-service="Screen repair"] .service-icon:after{
-  width:22px!important;height:2px!important;background:#bcefff!important;transform:rotate(-53deg)!important;
-  box-shadow:-8px -8px 0 -1px #45c6ff,7px 8px 0 -1px #45c6ff!important;
-}
-.service-card[data-service="Free diagnostic"] .service-icon:before{
-  width:45px!important;height:45px!important;border:2px solid #45c6ff!important;border-radius:50%!important;
-  background:linear-gradient(90deg,transparent 48%,rgba(69,198,255,.28) 49% 51%,transparent 52%),linear-gradient(transparent 48%,rgba(69,198,255,.28) 49% 51%,transparent 52%)!important;
-}
-.service-card[data-service="Free diagnostic"] .service-icon:after{
-  width:28px!important;height:12px!important;border-bottom:2px solid #d7f5ff!important;border-left:2px solid transparent!important;transform:skewX(-28deg)!important;
-}
-.service-card[data-service="Device cleaning"] .service-icon:before{
-  width:44px!important;height:29px!important;border:2px solid #45c6ff!important;border-top:0!important;border-radius:5px 5px 12px 12px!important;
-}
-.service-card[data-service="Device cleaning"] .service-icon:after{
-  width:5px!important;height:5px!important;border-radius:50%!important;background:#bcefff!important;
-  box-shadow:-14px -12px 0 #45c6ff,0 -17px 0 #45c6ff,14px -12px 0 #45c6ff!important;
-}
-.service-card[data-service="Computer tune-up"] .service-icon:before{
-  width:48px!important;height:34px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
-  box-shadow:0 9px 0 -7px #45c6ff!important;
-}
-.service-card[data-service="Computer tune-up"] .service-icon:after{
-  width:22px!important;height:2px!important;background:#d7f5ff!important;
-  box-shadow:0 -8px 0 rgba(69,198,255,.8),0 8px 0 rgba(69,198,255,.8)!important;
-}
-.service-card[data-service="Custom PC build"] .service-icon:before{
-  width:39px!important;height:52px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
-  background:radial-gradient(circle at 50% 29%,transparent 0 7px,#45c6ff 8px 9px,transparent 10px),radial-gradient(circle at 50% 73%,transparent 0 7px,#45c6ff 8px 9px,transparent 10px)!important;
-}
-.service-card[data-service="Custom PC build"] .service-icon:after{
-  width:5px!important;height:5px!important;border-radius:50%!important;background:#bcefff!important;right:24px!important;top:15px!important;
-}
-.service-card[data-service="Virus removal"] .service-icon:before{
-  width:44px!important;height:49px!important;background:#45c6ff!important;clip-path:polygon(50% 0,92% 16%,84% 69%,50% 100%,16% 69%,8% 16%)!important;
-}
-.service-card[data-service="Virus removal"] .service-icon:after{
-  width:29px!important;height:31px!important;background:#07192c!important;clip-path:polygon(50% 5%,86% 19%,78% 65%,50% 91%,22% 65%,14% 19%)!important;
-  box-shadow:inset 0 0 0 2px rgba(215,245,255,.25)!important;
-}
-.service-card[data-service="Data recovery evaluation"] .service-icon:before{
-  width:48px!important;height:38px!important;border:2px solid #45c6ff!important;border-radius:6px!important;
-  background:radial-gradient(circle at 22% 72%,#bcefff 0 2px,transparent 3px)!important;
-}
-.service-card[data-service="Data recovery evaluation"] .service-icon:after{
-  width:22px!important;height:22px!important;border:2px solid #d7f5ff!important;border-left-color:transparent!important;border-radius:50%!important;
-  transform:rotate(-28deg)!important;
-}
-.service-card[data-service="Battery replacement"] .service-icon:before{
-  width:48px!important;height:28px!important;border:2px solid #45c6ff!important;border-radius:5px!important;
-  background:linear-gradient(90deg,#45c6ff 0 63%,transparent 64%)!important;
-}
-.service-card[data-service="Battery replacement"] .service-icon:after{
-  width:5px!important;height:12px!important;border-radius:0 3px 3px 0!important;background:#45c6ff!important;right:12px!important;
-}
+.service-card[data-service="Screen repair"] .service-icon{--service-symbol:url("assets/icons/lucide/smartphone.svg")}
+.service-card[data-service="Free diagnostic"] .service-icon{--service-symbol:url("assets/icons/lucide/search-check.svg")}
+.service-card[data-service="Device cleaning"] .service-icon{--service-symbol:url("assets/icons/lucide/brush.svg")}
+.service-card[data-service="Computer tune-up"] .service-icon{--service-symbol:url("assets/icons/lucide/gauge.svg")}
+.service-card[data-service="Custom PC build"] .service-icon{--service-symbol:url("assets/icons/lucide/computer.svg")}
+.service-card[data-service="Virus removal"] .service-icon{--service-symbol:url("assets/icons/lucide/shield-check.svg")}
+.service-card[data-service="Data recovery evaluation"] .service-icon{--service-symbol:url("assets/icons/lucide/hard-drive-download.svg")}
+.service-card[data-service="Battery replacement"] .service-icon{--service-symbol:url("assets/icons/lucide/battery-charging.svg")}
 
 /* Custom PC feature becomes a blueprint, not a fabricated product render. */
 .service-feature{
@@ -361,7 +295,7 @@ html body #services .service-icon:after{
 @media(max-width:700px){
   .hero-visual{border-radius:18px!important}
   .logo-stage{width:min(270px,80vw)!important;border-radius:18px!important}
-  html body #services .service-icon{width:68px!important;height:62px!important;margin:12px 0 10px!important;transform:none!important}
+  html body #services .service-icon{width:40px!important;height:40px!important;margin:12px 0 10px!important;transform:none!important}
   .service-feature:before{min-height:210px;border-right:0;border-bottom:1px solid rgba(78,169,249,.17);box-shadow:inset 0 0 0 24px rgba(3,12,24,.16),inset 0 0 0 26px rgba(74,167,249,.24)}
   .guide-visual-image{min-height:190px!important}
   .guide-visual-image:before{left:14%;width:30%;border-radius:12px}

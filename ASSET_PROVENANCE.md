@@ -31,3 +31,7 @@ These exact model and color images were copied without alteration from GotCracke
 - Do not imply endorsement by a pictured person, photographer, device maker, platform, or stock provider.
 - Do not reuse these photographs in logos, trademarks, or merchandise.
 - Recheck the source and license before materially changing how an asset is used.
+
+## Navigation and service icons — September 27, 2026
+
+Local SVG files in `assets/icons/lucide/` were retrieved from the official `lucide-icons/lucide` repository (`main/icons/`) on September 27, 2026. The original 24px geometry and 2px rounded strokes are retained. CSS masks apply the existing interface colors. ISC and applicable Feather MIT notices are retained in that directory’s `LICENSE`. Replaces the homepage service pseudo-element drawings and the navigation symbol mappings. No remote icon runtime is loaded.
