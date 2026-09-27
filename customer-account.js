@@ -11,7 +11,7 @@ function progress(stage){return`<div class="repair-progress" aria-label="Repair 
 
 const pendingEstimateDecisions = new Set();
 function estimateMarkup(r) {
-  if (r.status !== 'awaiting_approval') return '';
+  if (r.status !== 'awaiting_approval' && !r.actions?.canApprove && !r.actions?.canDecline) return '';
   if (!r.estimateRevision) return '<section class="repair-estimate"><h4>Estimate being updated</h4><p>Refresh to see the latest estimate, or contact the shop before approving work.</p></section>';
   const items = Array.isArray(r.estimateItems) ? r.estimateItems : [];
   return `<section class="repair-estimate" aria-label="Estimate to review"><h4>Review your repair estimate</h4>${r.diagnosis ? `<p class="estimate-diagnosis">${esc(r.diagnosis)}</p>` : ''}${items.length ? `<ul class="estimate-items">${items.map(item => `<li><span>${esc(item.description || 'Repair service')}<small>Quantity: ${esc(item.quantity ?? 1)}</small></span><strong>${money(item.lineTotalCents)}</strong></li>`).join('')}</ul>` : ''}<dl class="estimate-totals"><div><dt>Subtotal</dt><dd>${money(r.estimateSubtotalCents ?? r.subtotalCents)}</dd></div><div><dt>Tax</dt><dd>${money(r.estimateTaxCents ?? r.taxCents)}</dd></div><div class="estimate-total"><dt>Estimate total</dt><dd>${money(r.estimateCents)}</dd></div></dl><p class="estimate-consent">Approval authorizes the work and total shown here. Changes to the quoted work or price will require a new approval.</p></section>`;

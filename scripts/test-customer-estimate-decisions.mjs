@@ -93,13 +93,25 @@ await check('render exact quote scope, line items, subtotal, tax, total and cons
   assert.match(html,/<dt>Estimate total<\/dt><dd>\$210\.60<\/dd>/);
   assert.match(html,/Changes to the quoted work or price will require a new approval/);
   assert.doesNotMatch(html,/9,999\.99/,'unrelated totals do not replace the saved quote');
-  assert.equal(h.api.estimateMarkup(repair({status:'in_repair'})),'');
+  assert.equal(h.api.estimateMarkup(repair({status:'in_repair',actions:{canApprove:false,canDecline:false}})),'');
   const stale=h.api.repairCard(repair({estimateRevision:null}));
   assert.match(stale,/Estimate being updated/);
   assert.doesNotMatch(stale,/data-account-action=/,'unrevisioned estimates cannot expose approval buttons');
   const attributes=h.api.repairCard(repair({id:'x"<y',estimateRevision:'q"<v'}));
   assert.match(attributes,/data-ticket="x&quot;&lt;y"/);
   assert.match(attributes,/data-estimate-revision="q&quot;&lt;v"/);
+});
+
+await check('every server-authorized decision includes the exact quote while parts or diagnosis are pending',async()=>{
+  const h=await harness();
+  for(const status of ['awaiting_approval','need_to_order_parts','awaiting_parts','awaiting_repair','awaiting_diagnostic','diagnostic_in_progress','testing_in_progress','checked_in','awaiting_callback','waiting_on_parts','in_diagnosis']){
+    const html=h.api.repairCard(repair({status,actions:{canApprove:true,canDecline:true}}));
+    assert.match(html,/Review your repair estimate/,status);
+    assert.match(html,/<dt>Estimate total<\/dt><dd>\$210\.60<\/dd>/,status);
+    assert.match(html,/data-estimate-revision="revision-1"/,status);
+    assert.ok(html.indexOf('Review your repair estimate')<html.indexOf('data-account-action='),status+' shows the scope before decisions');
+  }
+  assert.equal(h.api.estimateMarkup(repair({status:'awaiting_parts',approvedAt:'2026-09-27T12:00:00Z',actions:{canApprove:false,canDecline:false}})),'');
 });
 
 for(const action of ['approve','decline'])await check(`${action} sends only displayed revision and ticket using same-origin API`,async()=>{
