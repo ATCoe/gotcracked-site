@@ -394,23 +394,27 @@ html body .hero-lede{max-width:650px}
 html body .hero-visual{
   display:block!important;
   position:relative;
-  height:560px!important;
-  min-height:560px;
+  height:480px!important;
+  min-height:480px;
   overflow:hidden;
   border:1px solid rgba(117,197,255,.28)!important;
   border-radius:30px!important;
-  background:#071321!important;
+  background:radial-gradient(circle at 7% 14%,#10375a 0,#071b31 38%,#071321 100%)!important;
   box-shadow:0 34px 80px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.04)!important;
 }
-.hero-photo-wrap,.hero-photo-shade{position:absolute;inset:0}
-.hero-photo{width:100%;height:100%;display:block;object-fit:cover;object-position:56% center;filter:saturate(.82) contrast(1.05)}
-.hero-photo-shade{background:linear-gradient(180deg,rgba(3,10,22,.02) 30%,rgba(3,10,22,.9) 100%),linear-gradient(90deg,rgba(3,10,22,.3),transparent 48%)}
+.hero-assessment{height:100%;display:flex;flex-direction:column;padding:26px;color:#eff7ff}
+.hero-assessment-kicker{margin:0 0 9px;color:#78c9ff;font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+.hero-assessment h2{margin:0;font-size:31px;line-height:1.12;letter-spacing:-.04em}
+.hero-assessment-intro{margin:10px 0 0;max-width:40ch;color:#bbd0e3;font-size:13px;line-height:1.5}
+.hero-assessment-body{display:grid;grid-template-columns:176px minmax(0,1fr);gap:18px;align-items:center;margin:19px 0 0}
+.hero-photo-wrap{display:block;width:176px;height:230px;overflow:hidden;background:#fff;border:1px solid #abc0d5;border-radius:13px}
+.hero-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:24% center;filter:none}
+.hero-symptoms{display:grid;gap:9px}
+.hero-symptoms a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:53px;padding:11px 12px;border:1px solid #315675;border-radius:10px;background:#102e49;color:#e6f3ff;font-size:12px;font-weight:750;line-height:1.3;text-decoration:none}
+.hero-symptoms a:hover,.hero-symptoms a:focus-visible{background:#17436a;border-color:#59b8ff;outline:none}
+.hero-symptoms a span{color:#6ac7ff;font-size:15px}
 html body .hero-visual .orbit,html body .hero-visual .logo-stage{display:none!important}
-html body .hero-visual .card-status{left:24px;top:24px;padding:14px 17px}
-html body .hero-visual .card-rating{left:24px;right:24px;bottom:48px;padding:16px 18px;display:grid;gap:4px}
-.hero-visual .card-rating strong{font-size:14px;color:#fff}
-.hero-visual .card-rating small{font-size:10px;color:#a7bfd5;letter-spacing:.06em}
-.photo-context{position:absolute;left:25px;bottom:15px;z-index:4;margin:0;color:#9cb0c4;font-size:9px;letter-spacing:.03em}
+.photo-context{margin:auto 0 0;padding-top:13px;color:#b6c9dc;font-size:10px;line-height:1.4;letter-spacing:.01em}
 .photo-context a{color:#bfeaff}
 .trust-row{margin-top:37px}
 
@@ -463,7 +467,7 @@ footer a:focus-visible{outline:3px solid #42c7ff;outline-offset:3px;border-radiu
   html body .hero-grid{grid-template-columns:1fr;gap:36px;padding-top:64px}
   .hero-copy{text-align:left}
   .hero-lede{margin-left:0}.hero-actions,.trust-row{justify-content:flex-start}
-  html body .hero-visual{height:470px!important;min-height:470px}
+  html body .hero-visual{height:460px!important;min-height:460px}
   html body .service-feature{grid-template-columns:1fr!important}
   html body .service-feature>img{min-height:320px;max-height:380px}
   .credits-page .request-page-shell{grid-template-columns:1fr}
@@ -475,11 +479,15 @@ footer a:focus-visible{outline:3px solid #42c7ff;outline-offset:3px;border-radiu
   .hero-actions{display:grid}
   .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .trust-row div{padding-left:10px}
-  html body .hero-visual{height:360px!important;min-height:360px;border-radius:20px!important}
-  .hero-photo{object-position:60% center}
-  html body .hero-visual .card-status{left:14px;top:14px}
-  html body .hero-visual .card-rating{left:14px;right:14px;bottom:43px}
-  .photo-context{left:15px;bottom:13px}
+  html body .hero-visual{height:404px!important;min-height:404px;border-radius:20px!important}
+  .hero-assessment{padding:18px}
+  .hero-assessment h2{font-size:25px}
+  .hero-assessment-intro{font-size:12px;margin-top:8px}
+  .hero-assessment-body{grid-template-columns:128px minmax(0,1fr);gap:10px;margin-top:14px}
+  .hero-photo-wrap{width:128px;height:182px}
+  .hero-symptoms{gap:7px}
+  .hero-symptoms a{min-height:49px;padding:8px;font-size:11px}
+  .photo-context{font-size:9px;padding-top:10px}
   html body .service-feature{min-height:0}
   html body .service-feature>img{min-height:260px;max-height:300px;object-position:center 65%}
   html body .service-feature>div{padding:28px 22px!important}
