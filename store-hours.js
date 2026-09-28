@@ -31,7 +31,7 @@
 
   function renderFooterHours(){document.querySelectorAll('#store-hours').forEach(node=>{node.innerHTML=hoursMarkup(storeHours);});}
 
-  function setOptions(select,windows,message='Choose a window'){
+  function setOptions(select,windows,message='Choose a Window'){
     const previous=select.value;
     const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent=message;
     const options=windows.map(window=>{const option=document.createElement('option');option.value=window.value;option.textContent=window.label;return option;});
@@ -58,14 +58,14 @@
     const windows=windowsFor(range);
     const note = noteFor(time);
     if (!selectedDay) {
-      setOptions(time,[],'Choose a day first');
+      setOptions(time,[],'Choose a Day First');
       date.setCustomValidity('');
       time.disabled = true;
       time.setCustomValidity('');
       note.textContent = 'Choose a day to see every available window for current store hours.';
     } else if (!windows.length) {
       const message = `GotCracked is closed on ${selectedDay.label}. Choose another day.`;
-      setOptions(time,[],'Closed that day');
+      setOptions(time,[],'Closed That Day');
       date.setCustomValidity(message);
       time.disabled = true;
       time.setCustomValidity('');

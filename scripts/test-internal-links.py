@@ -36,7 +36,7 @@ for page, data in parsed.items():
             target=page
         if not path or path.endswith('/'):
             target=target/'index.html' if path else page
-        elif not target.suffix:
+        elif not target.suffix and not target.is_file():
             target=target.with_suffix('.html')
         target=target.resolve()
         if not target.is_file():

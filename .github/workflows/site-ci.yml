@@ -29,11 +29,17 @@ jobs:
       - name: Store hours and appointment windows
         run: node scripts/test-store-hours.mjs
 
+      - name: Customer estimate review and decision safety
+        run: node scripts/test-customer-estimate-decisions.mjs
+
       - name: Marlon browser audit safeguards
         run: node scripts/test-marlon-browser-audit.mjs
 
       - name: Truthful custom-PC request copy
         run: node scripts/test-pc-build-truthful-copy.mjs
+
+      - name: Internal links and page anchors
+        run: python scripts/test-internal-links.py
 
       - name: Public site architecture
         shell: python
@@ -74,8 +80,9 @@ jobs:
               if not ref or ref.startswith(('http://','https://','mailto:','tel:','sms:','#')):
                   continue
               if ref.startswith('/'):
-                  # canonical root-relative route: resolve to its page file
-                  target = 'index.html' if ref == '/' else ref.lstrip('/') + '.html'
+                  # Root-relative routes and assets both occur in public pages.
+                  path = ref.lstrip('/')
+                  target = 'index.html' if ref == '/' else path if Path(path).exists() else path + '.html'
               else:
                   target = ref
               if not Path(target).exists(): missing.append(ref)
@@ -90,11 +97,11 @@ jobs:
           css_files = [ref.split('?',1)[0] for ref in css_refs]
           for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css','device-photo-polish.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-2:] != ['asset-pass.css','device-photo-polish.css']: raise SystemExit('The asset and licensed device-photo polish styles must remain the final homepage stylesheets.')
+          if css_files[-3:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css']: raise SystemExit('The verified visual fixes must remain the final homepage stylesheet.')
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
-          for asset in ['assets/photos/repair-bench-phone.jpg','assets/photos/repair-detail-phone.jpg','assets/photos/repair-laptop-workbench.jpg','assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','ASSET_PROVENANCE.md']:
+          for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','repair-detail-phone.jpg','repair-laptop-workbench.jpg']:
+          for token in ['/credits#product-images','iphone-16-pro-natural-titanium-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg']:
               if token not in html: raise SystemExit(f'Homepage visual or attribution missing: {token}')
           device_photos = ['galaxy-s24-ultra-titanium-violet-front-back.jpg','iphone-16-pro-natural-titanium-front-back.jpg','ipad-10-blue-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg','playstation-5-slim-disc.png']
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
@@ -102,7 +109,7 @@ jobs:
               if not Path('assets/devices', photo).exists() or photo not in html or photo not in provenance:
                   raise SystemExit(f'Missing device reference photo or provenance: {photo}')
           if 'repair-bench-phone.jpg' in html: raise SystemExit('Retired homepage hero photo returned.')
-          for token in ['Pexels License','Unsplash License','Pictured people and locations are not represented as GotCracked staff','id="product-images"']:
+          for token in ['Unsplash License','It does not depict a staged GotCracked shop or repair scene.','id="product-images"']:
               if token not in credits_html: raise SystemExit(f'Public image credit missing: {token}')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
