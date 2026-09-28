@@ -20,8 +20,8 @@
   <meta name="twitter:image" content="https://gotcracked.co/assets/og-card.png">
   <link rel="canonical" href="https://gotcracked.co/pc-build">
   <title>Custom PC Build Planner | GotCracked</title>
-  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/assets/favicon-16.png" sizes="16x16" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="gotcracked-customer.webmanifest?v=20260921-visual1">
   <link rel="stylesheet" href="styles.css?v=20260927-line-icons1">
@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="customer-chat.css?v=20260924-human-handoff1">
   <link rel="stylesheet" href="pc-build.css?v=20260921-readable1">
   <link rel="stylesheet" href="customer-route-polish.css?v=20260924-1">
+<link rel="stylesheet" href="/audit-fixes.css?v=20260928-1">
 </head>
 <body class="pc-build-page">
   <a class="skip-link" href="#main">Skip to build planner</a>
@@ -65,7 +66,7 @@
             <h2>What is this computer for?</h2>
             <p class="pc-step-lede">Start with the real workload. That tells us where your budget should go.</p>
             <div class="pc-grid">
-              <label class="full">Primary use
+              <label class="full">Primary Use
                 <select name="primaryUse" required>
                   <option value="">Choose the main purpose</option>
                   <option>Gaming</option>
@@ -78,11 +79,11 @@
                   <option>Mixed use</option>
                 </select>
               </label>
-              <label class="full">Anything else it needs to handle?
+              <label class="full">Anything Else It Needs To Handle?
                 <textarea name="secondaryUses" placeholder="Streaming, video editing, coding, virtual machines, music production, school work, business software, etc."></textarea>
               </label>
               <div class="full">
-                <label>Will gaming be part of this build?</label>
+                <label>Will Gaming Be Part Of This Build?</label>
                 <div class="pc-choice-grid">
                   <label class="pc-choice"><input type="radio" name="gamingIncluded" value="yes" required><span>Yes</span></label>
                   <label class="pc-choice"><input type="radio" name="gamingIncluded" value="no" required><span>No</span></label>
@@ -90,33 +91,33 @@
               </div>
               <div class="pc-gaming-fields full" hidden>
                 <div class="pc-grid">
-                  <label class="full">What games do you plan to play?
+                  <label class="full">What Games Do You Plan To Play?
                     <textarea name="games" placeholder="List the games that matter most. Examples: Call of Duty, Fortnite, Palworld, Cyberpunk 2077, Microsoft Flight Simulator, Minecraft with shaders."></textarea>
                   </label>
-                  <label>Target display resolution
+                  <label>Target Display Resolution
                     <select name="resolution">
                       <option value="">Choose a target</option>
                       <option>1080p</option><option>1440p</option><option>4K</option><option>Ultrawide 1440p</option><option>Not sure</option>
                     </select>
                   </label>
-                  <label>Target frame rate
+                  <label>Target Frame Rate
                     <select name="targetFps">
                       <option value="">Choose a target</option>
                       <option>60 FPS</option><option>90–120 FPS</option><option>144–165 FPS</option><option>240+ FPS / competitive</option><option>Best balance for budget</option>
                     </select>
                   </label>
-                  <label>Desired image quality
+                  <label>Desired Image Quality
                     <select name="imageQuality">
                       <option value="">Choose image quality</option>
                       <option>Balanced / optimized</option><option>High settings</option><option>Ultra settings</option><option>Maximum image quality</option><option>Competitive low-latency settings</option>
                     </select>
                   </label>
-                  <label>Ray tracing
+                  <label>Ray Tracing
                     <select name="rayTracing"><option>Not important</option><option>Nice to have</option><option>I want strong ray-tracing performance</option><option>Not sure</option></select>
                   </label>
                 </div>
               </div>
-              <label class="full">Specific creative or professional apps
+              <label class="full">Specific Creative Or Professional Apps
                 <textarea name="creativeApps" placeholder="Adobe Premiere, DaVinci Resolve, Blender, AutoCAD, SolidWorks, Unreal Engine, local AI models, etc."></textarea>
               </label>
             </div>
@@ -128,23 +129,23 @@
             <h2>Budget and performance priorities</h2>
             <p class="pc-step-lede">Give us the ceiling you are comfortable with. Any verified estimate will include the researched parts and GotCracked’s build service as one total.</p>
             <div class="pc-grid">
-              <label>Maximum total budget
+              <label>Maximum Total Budget
                 <input name="budget" type="number" min="700" max="15000" step="50" placeholder="e.g. 1800" required>
                 <small>Enter your total build budget in dollars.</small>
               </label>
-              <label>What should that budget include?
+              <label>What Should That Budget Include?
                 <select name="budgetScope" required><option value="Tower only">PC tower only</option><option value="Tower + monitor">PC tower + monitor</option><option value="Full setup">PC + monitor + basic keyboard/mouse</option></select>
               </label>
-              <label>Storage target
+              <label>Storage Target
                 <select name="storage" required><option>1 TB</option><option>2 TB</option><option>4 TB or more</option><option>Best fit for budget</option></select>
               </label>
-              <label>How long should it feel current?
+              <label>How Long Should It Feel Current?
                 <select name="longevity" required><option>2–3 years</option><option>4–5 years</option><option>5+ years with upgrades</option><option>Best balance for budget</option></select>
               </label>
-              <label>Upgrade priority
+              <label>Upgrade Priority
                 <select name="upgradePriority"><option>Easy future upgrades matter</option><option>Maximize performance today</option><option>Balanced</option><option>Not important</option></select>
               </label>
-              <label>Windows license needed?
+              <label>Windows License Needed?
                 <select name="osNeeded"><option value="yes">Yes</option><option value="no">No, I already have one / use another OS</option><option value="unsure">Not sure</option></select>
               </label>
             </div>
@@ -156,25 +157,25 @@
             <h2>How should it look and feel?</h2>
             <p class="pc-step-lede">A good build should fit the room and the person using it—not just a benchmark chart.</p>
             <div class="pc-grid">
-              <label>RGB lighting
-                <select name="rgb" required><option>No RGB</option><option>Subtle / a little RGB</option><option>Full RGB showcase build</option><option>No preference</option></select>
+              <label>RGB Lighting
+                <select name="rgb" required><option>No RGB</option><option>Subtle / a little RGB</option><option>Full RGB showcase build</option><option>No Preference</option></select>
               </label>
               <label>Color
-                <select name="color" required><option>Black</option><option>White</option><option>Mixed / accent colors</option><option>No preference</option></select>
+                <select name="color" required><option>Black</option><option>White</option><option>Mixed / accent colors</option><option>No Preference</option></select>
               </label>
-              <label>Case size
-                <select name="caseSize"><option>Standard mid-tower</option><option>Compact if practical</option><option>Large / showcase case</option><option>No preference</option></select>
+              <label>Case Size
+                <select name="caseSize"><option>Standard mid-tower</option><option>Compact if practical</option><option>Large / showcase case</option><option>No Preference</option></select>
               </label>
-              <label>Noise preference
-                <select name="noise"><option>Quiet is a priority</option><option>Balanced noise and cooling</option><option>Performance/cooling matters more than noise</option><option>No preference</option></select>
+              <label>Noise Preference
+                <select name="noise"><option>Quiet is a priority</option><option>Balanced noise and cooling</option><option>Performance/cooling matters more than noise</option><option>No Preference</option></select>
               </label>
               <label>Wi-Fi / Bluetooth
                 <select name="wifi"><option value="yes">Yes, built in</option><option value="no">Ethernet is enough</option><option value="unsure">Not sure</option></select>
               </label>
-              <label class="full">Parts you already own or want us to reuse
+              <label class="full">Parts You Already Own Or Want Us To Reuse
                 <textarea name="existingParts" placeholder="List exact part names if possible. Leave blank for an all-new build."></textarea>
               </label>
-              <label class="full">Anything else that would make this build feel right?
+              <label class="full">Anything Else That Would Make This Build Feel Right?
                 <textarea name="notes" placeholder="Desk space, favorite look, ports you need, lots of USB devices, capture card, special accessibility needs, future upgrades, etc."></textarea>
               </label>
             </div>
@@ -186,10 +187,10 @@
             <h2>Where should we send updates?</h2>
             <p class="pc-step-lede">We’ll save your request to the GotCracked lead queue. If automated verification is unavailable, our team can review it and follow up before any price is presented or parts are purchased.</p>
             <div class="pc-grid">
-              <label class="full">Your name<input name="customerName" autocomplete="name" required></label>
+              <label class="full">Your Name<input name="customerName" autocomplete="name" required></label>
               <label>Email<input name="customerEmail" type="email" autocomplete="email" required></label>
               <label>Phone<input name="customerPhone" type="tel" autocomplete="tel" required></label>
-              <label class="full">Preferred contact method<select name="preferredContact"><option>No preference</option><option>Call</option><option>Email</option></select></label>
+              <label class="full">Preferred Contact Method<select name="preferredContact"><option>No Preference</option><option>Call</option><option>Email</option></select></label>
               <label class="pc-consent full"><input name="consent" type="checkbox" required><span>I agree to be contacted about this custom PC request and understand that any estimate I receive is market-based, not a purchase contract. Component pricing and availability may change before I approve the final build. <a href="/privacy">Privacy Notice</a>.</span></label>
             </div>
             <p id="pc-build-error" class="pc-build-error" role="alert"></p>

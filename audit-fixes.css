@@ -1,0 +1,61 @@
+/* Final audit corrections shared by the public pages. */
+html body.appointment-page .request-page-hero {
+  background-image:radial-gradient(circle at 82% 38%,rgba(18,113,194,.22),transparent 31%),linear-gradient(115deg,#061426,#0d2948 72%,#071628)!important;
+}
+html body.appointment-page .booking-intro:has(.appointment-art):before { display:none!important; }
+html body.appointment-page .booking-intro .appointment-art {
+  display:grid!important;place-items:center;width:min(100%,250px);height:146px;
+  margin:0 0 22px;border:1px solid rgba(99,188,255,.3);border-radius:16px;
+  background:linear-gradient(145deg,#0e345b,#071b31);box-shadow:0 14px 34px rgba(3,10,22,.18);
+}
+html body.appointment-page .appointment-art img {
+  display:block!important;width:72px;height:72px;filter:invert(78%) sepia(34%) saturate(1904%) hue-rotate(167deg) brightness(104%);
+}
+html body.appointment-page .booking-form label,
+html body.request-page .booking-form label {font-size:13px;line-height:1.4;color:#263a53}
+html body.appointment-page .booking-form input,
+html body.appointment-page .booking-form select,
+html body.appointment-page .booking-form textarea,
+html body.request-page .booking-form input,
+html body.request-page .booking-form select,
+html body.request-page .booking-form textarea {font-size:15px;line-height:1.5;min-height:46px}
+html body.appointment-page .booking-form .check-label,
+html body.request-page .booking-form .check-label {font-size:12px;line-height:1.55}
+.gc-chat-panel .gc-chat-form label {font-size:12px;color:#263a53}
+.gc-chat-panel .gc-chat-form input,.gc-chat-panel .gc-chat-form textarea {font-size:14px}
+
+/* Keep meaningful repair illustrations fully visible in their image rail. */
+html body .issue-card:nth-child(-n+3):before,
+html body .issue-card:nth-child(4):before {
+  background-color:#0b2440;background-position:center;background-repeat:no-repeat;
+  background-size:contain!important;
+}
+html body .issue-card:nth-child(4):before {
+  content:"";display:block;min-height:255px;border-right:1px solid #dfeaf4;
+  background-image:url("assets/issue-console-hdmi.svg");
+}
+html body .issue-card:nth-child(4)>.console-platforms {display:none!important}
+
+/* The process, mail-in, and closing sections need information, not partial
+   placeholder diagrams. The existing step lists and genuine photo carry it. */
+html body .process-copy:before,
+html body .mail-in-copy:before,
+html body .final-cta .container:before {display:none!important}
+html body .mail-in .container.mail-in-grid {
+  width:min(1180px,calc(100% - 64px))!important;
+  margin-inline:auto!important;
+  padding-inline:0!important;
+}
+html body .brand-panel:before,html body .brand-panel:after {display:none!important}
+html body .brand-panel {display:grid;place-items:center;background:linear-gradient(140deg,#071628,#123b6c)!important}
+html body .brand-panel img {display:block!important;width:82%;height:82%;object-fit:contain}
+html body .service-feature>img {display:block!important;width:100%;height:100%;object-fit:contain;background:#f6f9fc;padding:22px}
+html body .guide-visual-image {
+  background:#f6f9fc url("assets/devices/iphone-16-pro-natural-titanium-front-back.jpg") center/contain no-repeat!important;
+}
+html body .guide-visual-image img {display:block!important;width:100%;height:100%;object-fit:contain;background:#f6f9fc}
+@media(max-width:700px){
+  html body .mail-in .container.mail-in-grid {width:calc(100% - 28px)!important}
+  html body .issue-card:nth-child(4):before {min-height:180px}
+  html body.appointment-page .booking-intro .appointment-art {width:100%;height:120px}
+}

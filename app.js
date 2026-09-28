@@ -5,6 +5,17 @@
   const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
   const escapeHTML = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
   const safePublicUrl = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : '#'; } catch { return '#'; } };
+  const intakeFailure = async (error, data) => {
+    let detail = data?.error;
+    if (!detail && error?.context?.json) {
+      try { detail = (await error.context.json())?.error; } catch { /* The service did not return JSON. */ }
+    }
+    const message = String(detail || '');
+    if (/too many|rate limit/i.test(message)) return 'Too many requests right now. Please wait a few minutes and try again.';
+    if (/closed|appointment window|unavailable time/i.test(message)) return 'That time is unavailable. Please choose another day or time.';
+    if (/required|invalid|consent/i.test(message) && message.length < 180) return message;
+    return 'We could not save your request. Please try again or call (540) 315-4545.';
+  };
   const SOCIAL_PLATFORMS = [
     { label:'YouTube', key:'youtube_channel_url', hosts:['youtube.com','youtu.be'], icon:'assets/social/youtube-official.png' },
     { label:'TikTok', key:'tiktok_profile_url', hosts:['tiktok.com'], icon:'assets/social/tiktok-official.png' },
@@ -134,7 +145,7 @@
       ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
       ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
       const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
-      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request mail-in approval' : 'Submit repair request';
+      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request Mail-In Approval' : 'Submit Repair Request';
     };
     const requestParams = new URLSearchParams(window.location.search);
     if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
@@ -175,13 +186,13 @@
         if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
         const payload = { ...Object.fromEntries(new FormData(bookingForm)), clientRequestId };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body: payload });
-        if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to send request.');
+        if (error || !data?.reference) throw new Error(await intakeFailure(error, data));
         const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
         $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
         $('.form-success', bookingForm)?.classList.add('active');
         showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
-      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request mail-in approval' : 'Submit repair request'}</span> <span>→</span>`; }
+      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request Mail-In Approval' : 'Submit Repair Request'}</span> <span>→</span>`; }
     });
     $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); clientRequestId = crypto.randomUUID(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }
@@ -200,7 +211,7 @@
         const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
         const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, clientRequestId, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, preferredContact:fields.preferredContact, timing:fields.timing, date:fields.date, time:fields.time, consent:fields.consent };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
-        if (error || !data?.reference) throw new Error(data?.error || error?.message || 'Unable to request the appointment.');
+        if (error || !data?.reference) throw new Error(await intakeFailure(error, data));
         $('#appointment-reference').textContent = data.reference;
         const guidance = $('#appointment-guidance');
         if (guidance) {
@@ -209,7 +220,7 @@
         }
         $('.form-step', appointmentForm).style.display = 'none'; $('.form-success', appointmentForm).classList.add('active');
       } catch (error) { if (errorOutput) errorOutput.textContent = error.message || 'Unable to request the appointment.'; }
-      finally { button.disabled = false; button.textContent = 'Request appointment →'; }
+      finally { button.disabled = false; button.textContent = 'Request Appointment →'; }
     });
   }
 

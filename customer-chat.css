@@ -73,3 +73,7 @@
 .gc-chat-contact>strong,.gc-chat-contact>p{grid-column:1/-1}.gc-chat-contact>p{margin:0;color:#52657b;font-size:12px;line-height:1.4}
 .gc-chat-contact select{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px 11px;font:inherit;color:#111c2d;background:#fff}
 @media(max-width:520px){.gc-chat-contact{grid-template-columns:1fr}}
+
+.gc-chat-form .gc-chat-end{align-self:flex-start;padding:4px 0;border:0;background:transparent;color:#355d82;font:inherit;font-size:12px;font-weight:700;text-decoration:underline;cursor:pointer}
+.gc-chat-form .gc-chat-end:hover{color:#073d6d}
+.gc-chat-form .gc-chat-end:disabled{opacity:.55;cursor:wait}

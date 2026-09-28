@@ -23,12 +23,12 @@ assert.match(footer.innerHTML,/Monday<\/span><strong>10 AM–8 PM/,'footer must 
 assert.match(footer.innerHTML,/Tuesday<\/span><strong>10:30 AM–8:15 PM/,'footer must preserve configured minute boundaries');
 assert.match(footer.innerHTML,/Saturday<\/span><strong>10 AM–6 PM/,'footer must use live Saturday hours');
 assert.equal(time.disabled,true,'time choice must wait for a selected day');
-assert.equal(time.options[0].textContent,'Choose a day first');
+assert.equal(time.options[0].textContent,'Choose a Day First');
 
 date.value='2026-10-05';
 date.change();
 assert.equal(time.disabled,false);
-assert.deepEqual(time.options.map(option=>option.textContent),['Choose a window','10 AM–1 PM','1 PM–4 PM','4 PM–7 PM','7 PM–8 PM']);
+assert.deepEqual(time.options.map(option=>option.textContent),['Choose a Window','10 AM–1 PM','1 PM–4 PM','4 PM–7 PM','7 PM–8 PM']);
 assert.doesNotMatch(time.options.map(option=>option.textContent).join(' '),/9 AM/,'no pre-opening slot may be offered');
 assert.match(note.textContent,/10 AM–8 PM/);
 
@@ -36,19 +36,19 @@ time.value='7 PM–8 PM';
 date.value='2026-10-03';
 date.change();
 assert.equal(time.value,'','a window unavailable on the new day must not remain selected');
-assert.deepEqual(time.options.map(option=>option.textContent),['Choose a window','10 AM–1 PM','1 PM–4 PM','4 PM–6 PM']);
+assert.deepEqual(time.options.map(option=>option.textContent),['Choose a Window','10 AM–1 PM','1 PM–4 PM','4 PM–6 PM']);
 
 date.value='2026-10-04';
 date.change();
 assert.equal(time.disabled,true,'closed days must disable appointment windows');
-assert.equal(time.options[0].textContent,'Closed that day');
+assert.equal(time.options[0].textContent,'Closed That Day');
 assert.match(date.validity,/closed on Sunday/);
 
 date.value='2026-10-06';
 date.change();
 assert.equal(date.validity,'','switching away from a closed day must clear the date error');
 assert.equal(time.disabled,false);
-assert.deepEqual(time.options.map(option=>option.textContent),['Choose a window','10:30 AM–1:30 PM','1:30 PM–4:30 PM','4:30 PM–7:30 PM','7:30 PM–8:15 PM']);
+assert.deepEqual(time.options.map(option=>option.textContent),['Choose a Window','10:30 AM–1:30 PM','1:30 PM–4:30 PM','4:30 PM–7:30 PM','7:30 PM–8:15 PM']);
 
 date.value='2026-10-07';
 date.change();
