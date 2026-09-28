@@ -38,6 +38,9 @@ jobs:
       - name: Truthful custom-PC request copy
         run: node scripts/test-pc-build-truthful-copy.mjs
 
+      - name: Internal links and page anchors
+        run: python scripts/test-internal-links.py
+
       - name: Public site architecture
         shell: python
         run: |
