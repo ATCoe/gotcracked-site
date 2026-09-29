@@ -118,10 +118,12 @@ footer{
   overflow-x:hidden;
 }
 
-.process-grid,
-.mail-in-grid,
-.why-grid,
-.faq-grid{width:100%}
+/* Nested grids fill their parent; grids that are also page containers retain
+   the shared maximum width and side gutters from .container. */
+.process-grid:not(.container),
+.mail-in-grid:not(.container),
+.why-grid:not(.container),
+.faq-grid:not(.container){width:100%}
 
 /* Journey artwork fills the non-service moments with one distinct visual
    per task while preserving the copy as the accessible source of meaning. */
