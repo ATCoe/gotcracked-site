@@ -26,7 +26,7 @@
   <link rel="manifest" href="gotcracked-customer.webmanifest?v=20260921-visual1">
   <link rel="stylesheet" href="styles.css?v=20260927-line-icons1">
   <link rel="stylesheet" href="hardening.css?v=20260826-production1">
-  <link rel="stylesheet" href="site-release.css?v=20260927-line-icons1">
+  <link rel="stylesheet" href="site-release.css?v=20260928-execution2">
   <link rel="stylesheet" href="request.css?v=20260826-production1">
   <link rel="stylesheet" href="customer-chat.css?v=20260924-human-handoff1">
   <link rel="stylesheet" href="pc-build.css?v=20260921-readable1">
@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="/audit-fixes.css?v=20260928-1">
 </head>
 <body class="pc-build-page">
-  <a class="skip-link" href="#main">Skip to build planner</a>
+  <a class="skip-link" href="#main">Skip to Build Planner</a>
   <div class="announcement"><span class="pulse"></span>Custom PCs designed around what you actually want to do</div>
   <header class="site-header">
     <div class="nav-wrap">
@@ -68,15 +68,15 @@
             <div class="pc-grid">
               <label class="full">Primary Use
                 <select name="primaryUse" required>
-                  <option value="">Choose the main purpose</option>
+                  <option value="">Choose the Main Purpose</option>
                   <option>Gaming</option>
-                  <option>Gaming + streaming</option>
-                  <option>Content creation</option>
-                  <option>Professional workstation</option>
+                  <option value="Gaming + streaming">Gaming + Streaming</option>
+                  <option value="Content creation">Content Creation</option>
+                  <option value="Professional workstation">Professional Workstation</option>
                   <option>Engineering / CAD / 3D</option>
-                  <option>Local AI / development</option>
-                  <option>School / home / everyday use</option>
-                  <option>Mixed use</option>
+                  <option value="Local AI / development">Local AI / Development</option>
+                  <option value="School / home / everyday use">School / Home / Everyday Use</option>
+                  <option value="Mixed use">Mixed Use</option>
                 </select>
               </label>
               <label class="full">Anything Else It Needs To Handle?
@@ -96,24 +96,24 @@
                   </label>
                   <label>Target Display Resolution
                     <select name="resolution">
-                      <option value="">Choose a target</option>
-                      <option>1080p</option><option>1440p</option><option>4K</option><option>Ultrawide 1440p</option><option>Not sure</option>
+                      <option value="">Choose a Target</option>
+                      <option>1080p</option><option>1440p</option><option>4K</option><option>Ultrawide 1440p</option><option value="Not sure">Not Sure</option>
                     </select>
                   </label>
                   <label>Target Frame Rate
                     <select name="targetFps">
-                      <option value="">Choose a target</option>
-                      <option>60 FPS</option><option>90–120 FPS</option><option>144–165 FPS</option><option>240+ FPS / competitive</option><option>Best balance for budget</option>
+                      <option value="">Choose a Target</option>
+                      <option>60 FPS</option><option>90–120 FPS</option><option>144–165 FPS</option><option value="240+ FPS / competitive">240+ FPS / Competitive</option><option value="Best balance for budget">Best Balance for Budget</option>
                     </select>
                   </label>
                   <label>Desired Image Quality
                     <select name="imageQuality">
-                      <option value="">Choose image quality</option>
-                      <option>Balanced / optimized</option><option>High settings</option><option>Ultra settings</option><option>Maximum image quality</option><option>Competitive low-latency settings</option>
+                      <option value="">Choose Image Quality</option>
+                      <option value="Balanced / optimized">Balanced / Optimized</option><option value="High settings">High Settings</option><option value="Ultra settings">Ultra Settings</option><option value="Maximum image quality">Maximum Image Quality</option><option value="Competitive low-latency settings">Competitive Low-Latency Settings</option>
                     </select>
                   </label>
                   <label>Ray Tracing
-                    <select name="rayTracing"><option>Not important</option><option>Nice to have</option><option>I want strong ray-tracing performance</option><option>Not sure</option></select>
+                    <select name="rayTracing"><option value="Not important">Not Important</option><option value="Nice to have">Nice to Have</option><option value="I want strong ray-tracing performance">I Want Strong Ray-Tracing Performance</option><option value="Not sure">Not Sure</option></select>
                   </label>
                 </div>
               </div>
@@ -134,19 +134,19 @@
                 <small>Enter your total build budget in dollars.</small>
               </label>
               <label>What Should That Budget Include?
-                <select name="budgetScope" required><option value="Tower only">PC tower only</option><option value="Tower + monitor">PC tower + monitor</option><option value="Full setup">PC + monitor + basic keyboard/mouse</option></select>
+                <select name="budgetScope" required><option value="Tower only">PC Tower Only</option><option value="Tower + monitor">PC Tower + Monitor</option><option value="Full setup">PC + Monitor + Basic Keyboard/Mouse</option></select>
               </label>
               <label>Storage Target
-                <select name="storage" required><option>1 TB</option><option>2 TB</option><option>4 TB or more</option><option>Best fit for budget</option></select>
+                <select name="storage" required><option>1 TB</option><option>2 TB</option><option value="4 TB or more">4 TB or More</option><option value="Best fit for budget">Best Fit for Budget</option></select>
               </label>
               <label>How Long Should It Feel Current?
-                <select name="longevity" required><option>2–3 years</option><option>4–5 years</option><option>5+ years with upgrades</option><option>Best balance for budget</option></select>
+                <select name="longevity" required><option value="2–3 years">2–3 Years</option><option value="4–5 years">4–5 Years</option><option value="5+ years with upgrades">5+ Years with Upgrades</option><option value="Best balance for budget">Best Balance for Budget</option></select>
               </label>
               <label>Upgrade Priority
-                <select name="upgradePriority"><option>Easy future upgrades matter</option><option>Maximize performance today</option><option>Balanced</option><option>Not important</option></select>
+                <select name="upgradePriority"><option value="Easy future upgrades matter">Easy Future Upgrades Matter</option><option value="Maximize performance today">Maximize Performance Today</option><option>Balanced</option><option value="Not important">Not Important</option></select>
               </label>
               <label>Windows License Needed?
-                <select name="osNeeded"><option value="yes">Yes</option><option value="no">No, I already have one / use another OS</option><option value="unsure">Not sure</option></select>
+                <select name="osNeeded"><option value="yes">Yes</option><option value="no">No, I Already Have One / Use Another OS</option><option value="unsure">Not Sure</option></select>
               </label>
             </div>
             <div class="pc-nav"><button type="button" class="button button-ghost" data-back>← Back</button><button type="button" class="button" data-next>Continue →</button></div>
@@ -158,19 +158,19 @@
             <p class="pc-step-lede">A good build should fit the room and the person using it—not just a benchmark chart.</p>
             <div class="pc-grid">
               <label>RGB Lighting
-                <select name="rgb" required><option>No RGB</option><option>Subtle / a little RGB</option><option>Full RGB showcase build</option><option>No Preference</option></select>
+                <select name="rgb" required><option>No RGB</option><option value="Subtle / a little RGB">Subtle / a Little RGB</option><option value="Full RGB showcase build">Full RGB Showcase Build</option><option>No Preference</option></select>
               </label>
               <label>Color
-                <select name="color" required><option>Black</option><option>White</option><option>Mixed / accent colors</option><option>No Preference</option></select>
+                <select name="color" required><option>Black</option><option>White</option><option value="Mixed / accent colors">Mixed / Accent Colors</option><option>No Preference</option></select>
               </label>
               <label>Case Size
-                <select name="caseSize"><option>Standard mid-tower</option><option>Compact if practical</option><option>Large / showcase case</option><option>No Preference</option></select>
+                <select name="caseSize"><option value="Standard mid-tower">Standard Mid-Tower</option><option value="Compact if practical">Compact If Practical</option><option value="Large / showcase case">Large / Showcase Case</option><option>No Preference</option></select>
               </label>
               <label>Noise Preference
-                <select name="noise"><option>Quiet is a priority</option><option>Balanced noise and cooling</option><option>Performance/cooling matters more than noise</option><option>No Preference</option></select>
+                <select name="noise"><option value="Quiet is a priority">Quiet Is a Priority</option><option value="Balanced noise and cooling">Balanced Noise and Cooling</option><option value="Performance/cooling matters more than noise">Performance/Cooling Matters More Than Noise</option><option>No Preference</option></select>
               </label>
               <label>Wi-Fi / Bluetooth
-                <select name="wifi"><option value="yes">Yes, built in</option><option value="no">Ethernet is enough</option><option value="unsure">Not sure</option></select>
+                <select name="wifi"><option value="yes">Yes, Built in</option><option value="no">Ethernet Is Enough</option><option value="unsure">Not Sure</option></select>
               </label>
               <label class="full">Parts You Already Own Or Want Us To Reuse
                 <textarea name="existingParts" placeholder="List exact part names if possible. Leave blank for an all-new build."></textarea>
@@ -230,11 +230,11 @@
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
   <script src="supabase.js?v=20260826-production1"></script>
-  <script src="app.js?v=20260826-production1"></script>
-<script src="customer-chat.js?v=20260928-session-isolation1"></script>
+  <script src="app.js?v=20260928-execution2"></script>
+<script src="customer-chat.js?v=20260928-execution2"></script>
 <script src="store-hours.js?v=20260921-shared-hours1"></script>
 <script defer src="customer-pwa.js?v=20260903-install1"></script>
-  <script src="pc-build.js?v=20260921-truthful1"></script>
+  <script src="pc-build.js?v=20260928-execution2"></script>
 </body>
 </html>
 

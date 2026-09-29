@@ -77,7 +77,7 @@
     const grid = $('#social-media-grid'), links = $('#social-media-links');
     if (!grid) return;
     try {
-      const { data, error } = await window.supabaseClient.functions.invoke('public-media', { method: 'GET' });
+      const { data, error } = await window.GotCrackedSupabaseResilience.run('public-media', () => window.supabaseClient.functions.invoke('public-media', { method: 'GET' }));
       if (error) throw error;
       const posts = data?.posts || [];
       grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => { const thumbnail = safePublicUrl(post.thumbnail_url); return `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${thumbnail !== '#' ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`; }).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
@@ -181,7 +181,7 @@
       const submit = bookingForm.querySelector('[type="submit"]'); if (!submit) return;
       const submitError = $('.request-submit-error', bookingForm);
       if (submitError) submitError.textContent = '';
-      submit.disabled = true; submit.textContent = 'Sending request…';
+      submit.disabled = true; submit.textContent = 'Sending Request…';
       try {
         if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
         const payload = { ...Object.fromEntries(new FormData(bookingForm)), clientRequestId };
@@ -205,7 +205,7 @@
       event.preventDefault();
       const button = appointmentForm.querySelector('[type="submit"]'), errorOutput = $('.request-submit-error', appointmentForm);
       if (!appointmentForm.checkValidity()) { appointmentForm.reportValidity(); return; }
-      button.disabled = true; button.textContent = 'Sending request…'; if (errorOutput) errorOutput.textContent = '';
+      button.disabled = true; button.textContent = 'Sending Request…'; if (errorOutput) errorOutput.textContent = '';
       try {
         const fields = Object.fromEntries(new FormData(appointmentForm));
         const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
@@ -256,7 +256,7 @@
     event.preventDefault();
     const ticket = $('[name="ticket"]', tracker)?.value.trim() || '', phone = $('[name="trackerPhone"]', tracker)?.value.trim() || '', button = trackerForm.querySelector('[type="submit"]'), errorText = $('.tracker-error');
     if (!ticket || phone.replace(/\D/g, '').length < 7) { if (errorText) errorText.textContent = 'Enter a ticket number and valid phone number.'; return; }
-    button.disabled = true; button.textContent = 'Finding repair…'; if (errorText) errorText.textContent = '';
+    button.disabled = true; button.textContent = 'Finding Repair…'; if (errorText) errorText.textContent = '';
     try { const { data, error } = await window.supabaseClient.functions.invoke('track-repair', { body: { ticket, phone } }); if (error || !data?.ticket) throw new Error(data?.error || 'We could not match that ticket and phone number.'); const trackedTicket = $('#tracked-ticket'); if (trackedTicket) trackedTicket.textContent = data.ticket; renderTrackingStatus(data); trackerForm.classList.add('hidden'); trackerResult?.classList.add('active'); }
     catch (error) { if (errorText) errorText.textContent = error?.message || 'Unable to find that repair.'; }
     finally { button.disabled = false; button.innerHTML = 'Find my repair →'; }
