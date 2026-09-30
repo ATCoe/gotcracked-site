@@ -32,6 +32,9 @@ jobs:
       - name: Customer estimate review and decision safety
         run: node scripts/test-customer-estimate-decisions.mjs
 
+      - name: Customer account code request guidance
+        run: node scripts/test-customer-account-otp-ux.mjs
+
       - name: Marlon browser audit safeguards
         run: node scripts/test-marlon-browser-audit.mjs
 
