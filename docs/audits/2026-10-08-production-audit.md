@@ -62,7 +62,7 @@ The homepage's three independent public-media consumers now share one request an
 
 ## Blocked and unexecuted coverage
 
-Browser security denied opening the candidate preview, reporting that permission had been declined and explicitly prohibiting alternate-browser, indirect, or raw-protocol workarounds. No retry or workaround was attempted.
+Browser security initially denied opening the candidate preview, reporting that permission had been declined. After the user explicitly authorized preview access again, one normal browser attempt was made. It was still rejected: “A saved user permission setting blocks this action.” No preview page was opened. No alternate-browser, indirect, raw-protocol, or other workaround was attempted. The new authorization therefore did not resolve the saved permission block.
 
 Consequently, the revised dark chat, mobile sizing, candidate announcement, and copy have not received preview visual signoff. Mail-in final-address rendering, complete Learn/kiosk/phone interactions, and full authenticated customer workflows remain outside direct UI verification.
 
