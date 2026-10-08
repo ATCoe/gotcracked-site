@@ -69,3 +69,10 @@ Consequently, the revised dark chat, mobile sizing, candidate announcement, and 
 No real chat message, OTP, repair request, appointment, PC request, estimate approval, payment, or customer communication was submitted. Mocked tests cover selected boundaries but do not establish production delivery or transaction success.
 
 **Signoff status: candidate prepared and locally validated; exhaustive production execution and candidate visual signoff remain incomplete.**
+
+
+## Continuation — 2026-10-08 07:38 UTC
+
+- The existing `ee48eaa9` Cloudflare customer preview loaded in Chrome. At a 390×844 viewport, the navigation collapsed to Menu, opened its five links, and the document had no horizontal overflow (`scrollWidth=375`, `innerWidth=390`).
+- On the preview's `/request?mode=mail_in`, Mail It to GotCracked was preselected. Empty step 1 showed required device, model and issue errors. Synthetic details advanced to step 2; empty contact details showed required/validity errors. Synthetic contact details advanced to step 3 with return address, consent and Request Mail-In Approval. Back navigation retained step 1 and 2 inputs. Switching to shop service changed step 3 to preferred day/time and removed return-address fields. No request or communication was submitted.
+- This is a focused mobile candidate browser pass, not complete visual or communication acceptance. Kiosk/phone, authenticated account delivery and final submissions remain unrun. Production remains unchanged and signoff remains **HOLD**.
