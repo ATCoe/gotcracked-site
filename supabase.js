@@ -15,4 +15,22 @@ window.GotCrackedSupabaseResilience = (() => {
   }
   return {run,retryable,version:'1.0.0'};
 })();
-import('./analytics-loader.js?v=20260826-production1').catch(error => console.warn('Analytics loader unavailable:', error));
+// Public, non-personal settings share one request per page and refresh after a minute.
+window.GotCrackedPublicMedia = (() => {
+  let pending = null, cached = null, expiresAt = 0;
+  async function load() {
+    if (cached && Date.now() < expiresAt) return cached;
+    if (pending) return pending;
+    pending = window.GotCrackedSupabaseResilience.run('public-media',
+      () => window.supabaseClient.functions.invoke('public-media', { method: 'GET' }),
+      { attempts: 2 }
+    ).then(result => {
+      cached = result;
+      expiresAt = Date.now() + 60000;
+      return result;
+    }).finally(() => { pending = null; });
+    return pending;
+  }
+  return { load };
+})();
+import('./analytics-loader.js?v=20261008-production1').catch(error => console.warn('Analytics loader unavailable:', error));

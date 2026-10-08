@@ -2,13 +2,13 @@
   const params=new URLSearchParams(location.search);
   const pagePath=location.pathname.replace(/\/+$/,'');
   const customPcSelector='[data-service="Custom PC build"] a, a[href*="service=Custom%20PC%20build"], a[href*="service=Custom+PC+build"]';
-  const routeCustomPcLinks=()=>document.querySelectorAll(customPcSelector).forEach(link=>{link.href='pc-build.html';if(link.classList.contains('card-link'))link.innerHTML='Plan My Build <span>→</span>';});
-  if((pagePath.endsWith('/request')||pagePath.endsWith('/request.html'))&&params.get('service')==='Custom PC build'){location.replace('pc-build.html');return;}
+  const routeCustomPcLinks=()=>document.querySelectorAll(customPcSelector).forEach(link=>{link.href='/pc-build';if(link.classList.contains('card-link'))link.innerHTML='Plan My Build <span>→</span>';});
+  if((pagePath.endsWith('/request')||pagePath.endsWith('/request.html'))&&params.get('service')==='Custom PC build'){location.replace('/pc-build');return;}
   routeCustomPcLinks();
-  document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target:null;const link=target?.closest(customPcSelector);if(!link)return;event.preventDefault();event.stopPropagation();location.assign('pc-build.html');},true);
+  document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target:null;const link=target?.closest(customPcSelector);if(!link)return;event.preventDefault();event.stopPropagation();location.assign('/pc-build');},true);
 
   const footerCustomer=[...document.querySelectorAll('footer h3')].find(node=>node.textContent?.trim()==='Customers')?.parentElement;
-  if(footerCustomer&&!footerCustomer.querySelector('a[href="privacy.html"],a[href="/privacy"]')){const link=document.createElement('a');link.href='privacy.html';link.textContent='Privacy Notice';footerCustomer.appendChild(link);}
+  if(footerCustomer&&!footerCustomer.querySelector('a[href="/privacy"],a[href="/privacy"]')){const link=document.createElement('a');link.href='/privacy';link.textContent='Privacy Notice';footerCustomer.appendChild(link);}
   const footerAddress=document.querySelector('.footer-brand address');
   if(footerAddress&&!document.getElementById('store-hours')){const hours=document.createElement('div');hours.id='store-hours';hours.setAttribute('aria-label','Shop hours');hours.innerHTML='<div><span>Monday–Friday</span> <strong>10 AM–8 PM</strong></div><div><span>Saturday</span> <strong>10 AM–6 PM</strong></div><div><span>Sunday</span> <strong>Closed</strong></div>';footerAddress.insertAdjacentElement('afterend',hours);const directions=document.createElement('a');directions.href='https://www.google.com/maps/dir/?api=1&destination=700+North+Main+St+Ste+D+Blacksburg+VA+24060';directions.target='_blank';directions.rel='noopener';directions.textContent='Get Directions →';hours.insertAdjacentElement('afterend',directions);}
 
@@ -16,7 +16,7 @@
   const esc=value=>String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[c]);
   const storageKey='gc-public-chat-v1',maxSessionAge=24*60*60*1000;let session=null,pollTimer=null,startedAt=Date.now(),handoffPending=false;
   try{session=JSON.parse(localStorage.getItem(storageKey)||'null');if(session&&(!session.createdAt||Date.now()-Number(session.createdAt)>maxSessionAge)){localStorage.removeItem(storageKey);session=null;}}catch{session=null}
-  const host=document.createElement('div');host.innerHTML=`<button class="gc-chat-launcher" type="button" aria-haspopup="dialog" aria-controls="gc-chat-panel" aria-expanded="false"><span>✦</span> Questions? Chat with Us</button><section id="gc-chat-panel" class="gc-chat-panel" role="dialog" aria-modal="true" aria-label="Chat with GotCracked" hidden><header class="gc-chat-head"><div><strong>GotCracked Chat</strong><small>Marlon handles quick questions; a team member can join when needed</small></div><button class="gc-chat-close" type="button" aria-label="Minimize Chat">×</button></header><div class="gc-chat-body"><p class="gc-chat-welcome">Have a quick question? Send it here. For a repair intake or appointment, use the dedicated forms. Never send passwords or payment-card details. <a href="privacy.html">Privacy Notice</a>.</p><div class="gc-chat-messages"></div></div><form class="gc-chat-form"><input class="gc-chat-honeypot" name="companyWebsite" tabindex="-1" autocomplete="off"><label class="gc-chat-name">Your Name<input name="name" maxlength="100" autocomplete="name" required></label><label class="gc-chat-email">Email for Follow-Up (Optional)<input name="email" type="email" maxlength="160" autocomplete="email"></label><div class="gc-chat-contact" hidden><strong>Human Follow-Up</strong><p>Add a phone number so the team can identify your request and call you if this chat disconnects.</p><label>Mobile Number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="(540) 555-1234"></label><input type="hidden" name="preferredContact" value="call"></div><label>Your Question<textarea name="message" maxlength="1600" required placeholder="How can we help?"></textarea></label><div class="gc-chat-actions"><button type="submit">Send Message</button><button class="gc-chat-human" type="button">Talk to a Person</button></div><p class="gc-chat-status" role="alert"></p></form></section>`;document.body.append(...host.childNodes);
+  const host=document.createElement('div');host.innerHTML=`<button class="gc-chat-launcher" type="button" aria-haspopup="dialog" aria-controls="gc-chat-panel" aria-expanded="false"><span>✦</span> Questions? Chat with Us</button><section id="gc-chat-panel" class="gc-chat-panel" role="dialog" aria-modal="true" aria-label="Chat with GotCracked" hidden><header class="gc-chat-head"><div><strong>GotCracked Chat</strong><small>Marlon handles quick questions; a team member can join when needed</small></div><button class="gc-chat-close" type="button" aria-label="Minimize Chat">×</button></header><div class="gc-chat-body"><p class="gc-chat-welcome">Have a quick question? Send it here. For a repair intake or appointment, use the dedicated forms. Never send passwords or payment-card details. <a href="/privacy">Privacy Notice</a>.</p><div class="gc-chat-messages"></div></div><form class="gc-chat-form"><input class="gc-chat-honeypot" name="companyWebsite" tabindex="-1" autocomplete="off"><label class="gc-chat-name">Your Name<input name="name" maxlength="100" autocomplete="name" required></label><label class="gc-chat-email">Email for Follow-Up (Optional)<input name="email" type="email" maxlength="160" autocomplete="email"></label><div class="gc-chat-contact" hidden><strong>Human Follow-Up</strong><p>Add a phone number so the team can identify your request and call you if this chat disconnects.</p><label>Mobile Number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="(540) 555-1234"></label><input type="hidden" name="preferredContact" value="call"></div><label>Your Question<textarea name="message" maxlength="1600" required placeholder="How can we help?"></textarea></label><div class="gc-chat-actions"><button type="submit">Send Message</button><button class="gc-chat-human" type="button">Talk to a Person</button></div><p class="gc-chat-status" role="alert"></p></form></section>`;document.body.append(...host.childNodes);
   const panel=document.querySelector('.gc-chat-panel'),messages=document.querySelector('.gc-chat-messages'),form=document.querySelector('.gc-chat-form'),status=document.querySelector('.gc-chat-status'),contactCard=document.querySelector('.gc-chat-contact'),humanButton=document.querySelector('.gc-chat-human');
   const endButton=document.createElement('button');endButton.type='button';endButton.className='gc-chat-end';endButton.textContent='End Conversation';endButton.hidden=!session;form.append(endButton);
   const resetSession=()=>{session=null;clearTimeout(pollTimer);pollTimer=null;localStorage.removeItem(storageKey);render([]);form.reset();hideContact();humanButton.hidden=false;document.querySelector('.gc-chat-name').hidden=false;document.querySelector('.gc-chat-email').hidden=false;endButton.hidden=true;startedAt=Date.now();};
@@ -24,12 +24,53 @@
   const hideContact=()=>{handoffPending=false;contactCard.hidden=true;form.elements.phone.required=false;humanButton.textContent='Talk to a Person';};
   const markHandoffReady=()=>{hideContact();humanButton.hidden=true;};
   const render=items=>{messages.innerHTML=(items||[]).map(item=>`<div class="gc-chat-message ${item.sender==='customer'?'customer':'staff'}">${esc(item.body)}<small>${item.sender==='customer'?'You':item.sender==='system'?'Marlon Customer Care':'GotCracked team'}</small></div>`).join('');messages.parentElement.scrollTop=messages.parentElement.scrollHeight;};
-  async function poll(){if(!session?.sessionId||document.hidden)return;const pollingSession=session;try{const{data,error}=await client.functions.invoke('public-chat',{body:{action:'poll',sessionId:pollingSession.sessionId,token:pollingSession.token}});if(session!==pollingSession)return;if(error||!data?.ok)throw error||new Error(data?.error);render(data.messages);if(data.handoffReady){markHandoffReady();}else if(data.requiresContact&&!handoffPending){showContact('Marlon needs your mobile number before handing this conversation to the team.');}}catch(error){if(session!==pollingSession)return;if(error?.context?.status===410){resetSession();status.textContent='The previous conversation ended. You can start a new one.';}}finally{clearTimeout(pollTimer);if(session===pollingSession)pollTimer=setTimeout(poll,4500)}}
+  let pollInFlight=false,pollFailures=0,idlePolls=0,lastMessageState='',pageActive=true;
+  const canPoll=()=>Boolean(pageActive&&session?.sessionId&&!document.hidden&&!panel.hidden);
+  const chatFailure=async(error,data)=>{
+    let detail=data?.error;
+    if(!detail&&error?.context?.json){try{detail=(await error.context.clone().json())?.error;}catch{}}
+    const code=Number(error?.context?.status||error?.status||0);
+    const text=String(detail||error?.message||'');
+    const message=code===410?'This conversation has ended. Start a new conversation below.':
+      code===429||/rate limit|too many/i.test(text)?'Please wait a moment before trying again.':
+      code===401||code===403?'Please start a new conversation so we can reconnect securely.':
+      'We could not connect to the team. Please try again or call (540) 315-4545.';
+    return Object.assign(new Error(message),{status:code});
+  };
+  async function poll(){
+    clearTimeout(pollTimer);pollTimer=null;
+    if(!canPoll()||pollInFlight)return;
+    const pollingSession=session;pollInFlight=true;
+    try{
+      const{data,error}=await client.functions.invoke('public-chat',{body:{action:'poll',sessionId:pollingSession.sessionId,token:pollingSession.token}});
+      if(session!==pollingSession)return;
+      if(error||!data?.ok)throw await chatFailure(error,data);
+      pollFailures=0;
+      const messageState=JSON.stringify(data.messages||[]);
+      idlePolls=messageState===lastMessageState?idlePolls+1:0;
+      lastMessageState=messageState;
+      if(!panel.hidden){render(data.messages);if(data.handoffReady){markHandoffReady();}else if(data.requiresContact&&!handoffPending){showContact('Add your mobile number so the team can follow up.');}}
+    }catch(error){
+      if(session!==pollingSession)return;
+      pollFailures++;
+      if(error?.status===410||error?.status===401||error?.status===403){resetSession();status.textContent='The previous conversation ended. You can start a new one.';}
+    }finally{
+      pollInFlight=false;clearTimeout(pollTimer);
+      if(canPoll()){
+        const delay=session!==pollingSession?0:pollFailures?Math.min(120000,15000*(2**pollFailures)):Math.min(60000,12000*(1+Math.floor(idlePolls/3)));
+        pollTimer=setTimeout(poll,delay);
+      }
+    }
+  }
+  document.addEventListener('visibilitychange',()=>{clearTimeout(pollTimer);pollTimer=null;if(canPoll())void poll();});
+  window.addEventListener('pagehide',()=>{pageActive=false;clearTimeout(pollTimer);pollTimer=null;});
+  window.addEventListener('pageshow',()=>{pageActive=true;if(canPoll())void poll();});
+  window.addEventListener('online',()=>{if(canPoll())void poll();});
   const launcher=document.querySelector('.gc-chat-launcher');let lastFocus=null;
-  function open(){lastFocus=document.activeElement;panel.hidden=false;panel.classList.add('open');launcher.hidden=true;launcher.setAttribute('aria-expanded','true');startedAt=Date.now();if(session){document.querySelector('.gc-chat-name').hidden=true;document.querySelector('.gc-chat-email').hidden=true;poll();}setTimeout(()=>form.elements.message.focus(),50)}
-  function close(){panel.classList.remove('open');panel.hidden=true;launcher.hidden=false;launcher.setAttribute('aria-expanded','false');clearTimeout(pollTimer);(lastFocus||launcher)?.focus()}
+  function open(){idlePolls=0;lastFocus=document.activeElement;panel.hidden=false;panel.classList.add('open');launcher.hidden=true;launcher.setAttribute('aria-expanded','true');startedAt=Date.now();if(session){document.querySelector('.gc-chat-name').hidden=true;document.querySelector('.gc-chat-email').hidden=true;poll();}setTimeout(()=>form.elements.message.focus(),50)}
+  function close(){panel.classList.remove('open');panel.hidden=true;launcher.hidden=false;launcher.setAttribute('aria-expanded','false');clearTimeout(pollTimer);pollTimer=null;(lastFocus||launcher)?.focus()}
   launcher.addEventListener('click',open);document.querySelector('.gc-chat-close').addEventListener('click',close);document.querySelectorAll('[data-chat-open]').forEach(button=>button.addEventListener('click',open));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel.classList.contains('open'))close();});
-  endButton.addEventListener('click',async()=>{if(!session)return;endButton.disabled=true;status.textContent='Ending conversation…';try{const{data,error}=await client.functions.invoke('public-chat',{body:{action:'close',sessionId:session.sessionId,token:session.token}});if(error||!data?.ok)throw new Error(data?.error||error?.message||'Unable to end this conversation.');resetSession();status.textContent='Conversation ended. Send a new question to start a separate chat.';}catch(error){status.textContent=error.message||'Unable to end this conversation.';}finally{endButton.disabled=false;}});
+  endButton.addEventListener('click',async()=>{if(!session)return;endButton.disabled=true;status.textContent='Ending conversation…';try{const{data,error}=await client.functions.invoke('public-chat',{body:{action:'close',sessionId:session.sessionId,token:session.token}});if(error||!data?.ok)throw await chatFailure(error,data);resetSession();status.textContent='Conversation ended. Send a new question to start a separate chat.';}catch(error){status.textContent=error.message||'Unable to end this conversation.';}finally{endButton.disabled=false;}});
   humanButton?.addEventListener('click',async()=>{
     if(!handoffPending){showContact('Add your mobile number, then connect to the GotCracked team.');if(!form.elements.message.value.trim())form.elements.message.value='I would like to talk to a person.';return;}
     if(!session){form.requestSubmit();return;}
@@ -41,11 +82,11 @@
     try{
       const{data,error}=await client.functions.invoke('public-chat',{body:{action:'handoff',sessionId:session.sessionId,token:session.token,phone,email,preferredContact,reason:'customer_requested_human'}});
       if(session!==handoffSession)return;
-      if(error||!data?.ok)throw new Error(data?.error||error?.message||'Unable to connect you.');
+      if(error||!data?.ok)throw await chatFailure(error,data);
       markHandoffReady();status.textContent='A GotCracked team member can now join this conversation.';poll();
     }catch(error){if(session===handoffSession)status.textContent=error.message||'Unable to connect you.'}
     finally{humanButton.disabled=false}
   });
-  form.addEventListener('submit',async event=>{event.preventDefault();const button=form.querySelector('button[type=submit]'),sendingSession=session;button.disabled=true;status.textContent='';try{const fields=Object.fromEntries(new FormData(form));const body=sendingSession?{action:'send',sessionId:sendingSession.sessionId,token:sendingSession.token,message:fields.message}:{action:'start',...fields,requestHuman:handoffPending,formStartedAt:startedAt};const{data,error}=await client.functions.invoke('public-chat',{body});if(sendingSession&&session!==sendingSession)return;if(error||!data?.ok)throw new Error(data?.error||error?.message||'Unable to send.');if(data.sessionId){session={sessionId:data.sessionId,token:data.token,createdAt:Date.now()};localStorage.setItem(storageKey,JSON.stringify(session));document.querySelector('.gc-chat-name').hidden=true;endButton.hidden=false;}form.elements.message.value='';render(data.messages);if(data.handoffReady){markHandoffReady();status.textContent='A GotCracked team member can now join this conversation.';}else if(data.requiresContact){showContact('Marlon needs your mobile number before handing this conversation to the team.');}poll();}catch(error){if(sendingSession&&session!==sendingSession)return;if(error?.context?.status===410){resetSession();status.textContent='The previous conversation ended. Send again to start a new one.';}else status.textContent=error.message||'Unable to send.'}finally{button.disabled=false}});
+  form.addEventListener('submit',async event=>{event.preventDefault();const button=form.querySelector('button[type=submit]'),sendingSession=session;button.disabled=true;status.textContent='';try{const fields=Object.fromEntries(new FormData(form));const body=sendingSession?{action:'send',sessionId:sendingSession.sessionId,token:sendingSession.token,message:fields.message}:{action:'start',...fields,requestHuman:handoffPending,formStartedAt:startedAt};const{data,error}=await client.functions.invoke('public-chat',{body});if(sendingSession&&session!==sendingSession)return;if(error||!data?.ok)throw await chatFailure(error,data);if(data.sessionId){session={sessionId:data.sessionId,token:data.token,createdAt:Date.now()};localStorage.setItem(storageKey,JSON.stringify(session));document.querySelector('.gc-chat-name').hidden=true;endButton.hidden=false;}form.elements.message.value='';render(data.messages);if(data.handoffReady){markHandoffReady();status.textContent='A GotCracked team member can now join this conversation.';}else if(data.requiresContact){showContact('Marlon needs your mobile number before handing this conversation to the team.');}poll();}catch(error){if(sendingSession&&session!==sendingSession)return;if(error?.status===410){resetSession();status.textContent='The previous conversation ended. Send again to start a new one.';}else status.textContent=error.message||'Unable to send.'}finally{button.disabled=false}});
 })();
 

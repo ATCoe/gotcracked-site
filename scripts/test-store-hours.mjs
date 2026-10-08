@@ -65,7 +65,7 @@ const footerPages=['index.html','learn.html','pc-build.html','request.html','app
 for(const file of footerPages){
   const html=fs.readFileSync(new URL(`../${file}`,import.meta.url),'utf8');
   assert.doesNotMatch(html,/Morning \(9 AM–12 PM\)|Late afternoon \(4–6 PM\)/,`${file} must not ship stale fixed windows`);
-  assert.match(html,/store-hours\.js\?v=20260921-shared-hours1/,`${file} must load the shared settings-driven hours runtime`);
+  assert.match(html,/store-hours\.js\?v=20261008-production1/,`${file} must load the shared settings-driven hours runtime`);
   assert.ok(html.indexOf('customer-chat.js')<html.indexOf('store-hours.js'),`${file} must create the footer hours host before the shared runtime starts`);
 }
 

@@ -12,6 +12,11 @@
     navigator.msDoNotTrack === '1';
 
   async function loadMeasurementId() {
+    if (window.GotCrackedPublicMedia?.load) {
+      const { data } = await window.GotCrackedPublicMedia.load();
+      const id = String(data?.settings?.google_analytics_measurement_id || '').trim().toUpperCase();
+      return ID_PATTERN.test(id) ? id : null;
+    }
     const response = await fetch(SETTINGS_URL, {
       method: 'GET',
       headers: { Accept: 'application/json' },

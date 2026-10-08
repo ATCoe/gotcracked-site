@@ -28,7 +28,7 @@
     const host = new URL(safe).hostname.toLowerCase().replace(/^www\./,'');
     return hosts.some(allowed => host === allowed || host.endsWith('.' + allowed)) ? safe : '#';
   };
-  const socialLinksMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
+  const socialLinksMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" aria-label="${platform.label}" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
   const localDateISO = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const formatUpdatedAt = value => { const date = value ? new Date(value) : null; return date && !Number.isNaN(date.getTime()) ? date.toLocaleString() : 'recently'; };
   const formatHour = value => { const [hour,minute] = String(value || '').split(':').map(Number); if (!Number.isFinite(hour)) return ''; const date = new Date(2000,0,1,hour,minute||0); return date.toLocaleTimeString([], { hour:'numeric', minute:minute ? '2-digit' : undefined }); };
@@ -42,8 +42,6 @@
     }).join('');
   };
 
-  const PLANNED_OPENING_DATE = '2026-10-01';
-  const PLANNED_OPENING_LABEL = 'October 1, 2026';
   const openingBanner = $('.announcement') || (() => {
     const banner = document.createElement('div');
     banner.className = 'announcement';
@@ -52,9 +50,9 @@
     else document.body.prepend(banner);
     return banner;
   })();
-  openingBanner.innerHTML = `<span class="pulse"></span><strong>Opening soon:</strong>&nbsp; GotCracked is not open yet. Our current planned opening date is ${PLANNED_OPENING_LABEL}.`;
+  openingBanner.innerHTML = '<span class="pulse" aria-hidden="true"></span><strong>Find us upstairs</strong>&nbsp; Across from Witch\'s Cupboard at 700 North Main St.';
   openingBanner.setAttribute('role', 'status');
-  document.documentElement.dataset.gcPreopening = 'true';
+  document.documentElement.dataset.gcPreopening = 'false';
 
   const toast = $('.toast');
   const showToast = message => {
@@ -77,7 +75,7 @@
     const grid = $('#social-media-grid'), links = $('#social-media-links');
     if (!grid) return;
     try {
-      const { data, error } = await window.GotCrackedSupabaseResilience.run('public-media', () => window.supabaseClient.functions.invoke('public-media', { method: 'GET' }));
+      const { data, error } = await window.GotCrackedPublicMedia.load();
       if (error) throw error;
       const posts = data?.posts || [];
       grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => { const thumbnail = safePublicUrl(post.thumbnail_url); return `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${thumbnail !== '#' ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`; }).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
@@ -93,7 +91,7 @@
   })();
 
   const dateInput = $('[name="date"]');
-  if (dateInput) dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop();
+  if (dateInput) dateInput.min = localDateISO(new Date());
 
   const menu = $('.menu-button'), nav = $('#site-nav');
   function setMenu(open) {
@@ -226,7 +224,7 @@
 
   const tracker = $('#tracker-dialog'), trackerForm = $('#tracker-form'), trackerResult = $('.tracker-result');
   const resetTracker = () => { trackerForm?.reset(); trackerForm?.classList.remove('hidden'); trackerResult?.classList.remove('active'); const error = $('.tracker-error'); if (error) error.textContent = ''; };
-  const openTracker = () => { setMenu(false); window.location.href = 'account.html'; };
+  const openTracker = () => { setMenu(false); window.location.href = '/account'; };
   $$('[data-open-tracker]').forEach(button => button.addEventListener('click', openTracker));
   $('[data-close-dialog]')?.addEventListener('click', () => tracker?.close());
   tracker?.addEventListener('close', () => { document.body.classList.remove('dialog-open'); resetTracker(); });
