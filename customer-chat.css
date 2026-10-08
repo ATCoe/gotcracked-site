@@ -81,3 +81,5 @@
 
 .gc-chat-panel :is(button,input,textarea,select,a):focus-visible{outline:2px solid #69c1ff;outline-offset:3px}
 .gc-chat-form input::placeholder,.gc-chat-form textarea::placeholder{color:#93a9c1;opacity:1}
+.gc-chat-form :is(input,textarea,select){font-size:14px;line-height:1.4}
+@media(max-width:700px){.gc-chat-form :is(input,textarea,select){font-size:16px}}

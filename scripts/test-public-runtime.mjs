@@ -71,5 +71,11 @@ const flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
   const asset=event('/app.js','same-origin','script');handlers.fetch(asset);assert.equal(await asset.response,cached);
   await Promise.all(saved);
   const page=event('/request');handlers.fetch(page);assert.equal(await page.response,offlinePage,'offline route must use its own cached shell');
+  const networkResponse={ok:true,type:'basic',clone:()=>({})};
+  context.caches.match=async()=>undefined;
+  context.caches.open=async()=>({put:async()=>{throw new Error('storage unavailable');}});
+  context.fetch=async()=>networkResponse;
+  const uncached=event('/new.js','same-origin','script');handlers.fetch(uncached);
+  assert.equal(await uncached.response,networkResponse,'cache storage failure must not break a successful network response');
 }
 console.log('PASS public settings coalescing, chat lifecycle/backoff, and private-route/offline service-worker behavior.');
