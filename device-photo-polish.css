@@ -30,8 +30,8 @@ html body .guide-visual-image img{object-fit:contain;object-position:center;back
 .repair-finder-grid>a:not(.repair-finder-unsure) .repair-finder-photo{background:#061426}
 
 
-/* Keep portrait diagnostic artwork inside the established feature panel. */
-html body .guide-visual-image{height:330px;min-height:330px}
-html body .guide-visual-image img{height:100%}
-html body .service-feature>img{background:#061426}
-@media(max-width:700px){html body .guide-visual-image{height:220px;min-height:220px}}
+/* Bound portrait artwork and override the older manufacturer-photo backdrop. */
+html body .repair-guide .guide-visual-image{height:360px;min-height:360px!important;background:#061426!important}
+html body .repair-guide .guide-visual-image img{height:100%;min-height:0!important;background:#061426}
+html body #services .service-feature>img{background:#061426}
+@media(max-width:700px){html body .repair-guide .guide-visual-image{height:220px;min-height:220px!important;max-height:220px!important}}
