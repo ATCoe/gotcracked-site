@@ -31,3 +31,17 @@ These exact model and color images were copied without alteration from GotCracke
 ## Navigation and service icons — September 27, 2026
 
 Local SVG files in `assets/icons/lucide/` were retrieved from the official `lucide-icons/lucide` repository (`main/icons/`) on September 27, 2026. The original 24px geometry and 2px rounded strokes are retained. CSS masks apply the existing interface colors. ISC and applicable Feather MIT notices are retained in that directory’s `LICENSE`. Replaces the homepage service pseudo-element drawings and the navigation symbol mappings. No remote icon runtime is loaded.
+
+
+## Customer Repair Artwork — October 9, 2026
+
+Four original AI-generated illustrations created with OpenAI image generation for the customer website only:
+
+| File | Subject | Dimensions |
+| --- | --- | --- |
+| assets/repair/phone-repair-20261009.jpg | Cracked phone glass | 1024 × 1536 |
+| assets/repair/tablet-repair-20261009.jpg | Cracked tablet glass | 1536 × 1024 |
+| assets/repair/laptop-repair-20261009.jpg | Damaged laptop display | 1536 × 1024 |
+| assets/repair/console-repair-20261009.jpg | Damaged console and controller casing | 1536 × 1024 |
+
+Generated imagery is illustrative, not a real customer repair, shop photograph, manufacturer image, or guarantee of service for an exact model. JPEG encoding at quality 86 reduces transfer size without altering the generated composition. Homepage image references and public image credits identify the new artwork. Portal device assets, logos, social marks, service icons, application behavior, and the draft audit PR are outside this change.
