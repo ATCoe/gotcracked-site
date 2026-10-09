@@ -23,3 +23,8 @@ html body #services .service-card.featured p{color:#c8d8e8!important}
   .repair-finder-grid>a:not(.repair-finder-unsure) strong{font-size:15px}
   .repair-finder-grid>a:not(.repair-finder-unsure) small{font-size:11px}
 }
+
+/* Customer-only repair artwork: preserve the existing cards and show full devices. */
+html body .hero-photo,
+html body .guide-visual-image img{object-fit:contain;object-position:center;background:#061426}
+.repair-finder-grid>a:not(.repair-finder-unsure) .repair-finder-photo{background:#061426}
