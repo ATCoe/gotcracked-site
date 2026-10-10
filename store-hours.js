@@ -95,7 +95,7 @@
     renderFooterHours();
     try {
       if (!window.supabaseClient?.functions) return;
-      const { data, error } = await window.supabaseClient.functions.invoke('public-media',{method:'GET'});
+      const { data, error } = await (window.GotCrackedPublicMedia?.load ? window.GotCrackedPublicMedia.load() : window.supabaseClient.functions.invoke('public-media',{method:'GET'}));
       if (error) throw error;
       if (data?.settings?.store_hours && typeof data.settings.store_hours === 'object') storeHours = data.settings.store_hours;
     } catch (error) {

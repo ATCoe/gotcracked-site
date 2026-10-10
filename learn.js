@@ -16,7 +16,7 @@
     const host = new URL(safe).hostname.toLowerCase().replace(/^www\./,'');
     return hosts.some(allowed => host === allowed || host.endsWith('.' + allowed)) ? safe : '#';
   };
-  const socialMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
+  const socialMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" aria-label="${platform.label}" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
   const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
   const menu = $('.menu-button'), nav = $('#site-nav');
   const setMenu = open => {
@@ -45,7 +45,7 @@
     const media = $('#learn-media-grid');
     try {
       if (!window.supabaseClient?.functions) throw new Error('Public media unavailable');
-      const {data,error} = await window.supabaseClient.functions.invoke('public-media',{method:'GET'});
+      const {data,error} = await (window.GotCrackedPublicMedia?.load ? window.GotCrackedPublicMedia.load() : window.supabaseClient.functions.invoke('public-media',{method:'GET'}));
       if (error) throw error;
       const settings = data?.settings || {};
       const buttons = socialMarkup(settings);
@@ -62,7 +62,7 @@
         return `<a class="media-card" href="${href}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${image !== '#' ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform || 'GotCracked')}</small><h3>${escapeHTML(post.title || 'Watch this repair')}</h3></div></a>`;
       }).join('') : '<article class="media-placeholder">New GotCracked repair videos will appear here as they are published.</article>';
     } catch {
-      if (media) media.innerHTML = '<article class="media-placeholder">Repair videos are coming soon. Check back after launch.</article>';
+      if (media) media.innerHTML = '<article class="media-placeholder">Repair videos are temporarily unavailable. Please check back soon.</article>';
     }
   })();
 })();

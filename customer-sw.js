@@ -1,5 +1,5 @@
 /* GotCracked customer PWA: cache the public shell only. Repair accounts and APIs stay network-only. */
-const CACHE_NAME = 'gotcracked-customer-shell-v2';
+const CACHE_NAME = 'gotcracked-customer-shell-v3';
 const PUBLIC_SHELL = [
   '/',
   '/index.html',
@@ -26,7 +26,7 @@ self.addEventListener('activate', event => {
 });
 
 function isPrivateOrDynamic(url) {
-  return url.pathname === '/account.html' || url.pathname.startsWith('/api/') || url.pathname.startsWith('/functions/');
+  return /^\/account(?:\.html)?\/?$/.test(url.pathname) || url.pathname.startsWith('/api/') || url.pathname.startsWith('/functions/');
 }
 
 function isCacheableAsset(request, url) {
@@ -45,7 +45,9 @@ self.addEventListener('fetch', event => {
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(async () => {
       const cache = await caches.open(CACHE_NAME);
-      return cache.match(url.pathname === '/' ? '/' : '/index.html');
+      return (await cache.match(request, { ignoreSearch: true })) ||
+        (await cache.match(`${url.pathname.replace(/\/$/, '')}.html`)) ||
+        cache.match('/');
     }));
     return;
   }
@@ -54,11 +56,17 @@ self.addEventListener('fetch', event => {
   event.respondWith(caches.match(request).then(cached => {
     const network = fetch(request).then(response => {
       if (response.ok && response.type === 'basic') {
-        caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+        const copy = response.clone();
+        return caches.open(CACHE_NAME).then(cache => cache.put(request, copy)).then(() => response, () => response);
       }
       return response;
     });
-    return cached || network;
+    if (cached) {
+      // Keep revalidation alive and absorb offline failures when a cached asset is served.
+      event.waitUntil(network.catch(() => undefined));
+      return cached;
+    }
+    return network;
   }));
 });
 

@@ -22,9 +22,12 @@ jobs:
       - name: JavaScript syntax
         run: |
           set -euo pipefail
-          for file in app.js learn.js analytics-loader.js customer-chat.js customer-account.js pc-build.js store-hours.js supabase.js; do
+          for file in app.js learn.js analytics-loader.js customer-chat.js customer-account.js pc-build.js store-hours.js supabase.js customer-sw.js site-traffic.js customer-pwa.js kiosk/app.js kiosk/config.js kiosk/schedule.js; do
             [ -f "$file" ] && node --check "$file"
           done
+
+      - name: Public request lifecycle and offline safety
+        run: node scripts/test-public-runtime.mjs
 
       - name: Store hours and appointment windows
         run: node scripts/test-store-hours.mjs
@@ -123,7 +126,7 @@ jobs:
           if stale_windows.search(request_html) or stale_windows.search(appointment_html): raise SystemExit('Stale fixed appointment windows returned.')
           for form_html in [request_html, appointment_html]:
               if not re.search(r'<select name="time" required disabled>', form_html): raise SystemExit('Appointment time must wait for the settings-driven day selection.')
-          if "dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop()" not in app: raise SystemExit('Appointment minimum-date guard missing.')
+          if "dateInput.min = localDateISO(new Date())" not in app: raise SystemExit('Appointment minimum-date guard missing.')
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'windowsFor', 'range.length!==2', 'DEFAULT_HOURS']:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
 

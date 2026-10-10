@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="hardening.css?v=20260826-production1">
   <link rel="stylesheet" href="site-release.css?v=20260928-execution2">
   <link rel="stylesheet" href="request.css?v=20260826-production1">
-  <link rel="stylesheet" href="customer-chat.css?v=20260924-human-handoff1">
+  <link rel="stylesheet" href="customer-chat.css?v=20261008-production1">
   <link rel="stylesheet" href="pc-build.css?v=20260921-readable1">
   <link rel="stylesheet" href="customer-route-polish.css?v=20260924-1">
 <link rel="stylesheet" href="/audit-fixes.css?v=20260928-1">
@@ -50,7 +50,7 @@
       <div class="container pc-build-heading">
         <p class="eyebrow"><span></span>Custom PC Build Planner</p>
         <h1>Tell us what you want it to do.</h1>
-        <p>You do not need to know CPUs, GPUs, chipsets, or power supplies. Tell us how you plan to use the computer, what matters to you, and what you want to spend. GotCracked will save the request for staff review and research a compatible current-parts build when verified research is available.</p>
+        <p>Tell us how you’ll use your computer, what matters to you, and what you want to spend. We’ll help you plan a compatible build, with a verified estimate when available or a personal follow-up from our team.</p>
       </div>
     </section>
 
@@ -185,7 +185,7 @@
           <section class="pc-step">
             <p class="form-kicker">Step 4 of 4</p>
             <h2>Where should we send updates?</h2>
-            <p class="pc-step-lede">We’ll save your request to the GotCracked lead queue. If automated verification is unavailable, our team can review it and follow up before any price is presented or parts are purchased.</p>
+            <p class="pc-step-lede">Our team will review your request and follow up. If automated verification is unavailable, we’ll check the build before presenting a price. Nothing is ordered without your approval.</p>
             <div class="pc-grid">
               <label class="full">Your Name<input name="customerName" autocomplete="name" required></label>
               <label>Email<input name="customerEmail" type="email" autocomplete="email" required></label>
@@ -202,24 +202,24 @@
           <div class="pc-spinner" aria-hidden="true"></div>
           <h2>Saving your build request.</h2>
           <p class="pc-research-status">Saving your goals and budget…</p>
-          <p>We’re checking whether verified automated research is available. If it is not, your request will stay in the GotCracked queue for staff review and follow-up.</p>
+          <p>We’re checking whether verified automated research is available. If it is not, our team will review your request and follow up.</p>
         </section>
 
         <section id="pc-result" class="pc-build-card pc-result" aria-live="polite"></section>
 
         <aside class="pc-build-aside">
           <p class="eyebrow"><span></span>What happens next</p>
-          <h2>One survey. One coherent build.</h2>
+          <h2>A PC that fits your life.</h2>
           <ul>
-            <li>We translate your games, apps, resolution, performance goals, and aesthetics into hardware priorities.</li>
-            <li>When verified automated research is available, current parts are researched from reputable US retailers, with Amazon and Newegg prioritized where practical.</li>
-            <li>Before an automated price is shown, the exact core configuration must pass Newegg PC Builder compatibility verification and manufacturer-specification checks for sockets, memory type, physical clearances, cooling, storage interfaces, BIOS support, PSU connectors, and power headroom.</li>
-            <li>PCPartPicker is used as an additional compatibility and parts-list cross-check when it is available. Newegg PC Builder and manufacturer specifications remain the required authoritative checks, so a temporary PCPartPicker outage does not create a fake incompatibility result.</li>
-            <li>If automated research is unavailable, or if the Newegg PC Builder check or any required manufacturer compatibility fact cannot be verified, the saved request is held for staff review and no automated estimate is released.</li>
-            <li>If compatibility is verified, you may see the recommended components and one estimated total—not GotCracked’s internal part-cost breakdown.</li>
-            <li>The sourcing trail and internal pricing remain with your GotCracked build request for staff review and purchasing.</li>
+            <li>Tell us your games, apps, space, and budget. We’ll match the build to you.</li>
+            <li>We check current US pricing and availability, including Amazon and Newegg.</li>
+            <li>Newegg PC Builder and manufacturer specifications verify part compatibility before an automated estimate is shown.</li>
+            <li>PCPartPicker provides an additional compatibility check when available.</li>
+            <li>If those checks cannot be completed, our team reviews your request. We do not issue an unverified automated price.</li>
+            <li>If compatibility is verified, you may see the recommended components and one estimated total.</li>
+            <li>You approve the final configuration and price before we order parts.</li>
           </ul>
-          <div class="booking-note"><span>!</span><p><strong>Temporary RAM market notice.</strong><br>Memory pricing and availability remain unusually constrained through 2027. The current industry outlook expects additional manufacturing capacity to improve conditions during 2028, but forecasts can change. GotCracked verifies live memory pricing and availability before a final build is approved.</p></div>
+          <div class="booking-note"><span>!</span><p><strong>Parts pricing.</strong><br>Parts pricing and availability can change. We confirm current prices before you approve the final build.</p></div>
           <div class="booking-note"><span>✓</span><p><strong>No parts are purchased automatically.</strong><br>Your recommendation is reviewed and confirmed with you before GotCracked orders components.</p></div>
         </aside>
       </div>
@@ -229,12 +229,12 @@
   <footer><div class="container footer-grid"><div class="footer-brand"><img src="assets/gotcracked-portal-logo.png" alt="GotCracked" loading="lazy" decoding="async"><p>Professional device repair and custom computer builds with clear communication from planning to pickup.</p><address>700 North Main St, Ste D<br>Blacksburg, VA 24060</address></div><div><h3>Explore</h3><a href="/#services">Services</a><a href="/request">Start a Repair</a><a href="/appointment">Appointment</a></div><div><h3>Customers</h3><button data-chat-open>Ask a Question</button><a href="tel:+15403154545">Call (540) 315-4545</a><a href="mailto:hello@gotcracked.co">Email Support</a><a href="/privacy">Privacy Notice</a><a href="/credits">Brand &amp; Image Credits</a></div></div><p class="container trademark-notice">Product names, logos, and likenesses are trademarks or property of their respective owners. GotCracked is an independent service provider and is not affiliated with, sponsored by, or endorsed by those owners. Retailer references are used for current sourcing research and do not imply retailer sponsorship. <a href="/credits">Brand and Image Credits</a>.</p><div class="container footer-bottom"><span>&copy; <span id="year"></span> GotCracked. All rights reserved.</span><span>We Fix What Life Cracks.</span></div></footer>
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
-  <script src="supabase.js?v=20260826-production1"></script>
-  <script src="app.js?v=20260928-execution2"></script>
-<script src="customer-chat.js?v=20260928-execution2"></script>
-<script src="store-hours.js?v=20260921-shared-hours1"></script>
+  <script src="supabase.js?v=20261008-production1"></script>
+  <script src="app.js?v=20261008-production1"></script>
+<script src="customer-chat.js?v=20261008-production1"></script>
+<script src="store-hours.js?v=20261008-production1"></script>
 <script defer src="customer-pwa.js?v=20260903-install1"></script>
-  <script src="pc-build.js?v=20260928-execution2"></script>
+  <script src="pc-build.js?v=20261008-production1"></script>
 </body>
 </html>
 
