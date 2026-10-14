@@ -104,12 +104,12 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','iphone-16-pro-natural-titanium-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg']:
+          for token in ['/credits#product-images','phone-repair-20261009.jpg','laptop-repair-20261009.jpg']:
               if token not in html: raise SystemExit(f'Homepage visual or attribution missing: {token}')
-          device_photos = ['galaxy-s24-ultra-titanium-violet-front-back.jpg','iphone-16-pro-natural-titanium-front-back.jpg','ipad-10-blue-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg','playstation-5-slim-disc.png']
+          device_photos = ['phone-repair-20261009.jpg','tablet-repair-20261009.jpg','laptop-repair-20261009.jpg','console-repair-20261009.jpg']
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
           for photo in device_photos:
-              if not Path('assets/devices', photo).exists() or photo not in html or photo not in provenance:
+              if not Path('assets/repair', photo).exists() or photo not in html or photo not in provenance:
                   raise SystemExit(f'Missing device reference photo or provenance: {photo}')
           if 'repair-bench-phone.jpg' in html: raise SystemExit('Retired homepage hero photo returned.')
           for token in ['Unsplash License','It does not depict a staged GotCracked shop or repair scene.','id="product-images"']:
@@ -123,7 +123,7 @@ jobs:
           if stale_windows.search(request_html) or stale_windows.search(appointment_html): raise SystemExit('Stale fixed appointment windows returned.')
           for form_html in [request_html, appointment_html]:
               if not re.search(r'<select name="time" required disabled>', form_html): raise SystemExit('Appointment time must wait for the settings-driven day selection.')
-          if "dateInput.min = [localDateISO(new Date()), PLANNED_OPENING_DATE].sort().pop()" not in app: raise SystemExit('Appointment minimum-date guard missing.')
+          if "dateInput.min = localDateISO(new Date())" not in app: raise SystemExit('Appointment minimum-date guard missing.')
           for token in ["functions.invoke('public-media'", 'setCustomValidity', 'windowsFor', 'range.length!==2', 'DEFAULT_HOURS']:
               if token not in hours: raise SystemExit(f'Store-hours runtime guard missing: {token}')
 
