@@ -100,17 +100,18 @@ jobs:
           css_files = [ref.split('?',1)[0] for ref in css_refs]
           for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css','device-photo-polish.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-3:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css']: raise SystemExit('The verified visual fixes must remain the final homepage stylesheet.')
+          if css_files[-4:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css','/customer-design.css']: raise SystemExit('The verified visual fixes must remain the final homepage stylesheet.')
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','phone-repair-20261009.jpg','laptop-repair-20261009.jpg']:
+          for token in ['/credits#product-images','iphone-16-pro-natural-titanium-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg']:
               if token not in html: raise SystemExit(f'Homepage visual or attribution missing: {token}')
-          device_photos = ['phone-repair-20261009.jpg','tablet-repair-20261009.jpg','laptop-repair-20261009.jpg','console-repair-20261009.jpg']
+          device_photos = ['iphone-16-pro-natural-titanium-front-back.jpg','ipad-10-blue-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg','playstation-5-slim-disc.png']
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
           for photo in device_photos:
-              if not Path('assets/repair', photo).exists() or photo not in html or photo not in provenance:
+              if not Path('assets/devices', photo).exists() or photo not in html or photo not in provenance:
                   raise SystemExit(f'Missing device reference photo or provenance: {photo}')
+          if 'assets/repair/' in html or 'assets/generated-' in html: raise SystemExit('Generated artwork returned to customer homepage.')
           if 'repair-bench-phone.jpg' in html: raise SystemExit('Retired homepage hero photo returned.')
           for token in ['Unsplash License','It does not depict a staged GotCracked shop or repair scene.','id="product-images"']:
               if token not in credits_html: raise SystemExit(f'Public image credit missing: {token}')

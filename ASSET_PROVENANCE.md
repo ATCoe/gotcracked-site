@@ -45,3 +45,8 @@ Four original AI-generated illustrations created with OpenAI image generation fo
 | assets/repair/console-repair-20261009.jpg | Damaged console and controller casing | 1536 × 1024 |
 
 Generated imagery is illustrative, not a real customer repair, shop photograph, manufacturer image, or guarantee of service for an exact model. JPEG encoding at quality 86 reduces transfer size without altering the generated composition. Homepage image references and public image credits identify the new artwork. Portal device assets, logos, social marks, service icons, application behavior, and the draft audit PR are outside this change.
+
+
+## Product-led website revision — October 28, 2026
+
+The customer website now serves the four unchanged manufacturer reference images registered above: Apple iPhone 16 Pro, iPad 10, MacBook Air M4 and Sony PlayStation 5 Slim chassis. The earlier generated repair illustrations are retained only as historical source assets and are not referenced by current customer pages. No new product photography was generated, recolored or composited. The original GotCracked logo is unchanged.
