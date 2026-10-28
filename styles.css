@@ -8,11 +8,11 @@
    visual anchors so service cards scan faster on desktop and mobile. */
 .service-icon{overflow:hidden;background:#071b31!important;border-color:rgba(45,167,255,.28)!important}
 .service-icon{background-size:cover;background-position:center}
-.phone-icon{background-image:url("assets/issue-cracked-screen.svg")}
-.diagnostic-icon{background-image:url("assets/issue-laptop-thermal.svg")}
+.phone-icon{background-image:url("assets/ui/phone.svg")}
+.diagnostic-icon{background-image:url("assets/ui/laptop.svg")}
 .cleaning-icon,.tuneup-icon{background-image:none}
-.security-icon,.battery-icon{background-image:url("assets/issue-battery-health.svg")}
-.recovery-icon{background-image:url("assets/issue-console-hdmi.svg")}
+.security-icon,.battery-icon{background-image:url("assets/ui/battery.svg")}
+.recovery-icon{background-image:url("assets/ui/console.svg")}
 
 /* 2026 visual polish: resilient branding and a tighter first viewport. */
 .brand{position:relative;width:150px}.brand img{position:relative;z-index:2}.brand-fallback{position:absolute;inset:0;display:flex;align-items:center;color:#12aaff;font-size:17px;font-weight:900;font-style:italic;letter-spacing:-.06em}.brand-fallback b{color:#fff}.logo-ready .brand-fallback{display:none}.logo-missing .brand img{display:none}.hero{min-height:760px;align-items:flex-start}.hero-grid{padding:58px 0 52px;min-height:650px}.hero-visual{height:520px}.logo-stage img{min-height:250px;object-fit:contain}.logo-stage:after{content:"GC";position:absolute;z-index:-1;font-size:180px;font-weight:950;font-style:italic;letter-spacing:-.13em;color:#087cff;text-shadow:-7px 0 0 #fff,0 0 45px #078cff66}.logo-ready .logo-stage:after{display:none}.site-header{height:68px}.nav-wrap{height:68px}.announcement{height:30px}

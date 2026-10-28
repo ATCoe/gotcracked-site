@@ -96,14 +96,14 @@ html body #services .service-icon{
   mask:var(--service-symbol) center/contain no-repeat;
   -webkit-mask:var(--service-symbol) center/contain no-repeat;
 }
-.service-card[data-service="Screen repair"] .service-icon{--service-symbol:url("assets/icons/lucide/smartphone.svg")}
-.service-card[data-service="Free diagnostic"] .service-icon{--service-symbol:url("assets/icons/lucide/search-check.svg")}
-.service-card[data-service="Device cleaning"] .service-icon{--service-symbol:url("assets/icons/lucide/brush.svg")}
-.service-card[data-service="Computer tune-up"] .service-icon{--service-symbol:url("assets/icons/lucide/gauge.svg")}
-.service-card[data-service="Custom PC build"] .service-icon{--service-symbol:url("assets/icons/lucide/computer.svg")}
-.service-card[data-service="Virus removal"] .service-icon{--service-symbol:url("assets/icons/lucide/shield-check.svg")}
-.service-card[data-service="Data recovery evaluation"] .service-icon{--service-symbol:url("assets/icons/lucide/hard-drive-download.svg")}
-.service-card[data-service="Battery replacement"] .service-icon{--service-symbol:url("assets/icons/lucide/battery-charging.svg")}
+.service-card[data-service="Screen repair"] .service-icon{--service-symbol:url("assets/ui/phone.svg")}
+.service-card[data-service="Free diagnostic"] .service-icon{--service-symbol:url("assets/ui/diagnostics.svg")}
+.service-card[data-service="Device cleaning"] .service-icon{--service-symbol:url("assets/ui/repair.svg")}
+.service-card[data-service="Computer tune-up"] .service-icon{--service-symbol:url("assets/ui/diagnostics.svg")}
+.service-card[data-service="Custom PC build"] .service-icon{--service-symbol:url("assets/ui/chip.svg")}
+.service-card[data-service="Virus removal"] .service-icon{--service-symbol:url("assets/ui/shield.svg")}
+.service-card[data-service="Data recovery evaluation"] .service-icon{--service-symbol:url("assets/ui/data.svg")}
+.service-card[data-service="Battery replacement"] .service-icon{--service-symbol:url("assets/ui/battery.svg")}
 
 /* Custom PC feature becomes a blueprint, not a fabricated product render. */
 .service-feature{
@@ -170,9 +170,9 @@ html body #services .service-icon{
   background-repeat:no-repeat;
   background-size:cover;
 }
-.issue-card:nth-child(1):before{background-image:url("assets/issue-cracked-screen.svg")}
-.issue-card:nth-child(2):before{background-image:url("assets/issue-battery-health.svg")}
-.issue-card:nth-child(3):before{background-image:url("assets/issue-laptop-thermal.svg")}
+.issue-card:nth-child(1):before{background-image:url("assets/ui/phone.svg")}
+.issue-card:nth-child(2):before{background-image:url("assets/ui/battery.svg")}
+.issue-card:nth-child(3):before{background-image:url("assets/ui/laptop.svg")}
 .issue-card:nth-child(4)>.console-platforms{
   width:100%!important;
   min-width:0!important;

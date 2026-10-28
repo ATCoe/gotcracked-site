@@ -32,7 +32,7 @@ html body .issue-card:nth-child(4):before {
 }
 html body .issue-card:nth-child(4):before {
   content:"";display:block;min-height:255px;border-right:1px solid #dfeaf4;
-  background-image:url("assets/issue-console-hdmi.svg");
+  background-image:url("assets/ui/console.svg");
 }
 html body .issue-card:nth-child(4)>.console-platforms {display:none!important}
 
@@ -51,7 +51,7 @@ html body .brand-panel {display:grid;place-items:center;background:linear-gradie
 html body .brand-panel img {display:block!important;width:82%;height:82%;object-fit:contain}
 html body .service-feature>img {display:block!important;width:100%;height:100%;object-fit:contain;background:#f6f9fc;padding:22px}
 html body .guide-visual-image {
-  background:#f6f9fc url("assets/devices/iphone-16-pro-natural-titanium-front-back.jpg") center/contain no-repeat!important;
+  background:#f6f9fc url("assets/repair-system/phone.jpg") center/contain no-repeat!important;
 }
 html body .guide-visual-image img {display:block!important;width:100%;height:100%;object-fit:contain;background:#f6f9fc}
 @media(max-width:700px){

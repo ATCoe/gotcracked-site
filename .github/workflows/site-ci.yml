@@ -104,17 +104,22 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','iphone-16-pro-natural-titanium-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg']:
-              if token not in html: raise SystemExit(f'Homepage visual or attribution missing: {token}')
-          device_photos = ['iphone-16-pro-natural-titanium-front-back.jpg','ipad-10-blue-front-back.jpg','macbook-air-13-m4-sky-blue-open.jpg','playstation-5-slim-disc.png']
+          for token in ['/credits#product-images','assets/repair-system/hero.jpg','assets/repair-system/pc-build.jpg']:
+              if token not in html: raise SystemExit(f'Repair artwork or attribution missing: {token}')
+          import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
-          for photo in device_photos:
-              if not Path('assets/devices', photo).exists() or photo not in html or photo not in provenance:
-                  raise SystemExit(f'Missing device reference photo or provenance: {photo}')
-          if 'assets/repair/' in html or 'assets/generated-' in html: raise SystemExit('Generated artwork returned to customer homepage.')
-          if 'repair-bench-phone.jpg' in html: raise SystemExit('Retired homepage hero photo returned.')
-          for token in ['Unsplash License','It does not depict a staged GotCracked shop or repair scene.','id="product-images"']:
-              if token not in credits_html: raise SystemExit(f'Public image credit missing: {token}')
+          for subject in ['hero','phone','tablet','laptop','console','diagnostics','battery','data','pc-build']:
+              image = Path('assets/repair-system', subject + '.jpg')
+              if not image.is_file() or image.stat().st_size == 0:
+                  raise SystemExit(f'Missing current repair-system illustration: {subject}')
+              if hashlib.sha256(image.read_bytes()).hexdigest() not in provenance.lower():
+                  raise SystemExit(f'Repair-system provenance hash mismatch: {subject}')
+          for icon in ['repair','phone','tablet','laptop','console','battery','diagnostics','chip','data','shield','tracking','mail','chat','arrow','calendar','check','close']:
+              if not Path('assets/ui', icon + '.svg').is_file(): raise SystemExit(f'Missing current UI symbol: {icon}')
+          for retired in ['assets/devices/','assets/photos/','assets/repair/','assets/generated-','assets/icons/lucide/']:
+              if retired in pages: raise SystemExit(f'Retired visual asset referenced: {retired}')
+          for token in ['generated specifically for GotCracked','id="product-images"','Interface symbols']:
+              if token not in credits_html: raise SystemExit(f'Public artwork credit missing: {token}')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')

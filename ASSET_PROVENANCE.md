@@ -1,52 +1,27 @@
-# Customer-site asset provenance
+# GotCracked customer visual asset register
 
-This register records the source and local identity of third-party visual assets used by the GotCracked customer site. Public credits appear at `/credits`. No staged shop or repair scenes are used on the site. Remaining device images are illustrative product references.
+Updated October 28, 2026. The current customer website uses a new repair-first technical illustration library and original interface symbols. The original GotCracked logo, lightning mark, brand-derived app/favicons and genuine social-platform marks are retained. Previous manufacturer device photographs, stock device photos, repair illustrations, decorative drawings and the old icon library have been removed from this website source.
 
-Device image sources and license pages were reviewed September 28, 2026. The original download date for the remaining third-party photos was not recorded.
+## Current repair illustrations
 
-| Local file | Creator and source | License | Local transformation | SHA-256 |
-| --- | --- | --- | --- | --- |
-| `assets/photos/device-tablet.jpg` | Daniel Korpai, [Turned on tablet computer on white desk](https://unsplash.com/photos/turned-on-tablet-computer-on-white-desk-2WivvSMfURY) | [Unsplash License](https://unsplash.com/license) | Downloaded as a 900px wide JPEG from Unsplash on September 24, 2026; no generative alteration. | `492ECC15E317A4056902B93FD6219619BB5CADB4A2D4CE982D0C3FEEF4ACF042` |
-| `assets/photos/device-console.jpg` | Anthony, [A close up of a video game controller](https://unsplash.com/photos/a-close-up-of-a-video-game-controller-A2wLtPGTWKA) | [Unsplash License](https://unsplash.com/license) | Downloaded as a 900px wide JPEG from Unsplash on September 24, 2026; no generative alteration. | `B0795041D8126FDDC74B5B1A5AAD113C9EB212170438C03FCEE00079CDBE5BED` |
+Created with OpenAI image generation for GotCracked. These are conceptual CGI illustrations of repair components, diagnostics, damage and assembly. They are not photographs of the GotCracked shop, staff, customer devices, actual repairs or diagnostic evidence. Details do not specify a guaranteed repair procedure, manufacturer endorsement, service availability or outcome. Optimized JPEGs are served locally.
 
-## Manufacturer product reference images
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `assets/repair-system/hero.jpg` | 220577 | `f741d0927ab020b65aa3b1dcf3b411414ebaf1728b2f3723dc5574ffb964c09a` |
+| `assets/repair-system/phone.jpg` | 155370 | `28f7e4867b139a879c275c6a2f9245e2a49e0763c848703eaa9bbdc39857411c` |
+| `assets/repair-system/tablet.jpg` | 150579 | `145aa48b9a46ff8f75fa70a733fa76d135b1c6fce67cc070c258d3b632544e8d` |
+| `assets/repair-system/laptop.jpg` | 171425 | `0dd49cf05f59a5f69afbea110e5d3fbc428cdf3ef56f7d5d2eb76b87ab976387` |
+| `assets/repair-system/console.jpg` | 154080 | `efe4288d44cb87e8f6018871a292e6136b134f05656b435da8060165001a7958` |
+| `assets/repair-system/diagnostics.jpg` | 172389 | `35e3b19fbb64fb956638e7a0df8c4443b814fced8598467a4cdc73ef43dd9d85` |
+| `assets/repair-system/battery.jpg` | 168496 | `768378afdaa6f89261cabcbb1b825e4993fba5c108233f454229ee2d8d5a2460` |
+| `assets/repair-system/data.jpg` | 167028 | `1b141d48a8483b7ff8706de4f50a0788bec10dc7b4c2c65943bc84403fca6db1` |
+| `assets/repair-system/pc-build.jpg` | 226187 | `3d36735ec03f9342ba58373707cf774a93565c6fcd70897fdd8720a9f0576618` |
 
-These exact model and color images were copied without alteration from GotCracked Portal's verified device catalog on September 27, 2026. They illustrate the types of devices GotCracked evaluates for repair; they do not advertise a device for sale or promise service availability for a specific model. Copyright remains with the manufacturer.
+## Current interface symbols
 
-| Local file | Exact device | Manufacturer source page | Source image URL | SHA-256 |
-| --- | --- | --- | --- | --- |
-| `assets/devices/galaxy-s24-ultra-titanium-violet-front-back.jpg` | Samsung Galaxy S24 Ultra, Titanium Violet | [Samsung UK](https://www.samsung.com/uk/smartphones/galaxy-s24-ultra/buy/) | [Samsung image](https://images.samsung.com/is/image/samsung/assets/uk/smartphones/galaxy-s24-ultra/buy/S24Ultra-Color-Titanium_Violet_PC_0524.jpg?imbypass=true) | `93D6A99F03478AAF2B8E94BE04A721514FF9920F629E8440FD3871218F9666EE` |
-| `assets/devices/iphone-16-pro-natural-titanium-front-back.jpg` | Apple iPhone 16 Pro, Natural Titanium | [Apple UK](https://www.apple.com/uk/shop/product/fynx3zn/a) | [Apple image](https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/refurb-iphone-16-pro-naturaltitanium-202509?wid=1600&hei=1600&fmt=jpeg&qlt=90&.v=1751056852962) | `D56821193AA4FF3EA04AF4B8ADCDD8AB043AE0D76AA0DE507A7BDA0914F64FEA` |
-| `assets/devices/ipad-10-blue-front-back.jpg` | Apple iPad (10th generation), Blue | [Apple Ireland](https://www.apple.com/ie/shop/product/fcm84nf/a) | [Apple image](https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/refurb-ipad-10th-gen-wifi-blue-202409?wid=1600&hei=1600&fmt=jpeg&qlt=90&.v=1721748851084) | `96E8D4884E60CF14689FDB154FDC265FC5706B656DB82EE8D1FEDF9220C4ABF4` |
-| `assets/devices/macbook-air-13-m4-sky-blue-open.jpg` | Apple MacBook Air 13-inch (M4), Sky Blue, open view | [Apple US](https://www.apple.com/shop/product/fc6t4ll/a/Refurbished-13-inch-MacBook-Air-Apple-M4-chip-with-10-Core-CPU-and-8-Core-GPU-Sky-Blue) | [Apple image](https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/refurb-mba13-m4-skyblue-202503?wid=1600&hei=1600&fmt=jpeg&qlt=90&.v=1749074367206) | `2839D6EFB339A3CA471BE516A71E22CC0B1CADD7685880C6C8E63E44A6D8AFA0` |
-| `assets/devices/playstation-5-slim-disc.png` | Sony PlayStation 5 Slim, disc model, White | [PlayStation Direct](https://direct.playstation.com/en-us/buy-consoles/playstation5-console-1-tb) | [PlayStation image](https://media.direct.playstation.com/is/image/sierialto/2025-PS5-Disc-Hero1?$Background_Large$) | `A907952BFA15EA02CC3ABD0D93E12ECB112D1C26F9FE13DF8D142C9C53FAF4C8` |
+Original line-based SVG interface symbols were authored for this site on October 28, 2026. Their common 24px geometry, square line caps and mitered edges follow the angular GotCracked repair shell. No remote icon runtime is used. Files are in `assets/ui/`. These are interface symbols, not electrical schematics or repair instructions.
 
-## Usage safeguards
+## Retained branding
 
-- Do not imply endorsement by a pictured person, photographer, device maker, platform, or stock provider.
-- Do not use staged shop or repair-person photography on any GotCracked surface.
-- Do not reuse third-party device photographs in logos, trademarks, or merchandise.
-- Recheck the source and license before materially changing how an asset is used.
-
-## Navigation and service icons — September 27, 2026
-
-Local SVG files in `assets/icons/lucide/` were retrieved from the official `lucide-icons/lucide` repository (`main/icons/`) on September 27, 2026. The original 24px geometry and 2px rounded strokes are retained. CSS masks apply the existing interface colors. ISC and applicable Feather MIT notices are retained in that directory’s `LICENSE`. Replaces the homepage service pseudo-element drawings and the navigation symbol mappings. No remote icon runtime is loaded.
-
-
-## Customer Repair Artwork — October 9, 2026
-
-Four original AI-generated illustrations created with OpenAI image generation for the customer website only:
-
-| File | Subject | Dimensions |
-| --- | --- | --- |
-| assets/repair/phone-repair-20261009.jpg | Cracked phone glass | 1024 × 1536 |
-| assets/repair/tablet-repair-20261009.jpg | Cracked tablet glass | 1536 × 1024 |
-| assets/repair/laptop-repair-20261009.jpg | Damaged laptop display | 1536 × 1024 |
-| assets/repair/console-repair-20261009.jpg | Damaged console and controller casing | 1536 × 1024 |
-
-Generated imagery is illustrative, not a real customer repair, shop photograph, manufacturer image, or guarantee of service for an exact model. JPEG encoding at quality 86 reduces transfer size without altering the generated composition. Homepage image references and public image credits identify the new artwork. Portal device assets, logos, social marks, service icons, application behavior, and the draft audit PR are outside this change.
-
-
-## Product-led website revision — October 28, 2026
-
-The customer website now serves the four unchanged manufacturer reference images registered above: Apple iPhone 16 Pro, iPad 10, MacBook Air M4 and Sony PlayStation 5 Slim chassis. The earlier generated repair illustrations are retained only as historical source assets and are not referenced by current customer pages. No new product photography was generated, recolored or composited. The original GotCracked logo is unchanged.
+The original full GotCracked wordmark and lightning mark are unchanged. Favicons and app icons derive from that branding. Social sharing uses the current repair-system hero illustration. Social profile buttons retain genuine platform marks; their rights remain with the relevant platforms. Product, company and platform names remain their owners’ trademarks. Public context is available at `/credits`.

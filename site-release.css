@@ -64,8 +64,8 @@ section[id]{scroll-margin-top:calc(var(--gc-header-height) + 18px)}
 .site-header nav a,.nav-actions button,.nav-actions a{display:inline-flex;align-items:center;gap:7px}
 .site-nav-icon,.site-action-icon{display:inline-block;flex:0 0 auto;background:currentColor;mask:center/contain no-repeat;-webkit-mask:center/contain no-repeat}
 .site-nav-icon{width:18px;height:18px;opacity:.9}.site-action-icon{width:18px;height:18px}
-.site-nav-services{--site-icon:url("assets/icons/lucide/wrench.svg")}.site-nav-process{--site-icon:url("assets/icons/lucide/list-checks.svg")}.site-nav-mail{--site-icon:url("assets/icons/lucide/package.svg")}.site-nav-track{--site-icon:url("assets/icons/lucide/search.svg")}.site-nav-start{--site-icon:url("assets/icons/lucide/clipboard-plus.svg")}.site-nav-faq{--site-icon:url("assets/icons/lucide/circle-question-mark.svg")}
-.site-nav-learn{--site-icon:url("assets/icons/lucide/book-open.svg")}
+.site-nav-services{--site-icon:url("assets/ui/repair.svg")}.site-nav-process{--site-icon:url("assets/ui/tracking.svg")}.site-nav-mail{--site-icon:url("assets/ui/mail.svg")}.site-nav-track{--site-icon:url("assets/ui/diagnostics.svg")}.site-nav-start{--site-icon:url("assets/ui/calendar.svg")}.site-nav-faq{--site-icon:url("assets/ui/help.svg")}
+.site-nav-learn{--site-icon:url("assets/ui/book.svg")}
 .site-nav-icon,.site-action-icon{mask-image:var(--site-icon);-webkit-mask-image:var(--site-icon)}
 .site-header .brand.gc-full-logo .brand-fallback{display:none!important}
 

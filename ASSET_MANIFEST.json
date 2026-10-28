@@ -1,0 +1,92 @@
+{
+  "updatedAt": "2026-10-28T19:18:21.632Z",
+  "kind": "repair-system",
+  "images": [
+    {
+      "path": "assets/repair-system/hero.jpg",
+      "bytes": 220577,
+      "sha256": "f741d0927ab020b65aa3b1dcf3b411414ebaf1728b2f3723dc5574ffb964c09a"
+    },
+    {
+      "path": "assets/repair-system/phone.jpg",
+      "bytes": 155370,
+      "sha256": "28f7e4867b139a879c275c6a2f9245e2a49e0763c848703eaa9bbdc39857411c"
+    },
+    {
+      "path": "assets/repair-system/tablet.jpg",
+      "bytes": 150579,
+      "sha256": "145aa48b9a46ff8f75fa70a733fa76d135b1c6fce67cc070c258d3b632544e8d"
+    },
+    {
+      "path": "assets/repair-system/laptop.jpg",
+      "bytes": 171425,
+      "sha256": "0dd49cf05f59a5f69afbea110e5d3fbc428cdf3ef56f7d5d2eb76b87ab976387"
+    },
+    {
+      "path": "assets/repair-system/console.jpg",
+      "bytes": 154080,
+      "sha256": "efe4288d44cb87e8f6018871a292e6136b134f05656b435da8060165001a7958"
+    },
+    {
+      "path": "assets/repair-system/diagnostics.jpg",
+      "bytes": 172389,
+      "sha256": "35e3b19fbb64fb956638e7a0df8c4443b814fced8598467a4cdc73ef43dd9d85"
+    },
+    {
+      "path": "assets/repair-system/battery.jpg",
+      "bytes": 168496,
+      "sha256": "768378afdaa6f89261cabcbb1b825e4993fba5c108233f454229ee2d8d5a2460"
+    },
+    {
+      "path": "assets/repair-system/data.jpg",
+      "bytes": 167028,
+      "sha256": "1b141d48a8483b7ff8706de4f50a0788bec10dc7b4c2c65943bc84403fca6db1"
+    },
+    {
+      "path": "assets/repair-system/pc-build.jpg",
+      "bytes": 226187,
+      "sha256": "3d36735ec03f9342ba58373707cf774a93565c6fcd70897fdd8720a9f0576618"
+    }
+  ],
+  "uiIcons": [
+    "arrow.svg",
+    "battery.svg",
+    "bolt.svg",
+    "book.svg",
+    "calendar.svg",
+    "chat.svg",
+    "check.svg",
+    "chip.svg",
+    "close.svg",
+    "console.svg",
+    "data.svg",
+    "diagnostics.svg",
+    "help.svg",
+    "laptop.svg",
+    "mail.svg",
+    "menu.svg",
+    "phone.svg",
+    "pin.svg",
+    "repair.svg",
+    "shield.svg",
+    "tablet.svg",
+    "tracking.svg"
+  ],
+  "retired": [
+    "assets/devices",
+    "assets/photos",
+    "assets/repair",
+    "assets/icons"
+  ],
+  "retainedBranding": [
+    "apple-touch-icon.png",
+    "favicon-16.png",
+    "favicon-32.png",
+    "gotcracked-customer-app-icon-192.png",
+    "gotcracked-customer-app-icon-512.png",
+    "gotcracked-favicon.png",
+    "gotcracked-mark.png",
+    "gotcracked-portal-logo.png"
+  ],
+  "retainedSocial": "assets/social"
+}
