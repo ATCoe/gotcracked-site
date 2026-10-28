@@ -61,12 +61,12 @@
 
   (async () => {
     const grid = $('#social-media-grid'), links = $('#social-media-links');
-    if (!grid) return;
+    // Load public shop details even when this page has no video feed.
     try {
       const { data, error } = await window.GotCrackedSupabaseResilience.run('public-media', () => window.supabaseClient.functions.invoke('public-media', { method: 'GET' }));
       if (error) throw error;
       const posts = data?.posts || [];
-      grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => { const thumbnail = safePublicUrl(post.thumbnail_url); return `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${thumbnail !== '#' ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`; }).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
+      if (grid) grid.innerHTML = posts.length ? posts.slice(0, 6).map(post => { const thumbnail = safePublicUrl(post.thumbnail_url); return `<a class="media-card" href="${safePublicUrl(post.public_url)}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${thumbnail !== '#' ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform)}</small><h3>${escapeHTML(post.title || 'Watch on ' + post.platform)}</h3></div></a>`; }).join('') : '<article class="media-placeholder">New repair videos are coming soon. Follow GotCracked for repair tips and service updates.</article>';
       const socialMarkup = socialLinksMarkup(data?.settings || {});
       if (links) { links.innerHTML = socialMarkup; links.hidden = !socialMarkup; }
       const footerLinks = $('#footer-social-links');
@@ -75,7 +75,7 @@
       const hoursMarkup = storeHoursMarkup(data?.settings?.store_hours);
       if (hours && hoursMarkup) hours.innerHTML = hoursMarkup;
       document.documentElement.dataset.gcMailInAvailable = data?.settings?.accepts_mail_in_repairs === false ? 'false' : 'true';
-    } catch { grid.innerHTML = '<article class="media-placeholder">Visit our social channels for the latest GotCracked repairs and tips.</article>'; }
+    } catch { if (grid) grid.innerHTML = '<article class="media-placeholder">Visit our social channels for the latest GotCracked repairs and tips.</article>'; }
   })();
 
   const dateInput = $('[name="date"]');

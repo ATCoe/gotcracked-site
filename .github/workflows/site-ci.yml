@@ -98,14 +98,14 @@ jobs:
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
           css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
           css_files = [ref.split('?',1)[0] for ref in css_refs]
-          for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css','device-photo-polish.css']:
+          for required in ['customer-chat.css','/customer-design.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-4:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css','/customer-design.css']: raise SystemExit('The verified visual fixes must remain the final homepage stylesheet.')
+          if css_files != ['customer-chat.css','/customer-design.css']: raise SystemExit('Homepage must use the consolidated customer design without legacy decorative cascades.')
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','assets/repair-system/hero.jpg','assets/repair-system/pc-build.jpg']:
-              if token not in html: raise SystemExit(f'Repair artwork or attribution missing: {token}')
+          for token in ['What needs fixing?', 'Book a visit', 'id="visit"', 'assets/ui/phone.svg']:
+              if token not in html: raise SystemExit(f'Customer repair or booking entry missing: {token}')
           import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
           for subject in ['hero','phone','tablet','laptop','console','diagnostics','battery','data','pc-build']:
@@ -124,7 +124,7 @@ jobs:
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
           if 'id="appointment-form"' not in appointment_html: raise SystemExit('Appointment form missing.')
-          if 'Privacy Notice' not in request_html or 'Privacy Notice' not in appointment_html or 'Privacy Notice' not in pc_html: raise SystemExit('Customer forms must link the Privacy Notice.')
+          if '/privacy' not in request_html or '/privacy' not in appointment_html or '/privacy' not in pc_html: raise SystemExit('Customer forms must link the Privacy Notice.')
           stale_windows = re.compile(r'Morning \(9 AM[-–]12 PM\)|Afternoon \(12[-–]4 PM\)|Late afternoon \(4[-–]6 PM\)')
           if stale_windows.search(request_html) or stale_windows.search(appointment_html): raise SystemExit('Stale fixed appointment windows returned.')
           for form_html in [request_html, appointment_html]:

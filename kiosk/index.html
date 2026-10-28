@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#07111e" />
+    <meta name="theme-color" content="#f7f9fc" />
     <meta name="description" content="GotCracked self-service repair check-in kiosk." />
     <title>GotCracked | Self-service check-in</title>
     <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/assets/favicon-16.png" sizes="16x16" type="image/png" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="product-design.css?v=20261028-repair-system3" />
+    <link rel="stylesheet" href="product-design.css?v=20261028-friendly1" />
   </head>
   <body>
     <a class="skip-link" href="#kiosk-main">Skip to check-in</a>
@@ -34,9 +34,9 @@
       <div class="kiosk-layout">
         <aside class="progress-panel" aria-label="Check-in progress">
           <div class="progress-intro">
-            <span class="eyebrow">SELF-SERVICE CHECK-IN</span>
+            <span class="eyebrow">Repair check-in</span>
             <h1>Let’s get your repair moving.</h1>
-            <p>Usually less than two minutes. A team member can step in at any time.</p>
+            <p>Tell us about your device and how we can reach you. Our team is here if you need a hand.</p>
           </div>
           <ol class="progress-list" id="progressList">
             <li data-progress="mode"><span class="progress-number">1</span><span>Start</span></li>
@@ -54,7 +54,7 @@
         <main id="kiosk-main" class="kiosk-main" tabindex="-1">
           <div class="screen-heading">
             <div>
-              <span class="step-kicker" id="stepKicker">STEP 1 OF 4</span>
+              <span class="step-kicker" id="stepKicker">Step 1 of 4</span>
               <h2 id="screenTitle">How can we help today?</h2>
             </div>
             <div class="clock" aria-label="Current time"><span id="currentTime">--:--</span><span>Local time</span></div>
@@ -67,12 +67,12 @@
 
     <dialog class="staff-dialog" id="staffDialog" aria-labelledby="staffDialogTitle">
       <div class="dialog-header">
-        <div><span class="eyebrow">STAFF HANDOFF</span><h2 id="staffDialogTitle">How can our team help?</h2></div>
+        <div><span class="eyebrow">Ask for help</span><h2 id="staffDialogTitle">How can our team help?</h2></div>
         <button class="icon-button" id="closeStaffButton" type="button" aria-label="Close staff assistance">×</button>
       </div>
       <p class="dialog-copy">A staff member can take over this kiosk without losing your place.</p>
       <div class="dialog-actions">
-        <button class="button button-primary" id="handoffButton" type="button">Start staff handoff</button>
+        <button class="button button-primary" id="handoffButton" type="button">Ask a team member</button>
         <button class="button button-secondary" id="resetButton" type="button">Restart check-in</button>
       </div>
       <div class="debug-actions" id="debugActions" hidden>

@@ -1,6 +1,6 @@
 # GotCracked customer visual asset register
 
-Updated October 28, 2026. The current customer website uses a new repair-first technical illustration library and original interface symbols. The original GotCracked logo, lightning mark, brand-derived app/favicons and genuine social-platform marks are retained. Previous manufacturer device photographs, stock device photos, repair illustrations, decorative drawings and the old icon library have been removed from this website source.
+Updated October 28, 2026. The current customer experience uses the original logo and simple original interface symbols. Generated repair illustrations remain available in the asset library and sharing metadata; they are no longer the homepage hero or service selection interface. The original GotCracked logo, lightning mark, brand-derived app/favicons and genuine social-platform marks are retained. Previous manufacturer device photographs, stock device photos, repair illustrations, decorative drawings and the old icon library have been removed from this website source.
 
 ## Current repair illustrations
 
