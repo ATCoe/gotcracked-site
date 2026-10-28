@@ -49,6 +49,7 @@ jobs:
         run: |
           from pathlib import Path
           import re
+          import hashlib
 
           required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html','credits.html']
           for name in required_pages:
@@ -100,17 +101,35 @@ jobs:
           css_files = [ref.split('?',1)[0] for ref in css_refs]
           for required in ['styles.css','hardening.css','repair-guide.css','customer-chat.css','site-release.css','asset-pass.css','device-photo-polish.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
-          if css_files[-3:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css']: raise SystemExit('The verified visual fixes must remain the final homepage stylesheet.')
+          if css_files[-4:] != ['asset-pass.css','device-photo-polish.css','/audit-fixes.css','/customer-refresh.css']: raise SystemExit('The customer refresh must follow the verified homepage visual fixes.')
+          for name in required_pages:
+              page = Path(name).read_text(encoding='utf-8')
+              if page.count('/customer-refresh.css?v=20261028-customer-refresh1') != 1 or 'gc-refresh' not in page:
+                  raise SystemExit(f'Customer refresh is missing or duplicated on {name}')
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['/credits#product-images','phone-repair-20261009.jpg','laptop-repair-20261009.jpg']:
+          for token in ['/credits#product-images','assets/generated-20261028/diagnostic.jpg','assets/generated-20261028/pc.jpg']:
               if token not in html: raise SystemExit(f'Homepage visual or attribution missing: {token}')
           device_photos = ['phone-repair-20261009.jpg','tablet-repair-20261009.jpg','laptop-repair-20261009.jpg','console-repair-20261009.jpg']
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
           for photo in device_photos:
-              if not Path('assets/repair', photo).exists() or photo not in html or photo not in provenance:
-                  raise SystemExit(f'Missing device reference photo or provenance: {photo}')
+              if not Path('assets/repair', photo).exists() or photo not in provenance:
+                  raise SystemExit(f'Missing retained device artwork or provenance: {photo}')
+          for photo in ['phone','tablet','laptop','console','battery','data','diagnostic','pc']:
+              image = Path('assets/generated-20261028', photo + '.jpg')
+              original = image.with_suffix('.png')
+              if not image.is_file() or not original.is_file() or image.stat().st_size > 300000:
+                  raise SystemExit(f'Missing original or optimized customer illustration: {photo}')
+              if image.as_posix() not in pages or image.as_posix() not in provenance:
+                  raise SystemExit(f'Customer illustration missing from page or provenance: {photo}')
+              if hashlib.sha256(image.read_bytes()).hexdigest().upper() not in provenance:
+                  raise SystemExit(f'Customer illustration hash does not match provenance: {photo}')
+          for device, photo in [('Phone','phone'),('Tablet','tablet'),('Computer','laptop'),('Game%20console','console')]:
+              if not re.search(r'href="/request\?device=' + device + r'"[^>]*>\s*<img[^>]+src="assets/generated-20261028/' + photo + r'\.jpg"[^>]+loading="lazy"', html):
+                  raise SystemExit(f'Repair card image, route, or lazy loading missing: {device}')
+          if 'Illustrative device artwork' not in html or 'Illustrative concept; actual builds vary.' not in pc_html:
+              raise SystemExit('Customer illustration disclosures missing.')
           if 'repair-bench-phone.jpg' in html: raise SystemExit('Retired homepage hero photo returned.')
           for token in ['Unsplash License','It does not depict a staged GotCracked shop or repair scene.','id="product-images"']:
               if token not in credits_html: raise SystemExit(f'Public image credit missing: {token}')

@@ -45,3 +45,18 @@ Four original AI-generated illustrations created with OpenAI image generation fo
 | assets/repair/console-repair-20261009.jpg | Damaged console and controller casing | 1536 × 1024 |
 
 Generated imagery is illustrative, not a real customer repair, shop photograph, manufacturer image, or guarantee of service for an exact model. JPEG encoding at quality 86 reduces transfer size without altering the generated composition. Homepage image references and public image credits identify the new artwork. Portal device assets, logos, social marks, service icons, application behavior, and the draft audit PR are outside this change.
+
+## Customer Service Illustrations — October 28, 2026
+
+Eight original AI-generated illustrations were created with OpenAI image generation for GotCracked's customer website. They are conceptual images, not photographs of the shop, employees, customer devices, actual repairs, or a specific build. They do not imply a device maker's endorsement or promise recovery or repair results. PNG originals are retained beside the optimized JPEGs in `assets/generated-20261028/`; pages serve the JPEGs.
+
+| JPEG | Subject | SHA-256 |
+| --- | --- | --- |
+| `assets/generated-20261028/diagnostic.jpg` | Diagnostic tools and circuit board | `095EC5868454D557E551CC3EC57DB17614091BA4FFF9BB22EE237F8BA95D8041` |
+| `assets/generated-20261028/battery.jpg` | Phone and battery | `A53195917000DC32B20358E2491497552B8F3B5C2D411746A2F81AE7615D1851` |
+| `assets/generated-20261028/data.jpg` | Laptop and storage drive | `4CC15941F05DA1086CD9C00B8EDF9730682327858661758542684EA32109E6F0` |
+| `assets/generated-20261028/pc.jpg` | Desktop PC concept | `381155B58E6EB4F49795389ACBEE6AF1734B1E3CDC997BBF276427B4C569B8DD` |
+| `assets/generated-20261028/phone.jpg` | Cracked phone illustration | `98E7DFEA6D395E16439079A0DEC87F59016F0D95FA9BE57A5654DCF671763591` |
+| `assets/generated-20261028/tablet.jpg` | Cracked tablet illustration | `0D44A2BADBF57F64DEC0F4753EDDBB993E84DF49D5B1AE4FE27FA3A54CD665D9` |
+| `assets/generated-20261028/laptop.jpg` | Cracked laptop illustration | `B6C0748D785D9A495849AA889C3957585B28AE50A9E876B06CC5AFCCC6D93769` |
+| `assets/generated-20261028/console.jpg` | Console and controller illustration | `6ABE894EE0EFCC7614D131DE4C5338385E83626674886519E837B7B5A53BEDEB` |
