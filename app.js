@@ -87,7 +87,7 @@
     const shouldOpen = Boolean(open) && window.matchMedia('(max-width: 980px)').matches;
     nav.classList.toggle('open', shouldOpen);
     menu.setAttribute('aria-expanded', String(shouldOpen));
-    menu.setAttribute('aria-label', shouldOpen ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-label', shouldOpen ? 'Close Menu' : 'Open Menu');
     document.body.classList.toggle('nav-open', shouldOpen);
   }
   menu?.addEventListener('click', () => setMenu(!nav?.classList.contains('open')));
@@ -130,7 +130,7 @@
       if (mailInFields) mailInFields.hidden = !mailIn;
       ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
       ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
-      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where should we return it?' : 'When works best?';
+      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where Should We Return It?' : 'When Works Best?';
       const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request Mail-In Approval' : 'Submit Repair Request';
     };
     const requestParams = new URLSearchParams(window.location.search);
@@ -219,21 +219,21 @@
   tracker?.addEventListener('click', event => { if (event.target === tracker) tracker.close(); });
 
   const TRACKING_STAGES = ['awaiting_repair','diagnostic_in_progress','repair_in_progress','quality_inspection','repaired','sale_complete'];
-  const LABELS = { checked_in:'Checked in',in_diagnosis:'In diagnosis',awaiting_approval:'Awaiting approval',waiting_on_parts:'Waiting on parts',in_repair:'In repair',ready_for_pickup:'Ready for pickup',completed:'Sale complete',awaiting_repair:'Awaiting repair',need_to_order_parts:'Need to order parts',awaiting_parts:'Awaiting parts',diagnostic_in_progress:'Diagnostic in progress',repair_in_progress:'Repair in progress',quality_inspection:'Quality inspection',awaiting_callback:'Awaiting callback',repaired:'Repaired – ready for pickup',sale_complete:'Sale complete',abandoned:'Abandoned',unrepairable:'Unrepairable',customer_declined:'Customer declined',cancelled:'Cancelled' };
-  const SHIPPING_LABELS = { awaiting_inbound:'Awaiting your inbound package',inbound_in_transit:'Inbound package in transit',received:'Package received at GotCracked',return_label_ready:'Return label prepared',outbound_in_transit:'Repaired device is on the way',delivered:'Return package delivered',shipping_issue:'Shipping needs attention' };
+  const LABELS = { checked_in:'Checked In',in_diagnosis:'In Diagnosis',awaiting_approval:'Awaiting Approval',waiting_on_parts:'Waiting on Parts',in_repair:'In Repair',ready_for_pickup:'Ready for Pickup',completed:'Sale Complete',awaiting_repair:'Awaiting Repair',need_to_order_parts:'Need to Order Parts',awaiting_parts:'Awaiting Parts',diagnostic_in_progress:'Diagnostic in Progress',repair_in_progress:'Repair in Progress',quality_inspection:'Quality Inspection',awaiting_callback:'Awaiting Callback',repaired:'Repaired – Ready for Pickup',sale_complete:'Sale Complete',abandoned:'Abandoned',unrepairable:'Unrepairable',customer_declined:'Customer Declined',cancelled:'Cancelled' };
+  const SHIPPING_LABELS = { awaiting_inbound:'Awaiting Your Inbound Package',inbound_in_transit:'Inbound Package in Transit',received:'Package Received at GotCracked',return_label_ready:'Return Label Prepared',outbound_in_transit:'Repaired Device Is on the Way',delivered:'Return Package Delivered',shipping_issue:'Shipping Needs Attention' };
   const trackingUrl = (carrier, tracking) => { const encoded = encodeURIComponent(tracking || ''); if (/ups/i.test(carrier || '')) return `https://www.ups.com/track?tracknum=${encoded}`; if (/fedex/i.test(carrier || '')) return `https://www.fedex.com/fedextrack/?trknbr=${encoded}`; return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${encoded}`; };
   const renderTrackingStatus = repair => {
     const fallbackStage = { checked_in:0,in_diagnosis:1,awaiting_approval:1,waiting_on_parts:1,in_repair:2,ready_for_pickup:4,need_to_order_parts:1,awaiting_parts:1,awaiting_callback:1,abandoned:4,unrepairable:0,customer_declined:0,cancelled:0 };
     const current = TRACKING_STAGES.includes(repair.status) ? TRACKING_STAGES.indexOf(repair.status) : (fallbackStage[repair.status] ?? 0);
-    const statusPill = $('.status-pill'); if (statusPill) statusPill.textContent = LABELS[repair.status] || repair.status || 'Repair update';
-    const deviceName = $('.tracker-device strong'); if (deviceName) deviceName.textContent = [repair.device?.manufacturer, repair.device?.model].filter(Boolean).join(' ') || 'Device repair';
-    const updated = $('.tracker-device small'); if (updated) updated.textContent = `Last updated ${formatUpdatedAt(repair.updatedAt)}`;
+    const statusPill = $('.status-pill'); if (statusPill) statusPill.textContent = LABELS[repair.status] || repair.status || 'Repair Update';
+    const deviceName = $('.tracker-device strong'); if (deviceName) deviceName.textContent = [repair.device?.manufacturer, repair.device?.model].filter(Boolean).join(' ') || 'Device Repair';
+    const updated = $('.tracker-device small'); if (updated) updated.textContent = `Last Updated ${formatUpdatedAt(repair.updatedAt)}`;
     const timeline = $('.tracker-timeline'); if (timeline) timeline.innerHTML = TRACKING_STAGES.map((stage,index) => `<li class="${index < current ? 'complete' : index === current ? 'current' : ''}">${LABELS[stage]}</li>`).join('');
     const shipping = $('.tracker-shipping');
     if (shipping) {
       if (repair.intakeMethod === 'mail_in') {
-        const label = SHIPPING_LABELS[repair.shippingStatus] || 'Mail-in repair'; const carrier = escapeHTML(repair.outboundCarrier || 'Carrier pending'); const tracking = escapeHTML(repair.outboundTracking || 'Tracking pending');
-        shipping.innerHTML = `<strong>${escapeHTML(label)}</strong><span>${carrier} · ${tracking}</span>${repair.outboundTracking ? `<a href="${trackingUrl(repair.outboundCarrier, repair.outboundTracking)}" target="_blank" rel="noopener">Track return package ↗</a>` : ''}`; shipping.hidden = false;
+        const label = SHIPPING_LABELS[repair.shippingStatus] || 'Mail-In Repair'; const carrier = escapeHTML(repair.outboundCarrier || 'Carrier Pending'); const tracking = escapeHTML(repair.outboundTracking || 'Tracking Pending');
+        shipping.innerHTML = `<strong>${escapeHTML(label)}</strong><span>${carrier} · ${tracking}</span>${repair.outboundTracking ? `<a href="${trackingUrl(repair.outboundCarrier, repair.outboundTracking)}" target="_blank" rel="noopener">Track Return Package ↗</a>` : ''}`; shipping.hidden = false;
       } else { shipping.hidden = true; shipping.innerHTML = ''; }
     }
     const note = $('.tracker-demo-note'); if (note) { note.textContent = repair.publicNotes || 'For questions about this repair, contact the GotCracked shop.'; note.style.display = ''; }
@@ -245,7 +245,7 @@
     button.disabled = true; button.textContent = 'Finding Repair…'; if (errorText) errorText.textContent = '';
     try { const { data, error } = await window.supabaseClient.functions.invoke('track-repair', { body: { ticket, phone } }); if (error || !data?.ticket) throw new Error(data?.error || 'We could not match that ticket and phone number.'); const trackedTicket = $('#tracked-ticket'); if (trackedTicket) trackedTicket.textContent = data.ticket; renderTrackingStatus(data); trackerForm.classList.add('hidden'); trackerResult?.classList.add('active'); }
     catch (error) { if (errorText) errorText.textContent = error?.message || 'Unable to find that repair.'; }
-    finally { button.disabled = false; button.innerHTML = 'Find my repair →'; }
+    finally { button.disabled = false; button.innerHTML = 'Find My Repair →'; }
   });
   $('#track-another')?.addEventListener('click', resetTracker);
 })();

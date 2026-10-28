@@ -104,21 +104,21 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['What needs fixing?', 'Book a visit', 'id="visit"', 'assets/ui/phone.svg']:
+          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/customer-premium/phone.webp']:
               if token not in html: raise SystemExit(f'Customer repair or booking entry missing: {token}')
           import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
-          for subject in ['hero','phone','tablet','laptop','console','diagnostics','battery','data','pc-build']:
-              image = Path('assets/repair-system', subject + '.jpg')
+          for subject in ['hero','phone','tablet','laptop','console','brand-texture']:
+              image = Path('assets/customer-premium', subject + '.webp')
               if not image.is_file() or image.stat().st_size == 0:
                   raise SystemExit(f'Missing current repair-system illustration: {subject}')
               if hashlib.sha256(image.read_bytes()).hexdigest() not in provenance.lower():
-                  raise SystemExit(f'Repair-system provenance hash mismatch: {subject}')
+                  raise SystemExit(f'Current image provenance hash mismatch: {subject}')
           for icon in ['repair','phone','tablet','laptop','console','battery','diagnostics','chip','data','shield','tracking','mail','chat','arrow','calendar','check','close']:
               if not Path('assets/ui', icon + '.svg').is_file(): raise SystemExit(f'Missing current UI symbol: {icon}')
           for retired in ['assets/devices/','assets/photos/','assets/repair/','assets/generated-','assets/icons/lucide/']:
               if retired in pages: raise SystemExit(f'Retired visual asset referenced: {retired}')
-          for token in ['generated specifically for GotCracked','id="product-images"','Interface symbols']:
+          for token in ['generated specifically for GotCracked','id="product-images"','Interface Symbols']:
               if token not in credits_html: raise SystemExit(f'Public artwork credit missing: {token}')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')

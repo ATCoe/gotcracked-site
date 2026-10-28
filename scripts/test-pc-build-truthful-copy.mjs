@@ -37,8 +37,8 @@ for(const safeStatus of [
 ]) assert.match(app,new RegExp(safeStatus,'i'),`Missing honest request status: ${safeStatus}`);
 
 for(const verifiedResultGuard of [
-  'Estimated build total',
-  'Compatibility verified before pricing',
+  'Estimated Build Total',
+  'Compatibility Verified Before Pricing',
   "if(data.status==='estimated')renderEstimated(data)",
   "else if(data.status==='research_unavailable')renderResearchUnavailable(data)",
   'No automated estimate was released'

@@ -38,7 +38,7 @@
     if (!name || url === '#') return;
     const logo = safePublicUrl(settings.site_sponsor_logo_url);
     const blurb = String(settings.site_sponsor_blurb || '').trim();
-    host.innerHTML = `${logo !== '#' ? `<img src="${escapeHTML(logo)}" alt="${escapeHTML(name)} logo" loading="lazy" referrerpolicy="no-referrer">` : ''}<div class="learn-sponsor-copy"><strong>${escapeHTML(name)}</strong>${blurb ? `<p>${escapeHTML(blurb)}</p>` : ''}<a href="${escapeHTML(url)}" target="_blank" rel="sponsored noopener noreferrer">Visit sponsor →</a></div>`;
+    host.innerHTML = `${logo !== '#' ? `<img src="${escapeHTML(logo)}" alt="${escapeHTML(name)} logo" loading="lazy" referrerpolicy="no-referrer">` : ''}<div class="learn-sponsor-copy"><strong>${escapeHTML(name)}</strong>${blurb ? `<p>${escapeHTML(blurb)}</p>` : ''}<a href="${escapeHTML(url)}" target="_blank" rel="sponsored noopener noreferrer">Visit Sponsor →</a></div>`;
     section.hidden = false;
   }
   (async () => {
@@ -59,7 +59,7 @@
       if (media) media.innerHTML = posts.length ? posts.map(post => {
         const href = safePublicUrl(post.public_url);
         const image = safePublicUrl(post.thumbnail_url);
-        return `<a class="media-card" href="${href}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${image !== '#' ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform || 'GotCracked')}</small><h3>${escapeHTML(post.title || 'Watch this repair')}</h3></div></a>`;
+        return `<a class="media-card" href="${href}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${image !== '#' ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform || 'GotCracked')}</small><h3>${escapeHTML(post.title || 'Watch This Repair')}</h3></div></a>`;
       }).join('') : '<article class="media-placeholder">New GotCracked repair videos will appear here as they are published.</article>';
     } catch {
       if (media) media.innerHTML = '<article class="media-placeholder">Repair videos are coming soon. Check back after launch.</article>';

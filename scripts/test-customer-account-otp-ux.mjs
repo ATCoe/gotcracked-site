@@ -89,12 +89,12 @@ assert.equal(phone.element('customer-identifier').autocomplete, 'username');
 assert.equal(phone.element('customer-identifier').inputMode, 'text');
 assert.equal(phone.element('lookup-step').hidden, true);
 assert.equal(phone.element('verify-step').hidden, false);
-assert.equal(phone.element('verify-channel').textContent, 'Check your text messages');
+assert.equal(phone.element('verify-channel').textContent, 'Check Your Text Messages');
 assert.match(phone.element('verify-instructions').textContent, /matching profile.*text message/i);
 assert.doesNotMatch(phone.element('verify-instructions').textContent, /email/i);
 
 const email = await submit('customer@example.test');
-assert.equal(email.element('verify-channel').textContent, 'Check your email');
+assert.equal(email.element('verify-channel').textContent, 'Check Your Email');
 assert.match(email.element('verify-instructions').textContent, /matching profile.*email/i);
 assert.equal(email.element('verify-form').status.textContent, phone.element('verify-form').status.textContent,
   'the visible request status does not reveal whether an account exists');
