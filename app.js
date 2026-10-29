@@ -28,7 +28,7 @@
     const host = new URL(safe).hostname.toLowerCase().replace(/^www\./,'');
     return hosts.some(allowed => host === allowed || host.endsWith('.' + allowed)) ? safe : '#';
   };
-  const socialLinksMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">↗</span></a>`).join('');
+  const socialLinksMarkup = settings => SOCIAL_PLATFORMS.map(platform => ({...platform,url:safePlatformUrl(settings?.[platform.key],platform.hosts)})).filter(platform => platform.url !== '#').map(platform => `<a class="social-profile-button" href="${platform.url}" target="_blank" rel="noopener noreferrer"><span class="social-profile-icon"><img src="${platform.icon}" alt="" loading="lazy" decoding="async"></span><span>${platform.label}</span><span aria-hidden="true">?</span></a>`).join('');
   const localDateISO = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const formatUpdatedAt = value => { const date = value ? new Date(value) : null; return date && !Number.isNaN(date.getTime()) ? date.toLocaleString() : 'recently'; };
   const formatHour = value => { const [hour,minute] = String(value || '').split(':').map(Number); if (!Number.isFinite(hour)) return ''; const date = new Date(2000,0,1,hour,minute||0); return date.toLocaleTimeString([], { hour:'numeric', minute:minute ? '2-digit' : undefined }); };
@@ -37,7 +37,7 @@
     const rows = [['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']];
     return rows.map(([key,label]) => {
       const range = hours[key];
-      const value = Array.isArray(range) && range.length >= 2 ? `${formatHour(range[0])}–${formatHour(range[1])}` : 'Closed';
+      const value = Array.isArray(range) && range.length >= 2 ? `${formatHour(range[0])}-${formatHour(range[1])}` : 'Closed';
       return `<div><span>${label}</span><strong>${escapeHTML(value)}</strong></div>`;
     }).join('');
   };
@@ -157,17 +157,30 @@
         if (error) error.textContent = ok ? '' : (field.type === 'email' ? 'Enter a valid email address.' : 'This field is required.');
         if (!ok) valid = false;
       });
-      if (!valid) { const invalid = $(`[data-step="${step}"] .invalid`, bookingForm); invalid?.focus({ preventScroll: true }); invalid?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      if (!valid) {
+        if (currentStep !== step) showStep(step);
+        const invalid = $(`[data-step="${step}"] .invalid`, bookingForm);
+        invalid?.focus({ preventScroll: true });
+        invalid?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+      }
       return valid;
     };
     $$('.form-next').forEach(button => button.addEventListener('click', () => { if (validateStep(currentStep)) showStep(currentStep + 1); }));
     $$('.button-back').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
     bookingForm.addEventListener('submit', async event => {
-      event.preventDefault(); if (!validateStep(3)) return;
+      event.preventDefault();
       const submit = bookingForm.querySelector('[type="submit"]'); if (!submit) return;
+      if (submit.disabled) return;
+      // Enter on an earlier step advances the form; it must never submit hidden steps.
+      if (currentStep < 3) {
+        if (validateStep(currentStep)) showStep(currentStep + 1);
+        return;
+      }
+      for (const step of [1, 2, 3]) if (!validateStep(step)) return;
       const submitError = $('.request-submit-error', bookingForm);
       if (submitError) submitError.textContent = '';
-      submit.disabled = true; submit.textContent = 'Sending Request…';
+      const submitMarkup = submit.innerHTML;
+      submit.disabled = true; submit.textContent = 'Sending Request.';
       try {
         if (!window.supabaseClient?.functions) throw new Error('The request service is temporarily unavailable. Please try again.');
         const payload = { ...Object.fromEntries(new FormData(bookingForm)), clientRequestId };
@@ -178,9 +191,9 @@
         $('.form-success', bookingForm)?.classList.add('active');
         showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
-      finally { submit.disabled = false; submit.innerHTML = `<span data-submit-label>${serviceMode.value === 'mail_in' ? 'Request Mail-In Approval' : 'Submit Repair Request'}</span> <span>→</span>`; }
+      finally { submit.disabled = false; submit.innerHTML = submitMarkup; }
     });
-    $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); clientRequestId = crypto.randomUUID(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
+    $('#new-request')?.addEventListener('click', () => { bookingForm.reset(); clientRequestId = crypto.randomUUID(); bookingForm.elements.formStartedAt.value = String(Date.now()); updateServiceMode(); $$('.invalid', bookingForm).forEach(field => field.classList.remove('invalid')); $$('.field-error', bookingForm).forEach(error => { error.textContent = ''; }); const submitError = $('.request-submit-error', bookingForm); if (submitError) submitError.textContent = ''; $('.form-success')?.classList.remove('active'); $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = ''; }); showStep(1); });
   }
 
   const appointmentForm = $('#appointment-form');
@@ -190,8 +203,10 @@
     appointmentForm.addEventListener('submit', async event => {
       event.preventDefault();
       const button = appointmentForm.querySelector('[type="submit"]'), errorOutput = $('.request-submit-error', appointmentForm);
+      if (button.disabled) return;
       if (!appointmentForm.checkValidity()) { appointmentForm.reportValidity(); return; }
-      button.disabled = true; button.textContent = 'Sending Request…'; if (errorOutput) errorOutput.textContent = '';
+      const buttonMarkup = button.innerHTML;
+      button.disabled = true; button.textContent = 'Sending Request.'; if (errorOutput) errorOutput.textContent = '';
       try {
         const fields = Object.fromEntries(new FormData(appointmentForm));
         const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
@@ -206,7 +221,7 @@
         }
         $('.form-step', appointmentForm).style.display = 'none'; $('.form-success', appointmentForm).classList.add('active');
       } catch (error) { if (errorOutput) errorOutput.textContent = error.message || 'Unable to request the appointment.'; }
-      finally { button.disabled = false; button.textContent = 'Request Appointment →'; }
+      finally { button.disabled = false; button.innerHTML = buttonMarkup; }
     });
   }
 
@@ -219,7 +234,7 @@
   tracker?.addEventListener('click', event => { if (event.target === tracker) tracker.close(); });
 
   const TRACKING_STAGES = ['awaiting_repair','diagnostic_in_progress','repair_in_progress','quality_inspection','repaired','sale_complete'];
-  const LABELS = { checked_in:'Checked In',in_diagnosis:'In Diagnosis',awaiting_approval:'Awaiting Approval',waiting_on_parts:'Waiting on Parts',in_repair:'In Repair',ready_for_pickup:'Ready for Pickup',completed:'Sale Complete',awaiting_repair:'Awaiting Repair',need_to_order_parts:'Need to Order Parts',awaiting_parts:'Awaiting Parts',diagnostic_in_progress:'Diagnostic in Progress',repair_in_progress:'Repair in Progress',quality_inspection:'Quality Inspection',awaiting_callback:'Awaiting Callback',repaired:'Repaired – Ready for Pickup',sale_complete:'Sale Complete',abandoned:'Abandoned',unrepairable:'Unrepairable',customer_declined:'Customer Declined',cancelled:'Cancelled' };
+  const LABELS = { checked_in:'Checked In',in_diagnosis:'In Diagnosis',awaiting_approval:'Awaiting Approval',waiting_on_parts:'Waiting on Parts',in_repair:'In Repair',ready_for_pickup:'Ready for Pickup',completed:'Sale Complete',awaiting_repair:'Awaiting Repair',need_to_order_parts:'Need to Order Parts',awaiting_parts:'Awaiting Parts',diagnostic_in_progress:'Diagnostic in Progress',repair_in_progress:'Repair in Progress',quality_inspection:'Quality Inspection',awaiting_callback:'Awaiting Callback',repaired:'Repaired - Ready for Pickup',sale_complete:'Sale Complete',abandoned:'Abandoned',unrepairable:'Unrepairable',customer_declined:'Customer Declined',cancelled:'Cancelled' };
   const SHIPPING_LABELS = { awaiting_inbound:'Awaiting Your Inbound Package',inbound_in_transit:'Inbound Package in Transit',received:'Package Received at GotCracked',return_label_ready:'Return Label Prepared',outbound_in_transit:'Repaired Device Is on the Way',delivered:'Return Package Delivered',shipping_issue:'Shipping Needs Attention' };
   const trackingUrl = (carrier, tracking) => { const encoded = encodeURIComponent(tracking || ''); if (/ups/i.test(carrier || '')) return `https://www.ups.com/track?tracknum=${encoded}`; if (/fedex/i.test(carrier || '')) return `https://www.fedex.com/fedextrack/?trknbr=${encoded}`; return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${encoded}`; };
   const renderTrackingStatus = repair => {
@@ -233,7 +248,7 @@
     if (shipping) {
       if (repair.intakeMethod === 'mail_in') {
         const label = SHIPPING_LABELS[repair.shippingStatus] || 'Mail-In Repair'; const carrier = escapeHTML(repair.outboundCarrier || 'Carrier Pending'); const tracking = escapeHTML(repair.outboundTracking || 'Tracking Pending');
-        shipping.innerHTML = `<strong>${escapeHTML(label)}</strong><span>${carrier} · ${tracking}</span>${repair.outboundTracking ? `<a href="${trackingUrl(repair.outboundCarrier, repair.outboundTracking)}" target="_blank" rel="noopener">Track Return Package ↗</a>` : ''}`; shipping.hidden = false;
+        shipping.innerHTML = `<strong>${escapeHTML(label)}</strong><span>${carrier} � ${tracking}</span>${repair.outboundTracking ? `<a href="${trackingUrl(repair.outboundCarrier, repair.outboundTracking)}" target="_blank" rel="noopener">Track Return Package ?</a>` : ''}`; shipping.hidden = false;
       } else { shipping.hidden = true; shipping.innerHTML = ''; }
     }
     const note = $('.tracker-demo-note'); if (note) { note.textContent = repair.publicNotes || 'For questions about this repair, contact the GotCracked shop.'; note.style.display = ''; }
@@ -242,10 +257,10 @@
     event.preventDefault();
     const ticket = $('[name="ticket"]', tracker)?.value.trim() || '', phone = $('[name="trackerPhone"]', tracker)?.value.trim() || '', button = trackerForm.querySelector('[type="submit"]'), errorText = $('.tracker-error');
     if (!ticket || phone.replace(/\D/g, '').length < 7) { if (errorText) errorText.textContent = 'Enter a ticket number and valid phone number.'; return; }
-    button.disabled = true; button.textContent = 'Finding Repair…'; if (errorText) errorText.textContent = '';
+    button.disabled = true; button.textContent = 'Finding Repair.'; if (errorText) errorText.textContent = '';
     try { const { data, error } = await window.supabaseClient.functions.invoke('track-repair', { body: { ticket, phone } }); if (error || !data?.ticket) throw new Error(data?.error || 'We could not match that ticket and phone number.'); const trackedTicket = $('#tracked-ticket'); if (trackedTicket) trackedTicket.textContent = data.ticket; renderTrackingStatus(data); trackerForm.classList.add('hidden'); trackerResult?.classList.add('active'); }
     catch (error) { if (errorText) errorText.textContent = error?.message || 'Unable to find that repair.'; }
-    finally { button.disabled = false; button.innerHTML = 'Find My Repair →'; }
+    finally { button.disabled = false; button.innerHTML = 'Find My Repair '; }
   });
   $('#track-another')?.addEventListener('click', resetTracker);
 })();

@@ -24,10 +24,10 @@
     const open=minutes(range[0]),close=minutes(range[1]);
     if(!Number.isFinite(open)||!Number.isFinite(close)||close<=open)return [];
     const windows=[];
-    for(let start=open;start<close;start+=180){const end=Math.min(start+180,close),label=`${formatHour(timeValue(start))}–${formatHour(timeValue(end))}`;windows.push({value:label,label});}
+    for(let start=open;start<close;start+=180){const end=Math.min(start+180,close),label=`${formatHour(timeValue(start))}-${formatHour(timeValue(end))}`;windows.push({value:label,label});}
     return windows;
   };
-  const hoursMarkup = hours => [['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']].map(([key,label])=>{const range=hours?.[key];const windows=windowsFor(range);const value=windows.length?`${formatHour(range[0])}–${formatHour(range[1])}`:'Closed';return `<div><span>${label}</span><strong>${value}</strong></div>`;}).join('');
+  const hoursMarkup = hours => [['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']].map(([key,label])=>{const range=hours?.[key];const windows=windowsFor(range);const value=windows.length?`${formatHour(range[0])}-${formatHour(range[1])}`:'Closed';return `<div><span>${label}</span><strong>${value}</strong></div>`;}).join('');
 
   function renderFooterHours(){document.querySelectorAll('#store-hours').forEach(node=>{node.innerHTML=hoursMarkup(storeHours);});}
 
@@ -75,7 +75,7 @@
       date.setCustomValidity('');
       time.disabled = false;
       time.setCustomValidity('');
-      note.textContent = `${selectedDay.label} store hours: ${formatHour(range[0])}–${formatHour(range[1])}. Choose any available window.`;
+      note.textContent = `${selectedDay.label} store hours: ${formatHour(range[0])}-${formatHour(range[1])}. Choose any available window.`;
     }
   }
 
@@ -84,6 +84,8 @@
       const date = form.elements.date;
       if (!date || date.dataset.storeHoursWired) return;
       date.dataset.storeHoursWired = 'true';
+      // Native reset changes values after the reset event; refresh the dependent choices next turn.
+      form.addEventListener('reset',()=>setTimeout(()=>updateForm(form),0));
       date.addEventListener('change',()=>updateForm(form));
       form.elements.time?.addEventListener('change',()=>updateForm(form));
       updateForm(form);

@@ -1,5 +1,5 @@
 /* GotCracked customer PWA: cache the public shell only. Repair accounts and APIs stay network-only. */
-const CACHE_NAME = 'gotcracked-customer-shell-v11-art-suite';
+const CACHE_NAME = 'gotcracked-customer-shell-v12-form-recovery';
 const PUBLIC_SHELL = [
   '/',
   '/index.html',
