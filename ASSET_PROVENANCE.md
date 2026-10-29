@@ -1,25 +1,30 @@
 # GotCracked Customer Image Register
 
-Updated October 28, 2026. Device subjects are real source photographs. Hardware was not reconstructed with AI. The abstract blue/steel material background was generated with OpenAI image_gen and depicts no device or technical mechanism. Original GotCracked brand assets and genuine social marks are retained.
+Updated October 29, 2026. These eleven artwork files were generated specifically for GotCracked with OpenAI image generation. Ten distinct foreground compositions use transparent backgrounds; the abstract brand texture is a separate background material. The original GotCracked logo remains unchanged.
 
-## Hardware Sources
+## Device Reference Sources
 
-- **Apple iPhone 6S Plus Interior** — Evan-Amos; Public Domain. Source: https://commons.wikimedia.org/wiki/File:Apple-iPhone-6S-Plus-Inside.jpg. Files: hero.webp, phone.webp. Native alpha: false.
-- **Apple iPad WiFi (1st Generation)** — Evan-Amos; Public Domain. Source: https://commons.wikimedia.org/wiki/File:IPad-WiFi-1stGen.jpg. Files: tablet.webp. Native alpha: false.
-- **Medion Akoya S6445 MD61280** — PantheraLeo1359531; CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Source: https://commons.wikimedia.org/wiki/File:Scho%C3%9Frechner_Medion_Akoya_S6445_MD61280_20220821_HOF01354.png. Files: laptop.webp. Native alpha: true.
-- **Sony PlayStation 4 Pro** — Evan-Amos; Public Domain. Source: https://commons.wikimedia.org/wiki/File:Sony-PlayStation4-Pro-Console-FL.png. Files: console.webp. Native alpha: true.
+- **Apple iPhone 16 Pro exterior manufacturer image**: https://support.apple.com/en-us/121031. Used as a visual baseline for phone.webp; the shipped image is a generated illustration, not the original manufacturer photograph.
+- **Apple iPad Air 11-inch M2 internal view**: https://support.apple.com/en-us/120751. Used as a visual baseline for tablet.webp; the shipped image is a generated illustration, not the original manufacturer photograph.
+- **Apple MacBook Air M2 2022 logic board repair reference**: https://support.apple.com/en-us/100616. Used as a visual baseline for laptop.webp; the shipped image is a generated illustration, not the original manufacturer photograph.
+- **Sony PlayStation 5 Pro teardown motherboard photograph**: https://blog.playstation.com/2025/04/21/playstation-5-pro-teardown-an-inside-look-at-the-most-advanced-playstation-console-to-date/. Used as a visual baseline for console.webp; the shipped image is a generated illustration, not the original manufacturer photograph.
 
-Photos are resized and encoded as WebP; CSS applies layout, shadows, rotation and an outer silhouette clip to white-background phone/tablet photos. The laptop and console use their existing transparent source backgrounds. Examples identify repair categories and do not document a GotCracked customer repair, imply the newest model, or represent devices for sale.
+Device illustrations are visual service-category examples, not technical repair instructions or photographs of customer devices, the GotCracked shop, or completed repairs. They do not represent devices for sale. Reference-based generation does not establish exact component fidelity for every model. Brand artwork depicts conceptual glass, tools, care, appointments, guides, and PC planning.
 
 ## File Integrity
 
-- `assets/customer-premium/hero.webp` — 187370 bytes — SHA-256 `f8f76be6b337e3904085414e221582cf225c73a8a2ed69982ef3ddbced811b0b`
-- `assets/customer-premium/phone.webp` — 187370 bytes — SHA-256 `f8f76be6b337e3904085414e221582cf225c73a8a2ed69982ef3ddbced811b0b`
-- `assets/customer-premium/tablet.webp` — 7992 bytes — SHA-256 `4b09b07642e47291960640f5958bc15ce48669e47f013b5027246fdc3dd9a99b`
-- `assets/customer-premium/laptop.webp` — 45960 bytes — SHA-256 `85022282a23b4a85ae27a7b0be1d9c55798ea67c5b8a23c689c2bd52289d2162`
-- `assets/customer-premium/console.webp` — 21224 bytes — SHA-256 `8096aaaf637729e1bb987aa0628b8211b483742bf44951a0177e041e08e58ea0`
-- `assets/customer-premium/brand-texture.webp` — 33922 bytes — SHA-256 `c9b7bad080466948352e049cd5ded70d4e98832c8406e431226915628c359fa9`
+- `assets/customer-art/phone.webp` — 103644 bytes — SHA-256 `69a005cae2ca38404d1a87ececd561875978c64aa53cf84de6fb67840b57ebbf`
+- `assets/customer-art/tablet.webp` — 51148 bytes — SHA-256 `0091119cb389b65e1e934d69f7666ab7c57466717a8c777154d933cf94695a14`
+- `assets/customer-art/laptop.webp` — 95062 bytes — SHA-256 `126b0e3cbcc51c7f6868feb02bcbf70b7802e8ff80f3633389606f82957a9c2f`
+- `assets/customer-art/console.webp` — 170612 bytes — SHA-256 `ccb71a7e114781c9ae7263de119cb02d416885cedac20215dc1981d80fed7fec`
+- `assets/customer-art/hero.webp` — 130408 bytes — SHA-256 `a206823a6c9ca9d6c625f8ff0ca5ea0777bca1b2f66bad1a4f06d7558be8b55d`
+- `assets/customer-art/repair-tools.webp` — 143352 bytes — SHA-256 `924a07d77d20956fae7771056c411431329c73abd0440e18bd11dcdd640b4b1b`
+- `assets/customer-art/visit.webp` — 75038 bytes — SHA-256 `1389bddbe24c0d8703dd37a553f8dbede69a59bedd493f250e5e48e06dd27dbe`
+- `assets/customer-art/repair-care.webp` — 72142 bytes — SHA-256 `dc032ec282dd3c5a7a328e07d7a0325bf3d7537e3dece7b26ceb390faf888e8c`
+- `assets/customer-art/learning.webp` — 63470 bytes — SHA-256 `53c4ea24a6c0483cf77669d98171cfe2415772808bc335ff0a3f6b340af21835`
+- `assets/customer-art/pc-build.webp` — 105910 bytes — SHA-256 `709d6141a6cd486b02dc18beb1e8d4d8eb6aec3cedd4073710fee9d99e32985e`
+- `assets/customer-art/brand-texture.webp` — 33922 bytes — SHA-256 `c9b7bad080466948352e049cd5ded70d4e98832c8406e431226915628c359fa9`
 
-## Rejected Artwork
+## Retired Artwork
 
-Earlier generated device internals were rejected for inaccurate hardware depiction and removed from the production asset library. Reference-conditioned generated hardware was also rejected. Source masters are kept outside the website for development history; only the files listed above are current visual assets.
+The previous repeated iPhone 6S image and old photo fallback set have been removed. Earlier rejected generated device interiors are not included in the current asset library.

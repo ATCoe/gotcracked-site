@@ -104,12 +104,12 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/customer-premium/phone.webp']:
+          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/customer-art/phone.webp']:
               if token not in html: raise SystemExit(f'Customer repair or booking entry missing: {token}')
           import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
-          for subject in ['hero','phone','tablet','laptop','console','brand-texture']:
-              image = Path('assets/customer-premium', subject + '.webp')
+          for subject in ['hero','phone','tablet','laptop','console','repair-tools','visit','repair-care','learning','pc-build','brand-texture']:
+              image = Path('assets/customer-art', subject + '.webp')
               if not image.is_file() or image.stat().st_size == 0:
                   raise SystemExit(f'Missing current repair-system illustration: {subject}')
               if hashlib.sha256(image.read_bytes()).hexdigest() not in provenance.lower():
