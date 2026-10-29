@@ -3,13 +3,13 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const read = file => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
-const design = read('customer-design.css'), forms = read('customer-forms-design.css');
+const design = read('customer-design.css'), forms = read('customer-forms-design.css'), secondary=read('customer-secondary-design.css');
 // Resolve declarations in source order for each exact selector. These targeted rules
 // own the enabled action states; disabled controls are intentionally outside this check.
 function declarations(css, selector) {
   const result = {};
   for (const [,selectors,body] of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    if (!selectors.trim().split(',').map(value=>value.trim()).includes(selector)) continue;
+    if (selectors.trim() !== selector && !selectors.trim().split(',').map(value=>value.trim()).includes(selector)) continue;
     for (const declaration of body.split(';')) {
       const colon=declaration.indexOf(':');
       if(colon>=0)result[declaration.slice(0,colon).trim()]=declaration.slice(colon+1).trim();
@@ -26,7 +26,10 @@ const booking=declarations(forms,'html body.customer-flow-page .booking-form .bu
 const bookingHover={...booking,...declarations(forms,'html body.customer-flow-page .booking-form .button:hover')};
 const account=declarations(forms,'.customer-account-page .account-primary');
 const accountHover={...account,...declarations(forms,'.customer-account-page .account-primary:hover')};
-const states={generic,genericHover,booking,bookingHover,account,accountHover};
+const secondarySelector='body.gc-product:is(.pc-build-page,.learn-page,.privacy-page,.credits-page) main .button';
+const secondaryAction=declarations(secondary,secondarySelector);
+const secondaryHover={...secondaryAction,...declarations(secondary,secondarySelector+':hover')};
+const states={generic,genericHover,booking,bookingHover,account,accountHover,secondaryAction,secondaryHover};
 const ratios={};
 for(const [name,state] of Object.entries(states)) {
   const foreground=state.color==='#fff'?'#ffffff':state.color;
@@ -67,5 +70,5 @@ for(const page of ['index.html','request.html','appointment.html','account.html'
 }
 assert.match(read('privacy.html'),/AI-Assisted Custom PC Research/);
 assert.doesNotMatch(read('privacy.html'),/Ai-Assisted/);
-assert.match(read('customer-sw.js'),/shell-v13-accessibility/);
+assert.match(read('customer-sw.js'),/shell-v14-customer-flows/);
 console.log(JSON.stringify({ok:true,enabledActionContrastMinimum:ratios,privateRouteCases:privatePaths.length,backend:'mocked',realRequests:0}));

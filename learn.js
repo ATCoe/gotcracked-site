@@ -22,13 +22,17 @@
   const setMenu = open => {
     if (!menu || !nav) return;
     const show = Boolean(open) && window.matchMedia('(max-width: 980px)').matches;
+    if (!show && nav.contains(document.activeElement)) menu.focus();
     nav.classList.toggle('open',show);
     menu.setAttribute('aria-expanded',String(show));
+    menu.setAttribute('aria-label',show?'Close Menu':'Open Menu');
     document.body.classList.toggle('nav-open',show);
   };
   menu?.addEventListener('click',()=>setMenu(!nav?.classList.contains('open')));
   $$('#site-nav a').forEach(link=>link.addEventListener('click',()=>setMenu(false)));
   document.addEventListener('keydown',event=>{if(event.key==='Escape')setMenu(false);});
+  document.addEventListener('click',event=>{if(nav?.classList.contains('open')&&event.target instanceof Element&&!event.target.closest('.site-header'))setMenu(false);});
+  window.addEventListener('resize',()=>{if(!window.matchMedia('(max-width: 980px)').matches)setMenu(false);});
 
   function renderSponsor(settings) {
     const section = $('#learn-sponsor'), host = $('#learn-sponsor-content');

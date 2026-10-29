@@ -2,6 +2,7 @@ const UPSTREAM = 'https://uvpmmbioerejeyybfntb.supabase.co/functions/v1/customer
 const PUBLISHABLE_KEY = 'sb_publishable_CmcUD2ze8lhj4HvlMfoYiQ_DGG_xabb';
 const COOKIE = '__Host-gc_customer_session';
 const SESSION_SECONDS = 7 * 24 * 60 * 60;
+const LOGOUT_TIMEOUT_MS = 8000;
 const ALLOWED_ACTIONS = new Set([
   'request_code',
   'verify_code',
@@ -27,7 +28,10 @@ function cookieValue(request, name) {
   const prefix = `${name}=`;
   for (const part of (request.headers.get('Cookie') || '').split(';')) {
     const value = part.trim();
-    if (value.startsWith(prefix)) return decodeURIComponent(value.slice(prefix.length));
+    if (value.startsWith(prefix)) {
+      try { return decodeURIComponent(value.slice(prefix.length)); }
+      catch { return ''; }
+    }
   }
   return '';
 }
@@ -38,6 +42,34 @@ function sessionCookie(token) {
 
 function expiredCookie() {
   return `${COOKIE}=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict`;
+}
+
+async function signOutLocally(upstreamHeaders, raw) {
+  const controller = new AbortController();
+  let timeout;
+  let upstreamRevoked = false;
+  try {
+    upstreamRevoked = await Promise.race([
+      (async () => {
+        const response = await fetch(UPSTREAM, { method: 'POST', headers: upstreamHeaders, body: raw, signal: controller.signal });
+        const data = await response.json();
+        return response.ok && data?.ok === true;
+      })(),
+      new Promise(resolve => {
+        timeout = setTimeout(() => { controller.abort(); resolve(false); }, LOGOUT_TIMEOUT_MS);
+      })
+    ]);
+  } catch {
+    // Clearing this browser's cookie must not depend on upstream availability.
+  } finally {
+    clearTimeout(timeout);
+  }
+  return json({
+    ok: true,
+    localSessionCleared: true,
+    upstreamRevoked,
+    ...(!upstreamRevoked ? { warning: 'You Are Signed Out On This Browser. Server Session Revocation Could Not Be Confirmed.' } : {})
+  }, 200, { 'Set-Cookie': expiredCookie() });
 }
 
 export async function onRequestPost({ request }) {
@@ -67,6 +99,8 @@ export async function onRequestPost({ request }) {
   };
   if (sessionToken) upstreamHeaders['x-customer-session'] = sessionToken;
 
+  if (action === 'logout') return signOutLocally(upstreamHeaders, raw);
+
   let upstream;
   try {
     upstream = await fetch(UPSTREAM, { method: 'POST', headers: upstreamHeaders, body: raw });
@@ -90,11 +124,10 @@ export async function onRequestPost({ request }) {
     responseHeaders['X-GotCracked-Session-Migrated'] = '1';
   }
 
-  if (action === 'logout' || upstream.status === 401) responseHeaders['Set-Cookie'] = expiredCookie();
+  if (upstream.status === 401) responseHeaders['Set-Cookie'] = expiredCookie();
   return json(data, upstream.status, responseHeaders);
 }
 
 export function onRequest() {
   return json({ error: 'Method not allowed.' }, 405, { Allow: 'POST' });
 }
-

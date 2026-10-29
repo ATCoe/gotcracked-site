@@ -35,6 +35,14 @@ jobs:
       - name: Primary action contrast and private offline routes
         run: node scripts/test-customer-accessibility-offline.mjs
 
+      - name: Custom PC and customer sign-out recovery
+        run: node scripts/test-customer-flow-recovery.mjs
+      - name: Check Customer Session Logout Recovery
+        run: node scripts/test-customer-account-logout.mjs
+
+      - name: Restored chat and mobile navigation recovery
+        run: node scripts/test-customer-chat-navigation-recovery.mjs
+
       - name: Customer estimate review and decision safety
         run: node scripts/test-customer-estimate-decisions.mjs
 

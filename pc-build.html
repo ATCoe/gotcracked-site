@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="customer-chat.css?v=20260924-human-handoff1">
   <link rel="stylesheet" href="pc-build.css?v=20260921-readable1">
   <link rel="stylesheet" href="/customer-design.css?v=20261029-accessibility1">
-  <link rel="stylesheet" href="/customer-secondary-design.css?v=20261029-art-suite1">
+  <link rel="stylesheet" href="/customer-secondary-design.css?v=20261029-secondary-audit1">
 </head>
 <body class="gc-product pc-build-page">
   <a class="skip-link" href="#main">Skip to Build Planner</a>
@@ -44,6 +44,7 @@
           <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
           <input type="hidden" name="formStartedAt">
           <div class="pc-survey-label"><span>Your PC Request</span><span>4 Short Steps</span></div><div class="pc-progress" aria-label="Build Survey Progress"><span class="active"></span><span></span><span></span><span></span></div>
+          <p id="pc-build-error" class="pc-build-error" role="alert" tabindex="-1"></p>
 
           <section class="pc-step active">
             <p class="form-kicker">Step 1 of 4</p>
@@ -141,7 +142,7 @@
             <h2>How Should It Look and Feel?</h2>
             <p class="pc-step-lede">A good build should fit the room and the person using it—not just a benchmark chart.</p>
             <div class="pc-grid">
-              <label>Rgb Lighting
+              <label>RGB Lighting
                 <select name="rgb" required><option>No RGB</option><option value="Subtle / a little RGB">Subtle / a Little RGB</option><option value="Full RGB showcase build">Full RGB Showcase Build</option><option>No Preference</option></select>
               </label>
               <label>Color
@@ -177,7 +178,6 @@
               <label class="full">Preferred Contact Method<select name="preferredContact"><option>No Preference</option><option>Call</option><option>Email</option></select></label>
               <label class="pc-consent full"><input name="consent" type="checkbox" required><span>I agree to be contacted about this custom PC request and understand that any estimate I receive is market-based, not a purchase contract. Component pricing and availability may change before I approve the final build. <a href="/privacy">Privacy Notice</a>.</span></label>
             </div>
-            <p id="pc-build-error" class="pc-build-error" role="alert"></p>
             <div class="pc-nav"><button type="button" class="button button-ghost" data-back>← Back</button><button type="submit" class="button">Submit Build Request →</button></div>
           </section>
         </form>
@@ -216,9 +216,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
   <script src="supabase.js?v=20260826-production1"></script>
   <script src="app.js?v=20261029-form-recovery1"></script>
-<script src="customer-chat.js?v=20261029-art-suite1"></script>
+<script src="customer-chat.js?v=20261029-chat-recovery1"></script>
 <script src="store-hours.js?v=20261029-form-recovery1"></script>
 <script defer src="customer-pwa.js?v=20260903-install1"></script>
-  <script src="pc-build.js?v=20261029-art-suite1"></script>
+  <script src="pc-build.js?v=20261029-pc-recovery1"></script>
 </body>
 </html>

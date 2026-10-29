@@ -2,14 +2,14 @@
   const form=document.getElementById('pc-build-form');if(!form)return;
   const steps=[...form.querySelectorAll('.pc-step')],progress=[...form.querySelectorAll('.pc-progress span')];
   const research=document.getElementById('pc-research'),result=document.getElementById('pc-result'),error=document.getElementById('pc-build-error');
-  const gamingFields=document.querySelector('.pc-gaming-fields');let current=0,statusTimer=null;
+  const gamingFields=document.querySelector('.pc-gaming-fields');let current=0,statusTimer=null,submitting=false;
   const money=cents=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format((Number(cents)||0)/100);
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   form.elements.formStartedAt.value=String(Date.now());
 
   function show(index){current=Math.max(0,Math.min(steps.length-1,index));steps.forEach((step,i)=>step.classList.toggle('active',i===current));progress.forEach((bar,i)=>bar.classList.toggle('active',i<=current));error.textContent='';steps[current]?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
   function visibleRequired(step){return [...step.querySelectorAll('[required]')].filter(field=>!field.closest('[hidden]'));}
-  function validate(){let ok=true;for(const field of visibleRequired(steps[current])){if(!field.checkValidity()){field.classList.add('invalid');if(ok)field.focus();ok=false}else field.classList.remove('invalid')}if(!ok)error.textContent='Complete the required fields before continuing.';return ok;}
+  function validate(index=current){let invalid=null;for(const field of visibleRequired(steps[index])){const valid=field.checkValidity();field.classList.toggle('invalid',!valid);field.setAttribute('aria-invalid',String(!valid));if(!valid&&!invalid)invalid=field;}if(invalid){if(index!==current)show(index);error.textContent='Complete the required fields before continuing.';invalid.focus();invalid.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});}return !invalid;}
   function updateGaming(){const included=form.elements.gamingIncluded?.value==='yes';if(gamingFields)gamingFields.hidden=!included;for(const name of ['games','resolution','targetFps','imageQuality']){const field=form.elements[name];if(field)field.required=included;}}
   form.addEventListener('change',event=>{if(event.target.name==='gamingIncluded')updateGaming();});updateGaming();
   form.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>{if(validate())show(current+1)}));
@@ -21,7 +21,39 @@
   function renderEstimated(data){const rec=data.recommendation||{};result.innerHTML=`<div class="pc-result-head"><div><p class="eyebrow"><span></span>Your GotCracked Build</p><h2>${esc(rec.buildName||'Recommended Custom PC')}</h2><p class="pc-result-summary">${esc(rec.summary||'A build matched to the goals you shared.')}</p></div><div class="pc-total"><small>Estimated Build Total</small><strong>${money(data.estimatedTotalCents)}</strong><small>Parts + GotCracked Build Service</small></div></div><div class="pc-note" style="margin:18px 0"><strong>✓ Compatibility Verified Before Pricing</strong><p>${esc(data.compatibilityMethod||rec.compatibilityMethod||'PCPartPicker cross-check + Newegg PC Builder compatibility verification + manufacturer specifications.')}</p></div><div class="pc-parts">${(rec.parts||[]).map(part=>`<article class="pc-part"><small>${esc(part.category)}</small><strong>${esc(part.name)}</strong><p>${esc(part.rationale||'Selected for this build.')}</p></article>`).join('')}</div><div class="pc-result-notes"><article class="pc-note"><strong>Expected Experience</strong><p>${esc(rec.performance||'')}</p></article><article class="pc-note"><strong>Upgrade Path</strong><p>${esc(rec.upgradePath||'')}</p></article><article class="pc-note"><strong>Compatibility</strong><p>${esc(rec.compatibility||'')}</p></article><article class="pc-note"><strong>Budget Fit</strong><p>${esc(rec.budgetNote||'')}</p></article></div><div class="pc-market-notice"><strong>RAM Market Notice</strong>${esc(data.ramMarketNotice||'Memory pricing is unusually volatile right now. This estimate uses current market pricing and may change.')}<small>Industry outlooks are forecasts, not guarantees of future retail prices.</small></div><p class="pc-estimate-meta">Request <span class="pc-reference">${esc(data.reference)}</span> · Estimate valid through ${data.estimateValidUntil?new Date(data.estimateValidUntil).toLocaleDateString():'the date shown by GotCracked'}. Component availability and retailer prices can change before parts are ordered. Taxes, optional peripherals, shipping, or requested changes may affect the final approved quote.</p><div class="pc-nav"><a class="button button-ghost" href="index.html">Back to Website</a><button class="button" type="button" data-start-over>Start Another Build →</button></div>`;result.classList.add('active');result.querySelector('[data-start-over]')?.addEventListener('click',reset);}
   function renderManual(data){result.innerHTML=`<div class="pc-manual"><p class="eyebrow"><span></span>Build Request Received</p><h2>Compatibility Needs a Human Review.</h2><p>${esc(data.message||'Your survey is saved. GotCracked will review the exact parts through PCPartPicker, Newegg PC Builder, and manufacturer specifications before showing you a price.')}</p><p><strong>No automated estimate was released.</strong> We would rather review the configuration than show you a price based on an unverified parts combination.</p><p>Reference: <span class="pc-reference">${esc(data.reference)}</span></p></div><div class="pc-market-notice"><strong>RAM Market Notice</strong>Memory prices are unusually volatile. GotCracked verifies current pricing and availability before a final build is approved.<small>Market outlooks are forecasts, not guarantees of future retail pricing.</small></div><div class="pc-nav"><a class="button button-ghost" href="index.html">Back to Website</a><button class="button" type="button" data-start-over>Start Another Build →</button></div>`;result.classList.add('active');result.querySelector('[data-start-over]')?.addEventListener('click',reset);}
   function renderResearchUnavailable(data){result.innerHTML=`<div class="pc-manual"><p class="eyebrow"><span></span>Build Request Saved</p><h2>Research Is Temporarily Unavailable.</h2><p>${esc(data.message||'Your survey is safely stored. GotCracked will retry the research or contact you.')}</p><p><strong>This is not a compatibility failure.</strong> No automated estimate was released because the research service did not complete.</p><p>Reference: <span class="pc-reference">${esc(data.reference)}</span></p></div><div class="pc-nav"><a class="button button-ghost" href="index.html">Back to Website</a><button class="button" type="button" data-start-over>Start Another Build →</button></div>`;result.classList.add('active');result.querySelector('[data-start-over]')?.addEventListener('click',reset);}
-  function reset(){result.classList.remove('active');form.reset();form.hidden=false;form.elements.formStartedAt.value=String(Date.now());updateGaming();show(0);scrollTo({top:0,behavior:'smooth'});}
+  function reset(){result.classList.remove('active');form.reset();form.hidden=false;form.elements.formStartedAt.value=String(Date.now());form.querySelectorAll('.invalid,[aria-invalid]').forEach(field=>{field.classList.remove('invalid');field.removeAttribute('aria-invalid');});updateGaming();show(0);scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 
-  form.addEventListener('submit',async event=>{event.preventDefault();if(!validate())return;const submit=form.querySelector('[type="submit"]');submit.disabled=true;error.textContent='';startResearch();try{if(!window.supabaseClient?.functions)throw new Error('The build request service is temporarily unavailable.');const payload=Object.fromEntries(new FormData(form));const {data,error:fnError}=await window.supabaseClient.functions.invoke('custom-pc-build',{body:payload});if(fnError||!data?.ok)throw new Error(data?.error||fnError?.message||'Unable to submit the build request.');stopResearch();if(data.status==='estimated')renderEstimated(data);else if(data.status==='research_unavailable')renderResearchUnavailable(data);else renderManual(data);result.scrollIntoView({behavior:'smooth',block:'start'});}catch(err){stopResearch();form.hidden=false;error.textContent=err?.message||'Unable to submit the build request right now. Please contact GotCracked.';steps[current]?.scrollIntoView({behavior:'smooth',block:'start'});}finally{submit.disabled=false;}});
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(submitting)return;
+    if(current<steps.length-1){if(validate())show(current+1);return;}
+    for(let index=0;index<steps.length;index++)if(!validate(index))return;
+    const submit=form.querySelector('[type="submit"]');
+    submitting=true;submit.disabled=true;error.textContent='';
+    let sent=false,saved=null;
+    startResearch();
+    try{
+      if(!window.supabaseClient?.functions)throw new Error('The build request service is temporarily unavailable. Please try again later.');
+      const payload=Object.fromEntries(new FormData(form));sent=true;
+      const {data,error:fnError}=await window.supabaseClient.functions.invoke('custom-pc-build',{body:payload});
+      if(fnError||!data?.ok){
+        let detail=data?.error;
+        if(!detail&&fnError?.context?.json){try{detail=(await fnError.context.json())?.error;}catch{}}
+        const rejected=new Error(String(detail||'Review the request details and try again.'));
+        rejected.validationFailure=Number(fnError?.context?.status)===400;
+        throw rejected;
+      }
+      saved=data;stopResearch();
+      if(data.status==='estimated')renderEstimated(data);else if(data.status==='research_unavailable')renderResearchUnavailable(data);else renderManual(data);
+      result.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+    }catch(err){
+      stopResearch();
+      if(saved){renderResearchUnavailable({reference:saved.reference,message:'Your request was saved, but this page could not display the result. Contact GotCracked with this reference for the next step.'});}
+      else{
+        form.hidden=false;
+        error.textContent=sent&&!err?.validationFailure?'We could not confirm whether your build request was saved. Please call (540) 315-4545 before sending it again.':err?.message||'Unable to submit the build request right now. Please contact GotCracked.';
+        error.focus();error.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});
+      }
+    }finally{submitting=false;submit.disabled=false;}
+  });
 })();
