@@ -128,7 +128,7 @@ jobs:
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
           if 'id="appointment-form"' not in appointment_html: raise SystemExit('Appointment form missing.')
           if '/privacy' not in request_html or '/privacy' not in appointment_html or '/privacy' not in pc_html: raise SystemExit('Customer forms must link the Privacy Notice.')
-          stale_windows = re.compile(r'Morning \(9 AM[--]12 PM\)|Afternoon \(12[--]4 PM\)|Late afternoon \(4[--]6 PM\)')
+          stale_windows = re.compile(r'Morning \(9 AM[-–]12 PM\)|Afternoon \(12[-–]4 PM\)|Late afternoon \(4[-–]6 PM\)')
           if stale_windows.search(request_html) or stale_windows.search(appointment_html): raise SystemExit('Stale fixed appointment windows returned.')
           for form_html in [request_html, appointment_html]:
               if not re.search(r'<select name="time" required disabled>', form_html): raise SystemExit('Appointment time must wait for the settings-driven day selection.')
