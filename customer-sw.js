@@ -1,5 +1,5 @@
 /* GotCracked customer PWA: cache the public shell only. Repair accounts and APIs stay network-only. */
-const CACHE_NAME = 'gotcracked-customer-shell-v12-form-recovery';
+const CACHE_NAME = 'gotcracked-customer-shell-v13-accessibility';
 const PUBLIC_SHELL = [
   '/',
   '/index.html',
@@ -26,7 +26,8 @@ self.addEventListener('activate', event => {
 });
 
 function isPrivateOrDynamic(url) {
-  return url.pathname === '/account.html' || url.pathname.startsWith('/api/') || url.pathname.startsWith('/functions/');
+  const route = url.pathname.replace(/\/+$/, '');
+  return route === '/account' || route === '/account.html' || route === '/api' || route.startsWith('/api/') || route === '/functions' || route.startsWith('/functions/');
 }
 
 function isCacheableAsset(request, url) {

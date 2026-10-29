@@ -32,6 +32,9 @@ jobs:
       - name: Customer request keyboard and retry recovery
         run: node scripts/test-customer-request-recovery.mjs
 
+      - name: Primary action contrast and private offline routes
+        run: node scripts/test-customer-accessibility-offline.mjs
+
       - name: Customer estimate review and decision safety
         run: node scripts/test-customer-estimate-decisions.mjs
 
