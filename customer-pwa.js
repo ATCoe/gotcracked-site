@@ -3,19 +3,13 @@
 
   if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
 
-  let refreshedForUpdate = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (refreshedForUpdate) return;
-    refreshedForUpdate = true;
-    window.location.reload();
-  });
-
+  // New control applies to future requests. Keep this page and any customer
+  // form inputs intact; the next navigation loads the current public shell.
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/customer-sw.js', { scope: '/' })
       .then(registration => registration.update())
       .catch(() => {
-        // The customer site remains fully usable when offline support is unavailable.
+        // The customer site remains usable when offline support is unavailable.
       });
   }, { once: true });
 })();
-

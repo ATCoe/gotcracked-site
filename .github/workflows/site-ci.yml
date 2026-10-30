@@ -46,6 +46,11 @@ jobs:
       - name: Customer estimate review and decision safety
         run: node scripts/test-customer-estimate-decisions.mjs
 
+      - name: Customer account lifecycle and form update safety
+        run: |
+          node scripts/test-customer-account-lifecycle.mjs
+          node scripts/test-customer-pwa-update.mjs
+
       - name: Customer account code request guidance
         run: node scripts/test-customer-account-otp-ux.mjs
 

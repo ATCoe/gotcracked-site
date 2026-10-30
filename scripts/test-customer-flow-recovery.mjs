@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import vm from 'node:vm';
-const read=file=>readFileSync(new URL(`../${file}`,import.meta.url),'utf8');
+const read=file=>{const local=new URL(`../${file}`,import.meta.url);return readFileSync(existsSync(local)?local:new URL(`../../site-work/${file}`,import.meta.url),'utf8');};
 class Node {
   constructor(){this.listeners={};this.dataset={};this.hidden=false;this.disabled=false;this.value='';this.textContent='';this.innerHTML='';this.attributes={};this.classes=new Set();this.classList={add:name=>this.classes.add(name),remove:name=>this.classes.delete(name),toggle:(name,on)=>on?this.classes.add(name):this.classes.delete(name),contains:name=>this.classes.has(name)};}
   addEventListener(name,fn){this.listeners[name]=fn;}
@@ -42,7 +42,7 @@ const logout=accountSource.slice(accountSource.indexOf("SIGNOUT?.addEventListene
 async function logoutCase(response,reject=false){
   const button=new Node(),lookup=new Node(),dashboard=new Node(),records=new Map(['#active-repairs','#repair-history','#account-metrics','#customer-greeting','#customer-subtitle'].map(selector=>{const node=new Node();node.textContent='Private Repair';return[selector,node];}));
   let calls=0;const removed=[],toasts=[];
-  const context={SIGNOUT:button,bundle:{private:true},accountViewRevision:0,DIALOG_CONTENT:new Node(),closeDialog(){},SESSION_KEY:'test-session',legacyToken:'old-session',$:selector=>selector==='#lookup-form'?lookup:records.get(selector),api:async()=>{calls++;if(reject)throw new Error('Offline');return response;},localStorage:{removeItem:key=>removed.push(key)},showAuth(){dashboard.hidden=true;button.hidden=true;},showLookup(){},busy(node,on){node.disabled=on;},toast:message=>toasts.push(message),setStatus(_form,message){lookup.textContent=message;}};
+  const context={SIGNOUT:button,bundle:{private:true},accountViewRevision:0,accountSessionClosing:false,pendingAccountRequests:new Set(),showSessionAction(visible){button.hidden=!visible;},DIALOG_CONTENT:new Node(),closeDialog(){},SESSION_KEY:'test-session',legacyToken:'old-session',$:selector=>selector==='#lookup-form'?lookup:records.get(selector),api:async()=>{calls++;if(reject)throw new Error('Offline');return response;},localStorage:{removeItem:key=>removed.push(key)},showAuth(){dashboard.hidden=true;button.hidden=true;},showLookup(){},busy(node,on){node.disabled=on;},toast:message=>toasts.push(message),setStatus(_form,message){lookup.textContent=message;}};
   vm.runInNewContext(helper+'\n'+logout,context);await button.listeners.click();return{button,lookup,dashboard,records,removed,toasts,calls,context};
 }
 const cleared=await logoutCase({ok:true,localSessionCleared:true,upstreamRevoked:true});assert.equal(cleared.button.hidden,true);assert.equal(cleared.context.bundle,null);assert.equal(cleared.removed.length,1);assert.equal(cleared.toasts[0],'Signed Out.');
@@ -51,11 +51,11 @@ assert.equal(cleared.context.accountViewRevision,1,'sign-out must invalidate any
 for(const [response,reject] of [[{},true],[{ok:true},false]]){
   const failed=await logoutCase(response,reject);assert.equal(failed.button.hidden,false);assert.equal(failed.button.textContent,'Retry Sign-Out');assert.equal(failed.dashboard.hidden,true);assert.equal(failed.context.bundle,null);assert.equal(failed.toasts.length,0,'failure must not claim signed out');assert.match(failed.lookup.textContent,/could not be confirmed.*Retry Sign-Out/);assert.ok([...failed.records.values()].every(node=>node.textContent===''));
 }
-const cancellation=accountSource.split('\n').find(line=>line.startsWith('async function handlePaymentReturn()'));
-const notices=[];vm.runInNewContext(cancellation+'\nhandlePaymentReturn();',{paymentReturnHandled:false,PAYMENT_RETURN:'cancelled',history:{replaceState(){}},location:{pathname:'/account',hash:''},toast:message=>notices.push(message)});
+const cancellation=accountSource.slice(accountSource.indexOf('async function handlePaymentReturn()'),accountSource.indexOf('\nfunction openDialog('));
+const notices=[];vm.runInNewContext(cancellation+'\nhandlePaymentReturn();',{accountViewRevision:0,accountSessionClosing:false,paymentReturnHandled:false,PAYMENT_RETURN:'cancelled',history:{replaceState(){}},location:{pathname:'/account',hash:''},toast:message=>notices.push(message)});
 assert.match(notices[0],/Checkout Was Closed/);assert.doesNotMatch(notices[0],/no payment|unpaid|charged|recorded|paid/i);
 let finishProfile,rendered=0;
-const profileContext={accountViewRevision:0,bundle:null,api:()=>new Promise(resolve=>{finishProfile=resolve;}),render(){rendered++;},toast(){}};
+const profileContext={accountViewRevision:0,accountSessionClosing:false,bundle:null,api:()=>new Promise(resolve=>{finishProfile=resolve;}),render(){rendered++;},toast(){}};
 vm.runInNewContext(accountSource.split('\n').find(line=>line.startsWith('async function loadProfile(')),profileContext);
 const lateProfile=profileContext.loadProfile({quiet:true});profileContext.accountViewRevision++;finishProfile({repairs:[{private:true}]});assert.equal(await lateProfile,false);assert.equal(rendered,0,'an old profile response must never restore repairs after sign-out');assert.equal(profileContext.bundle,null);
 console.log(JSON.stringify({ok:true,pcRecoveryScenarios:6,logoutScenarios:4,cancellationCopyCases:1,backend:'mocked',realLeads:0,realMessages:0,realPayments:0}));

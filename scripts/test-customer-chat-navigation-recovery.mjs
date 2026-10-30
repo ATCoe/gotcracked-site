@@ -41,7 +41,7 @@ assert.equal(chat.calls.filter(call=>call.action==='poll').length,beforeHidden+1
 chat.close.listeners.click();const beforeClosed=chat.calls.length;chat.document.listeners.visibilitychange();await settle();assert.equal(chat.calls.length,beforeClosed,'minimized chat must not restart polling');
 assert.match(read('customer-chat.js'),/role="dialog" aria-modal="false"/,'the non-blocking chat panel must not claim modal behavior');
 for(const page of ['index.html','request.html','appointment.html','pc-build.html','learn.html'])assert.match(read(page),/customer-chat\.js\?v=20261029-chat-recovery1/,`${page}: restored-chat runtime`);
-assert.match(read('learn.html'),/learn\.js\?v=20261029-navigation1/);
+assert.match(read('learn.html'),/learn\.js\?v=20261030-unavailable-copy1/);
 
 const learn=read('learn.js'),menu=new Node(),nav=new Node(),body=new Node(),link=new Node(),docListeners={},windowListeners={};let narrow=true;
 const document={body,activeElement:null,addEventListener(name,fn){docListeners[name]=fn;}};

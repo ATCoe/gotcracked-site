@@ -1,0 +1,100 @@
+{
+  "checkedAt": "2026-10-30T17:54:27.289Z",
+  "baseline": "9aca1012a859a57266cd05dcd568423e415bff34",
+  "ok": true,
+  "groups": [
+    {
+      "name": "test-store-hours.mjs",
+      "exitCode": 0,
+      "stdout": "PASS shared live footer hours and complete, opening-safe appointment windows with safe date switching.",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-request-recovery.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"scenarios\":9,\"backend\":\"mocked\",\"realLeads\":0,\"realMessages\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-accessibility-offline.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"enabledActionContrastMinimum\":{\"generic\":4.962,\"genericHover\":5.332,\"booking\":4.618,\"bookingHover\":4.962,\"account\":4.618,\"accountHover\":4.962,\"secondaryAction\":4.618,\"secondaryHover\":5.513},\"privateRouteCases\":9,\"backend\":\"mocked\",\"realRequests\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-flow-recovery.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"pcRecoveryScenarios\":6,\"logoutScenarios\":4,\"cancellationCopyCases\":1,\"backend\":\"mocked\",\"realLeads\":0,\"realMessages\":0,\"realPayments\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-account-logout.mjs",
+      "exitCode": 0,
+      "stdout": "PASS 162 customer-account proxy logout and preserved-session checks; mocked upstream only.",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-chat-navigation-recovery.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"restoredChatCases\":4,\"mobileMenuCases\":4,\"backend\":\"mocked\",\"realMessages\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-estimate-decisions.mjs",
+      "exitCode": 0,
+      "stdout": "PASS render exact quote scope, line items, subtotal, tax, total and consent; escape customer text\nPASS every server-authorized decision includes the exact quote while parts or diagnosis are pending\nPASS approve sends only displayed revision and ticket using same-origin API\nPASS decline sends only displayed revision and ticket using same-origin API\nPASS missing button revision refreshes without confirmation or decision\nPASS old button revision refreshes without confirmation or decision\nPASS cancelled confirmation sends no request and leaves both choices enabled\nPASS concurrent approve/decline and rerendered buttons cannot submit a second decision\nPASS HTTP409 refreshes the quote and keeps a visible warning after toast expires\nPASS request failure retains an inline error and allows a deliberate retry\nCustomer estimate decisions: 10 runtime scenarios passed (synthetic browser/network only).",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-account-otp-ux.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"scenarios\":3,\"backend\":\"mocked\",\"realMessages\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-pc-build-truthful-copy.mjs",
+      "exitCode": 0,
+      "stdout": "PASS truthful custom-PC request copy, readable hero, and verified-result boundary.",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-account-lifecycle.mjs",
+      "exitCode": 0,
+      "stdout": "PASS Old Estimate success Cannot Restore Hidden Records\nPASS Old Estimate 409 Cannot Restore Hidden Records\nPASS Old Estimate 401 Cannot Restore Hidden Records\nPASS Old Payment Return Poll Stops Before Another Profile Read\nPASS Old Checkout URL Cannot Redirect After Sign Out Starts\nPASS Failed Sign Out Retry Is Reachable While Records Stay Hidden\nPASS Private Reads And Authentication Requests Wait For Pending Or Failed Sign Out\nPASS Returned Successful Decision Still Refreshes Current Account\nPASS Duplicate Code Requests Are Serialized\nPASS Back To Another Identifier Settles The Older Resend Before Starting New Authentication\nPASS Verification Locks Identifier Switching And Resend Until It Returns\nPASS Sign Out Control Is Outside Both Hidden Account Sections In Actual HTML\nPASS Final Cookie Clear Follows Pending profile Response\nPASS Final Cookie Clear Follows Pending verify_code Response\nPASS Rejected Existing Request Settles Before One Logout Without Replay\nPASS New Lookup Supersedes A Pending Old Profile Before New Verification\n{\"ok\":true,\"scenarios\":16,\"source\":\"Candidate Actual Account Module And HTML\",\"network\":\"Synthetic Fetch Only\",\"liveMessages\":0,\"livePayments\":0}",
+      "stderr": ""
+    },
+    {
+      "name": "test-customer-pwa-update.mjs",
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"checks\":14,\"scope\":\"Actual PWA Module, Initial Install/Upgrade And Unsupported Contexts; No Browser Or Network Requests\"}",
+      "stderr": ""
+    },
+    {
+      "name": "HTML Target And Original Anchor Preservation",
+      "exitCode": 0,
+      "stdout": "{\"pages\":15,\"originalTargetsAndIdsPreserved\":true,\"cacheQueryOnly\":true}",
+      "stderr": ""
+    },
+    {
+      "name": "Syntax customer-account.js",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Syntax customer-pwa.js",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Syntax learn.js",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "pythonLinkCheck": "Not Run Locally: Only Windows Store Aliases Were Available. Exact Original Target/Anchor Preservation Was Verified; CI Retains Its Existing Python Link Check.",
+  "realTransportsDisabled": true,
+  "scope": "Isolated Reviewed Runtime Plus Candidate Overlay; No Browser, Production Mutation, Lead, Communication Or Financial Action"
+}

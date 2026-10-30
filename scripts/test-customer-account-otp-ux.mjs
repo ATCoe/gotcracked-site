@@ -35,7 +35,7 @@ async function harness() {
     return elements.get(id);
   };
   for (const id of [
-    'account-auth', 'account-dashboard', 'account-signout', 'lookup-step',
+    'account-auth', 'account-dashboard', 'account-signout', 'account-dialog', 'account-dialog-content', 'lookup-step',
     'verify-step', 'lookup-form', 'verify-form', 'customer-identifier',
     'customer-code', 'verify-channel', 'verify-instructions'
   ]) element(id);

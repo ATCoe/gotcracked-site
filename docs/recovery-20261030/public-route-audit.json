@@ -1,0 +1,178 @@
+{
+  "checkedAt": "2026-10-30T17:40:54.873Z",
+  "sourceCommit": "9aca1012a859a57266cd05dcd568423e415bff34",
+  "scope": "Public HTTP GET And Reviewed Source Only; No Browser/Visual Acceptance, Form Submission, Messages Or Private Session",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "url": "https://gotcracked.co/",
+      "contentType": "text/html; charset=utf-8",
+      "title": "GotCracked | Phone & Electronics Repair in Blacksburg, VA",
+      "canonical": "https://gotcracked.co/",
+      "noindex": false,
+      "viewport": true,
+      "heading": "We Fix WhatLife Cracks."
+    },
+    {
+      "route": "/request",
+      "status": 200,
+      "url": "https://gotcracked.co/request",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Request a Repair | GotCracked",
+      "canonical": "https://gotcracked.co/request",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Let's Fix Your Device."
+    },
+    {
+      "route": "/appointment",
+      "status": 200,
+      "url": "https://gotcracked.co/appointment",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Request an Appointment | GotCracked",
+      "canonical": "https://gotcracked.co/appointment",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Book a Time to Stop By."
+    },
+    {
+      "route": "/pc-build",
+      "status": 200,
+      "url": "https://gotcracked.co/pc-build",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Custom PC Build Planner | GotCracked",
+      "canonical": "https://gotcracked.co/pc-build",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Let’s Plan Your Next Computer."
+    },
+    {
+      "route": "/account",
+      "status": 200,
+      "url": "https://gotcracked.co/account",
+      "contentType": "text/html; charset=utf-8",
+      "title": "My Repairs | GotCracked",
+      "canonical": "https://gotcracked.co/account",
+      "noindex": true,
+      "viewport": true,
+      "heading": "How Is Your Repair Going?"
+    },
+    {
+      "route": "/learn",
+      "status": 200,
+      "url": "https://gotcracked.co/learn",
+      "contentType": "text/html; charset=utf-8",
+      "title": "GotCracked Learn | Repair Guides, Tips & Videos",
+      "canonical": "https://gotcracked.co/learn",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Useful Advice, in Plain English."
+    },
+    {
+      "route": "/privacy",
+      "status": 200,
+      "url": "https://gotcracked.co/privacy",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Privacy Notice | GotCracked",
+      "canonical": "https://gotcracked.co/privacy",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Privacy Notice"
+    },
+    {
+      "route": "/credits",
+      "status": 200,
+      "url": "https://gotcracked.co/credits",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Brand &amp; Image Credits | GotCracked",
+      "canonical": "https://gotcracked.co/credits",
+      "noindex": false,
+      "viewport": true,
+      "heading": "Brand &amp; Image Credits"
+    },
+    {
+      "route": "/audit-nonexistent-20261030",
+      "status": 404,
+      "url": "https://gotcracked.co/audit-nonexistent-20261030",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Page Not Found | GotCracked",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Let’s Get You to the Right Place."
+    },
+    {
+      "route": "/phone/",
+      "status": 200,
+      "url": "https://gotcracked.co/phone/",
+      "contentType": "text/html; charset=utf-8",
+      "title": "GotCracked Phone",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Phone help"
+    },
+    {
+      "route": "/phone/favorites.html",
+      "status": 200,
+      "url": "https://gotcracked.co/phone/favorites",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Speed dials | GotCracked",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Speed dials"
+    },
+    {
+      "route": "/phone/hold.html",
+      "status": 200,
+      "url": "https://gotcracked.co/phone/hold",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Hold and resume | GotCracked",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Hold and resume"
+    },
+    {
+      "route": "/phone/transfer.html",
+      "status": 200,
+      "url": "https://gotcracked.co/phone/transfer",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Transfer a call | GotCracked",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Transfer a call"
+    },
+    {
+      "route": "/phone/voicemail.html",
+      "status": 200,
+      "url": "https://gotcracked.co/phone/voicemail",
+      "contentType": "text/html; charset=utf-8",
+      "title": "Check voicemail | GotCracked",
+      "canonical": null,
+      "noindex": true,
+      "viewport": true,
+      "heading": "Check voicemail"
+    },
+    {
+      "route": "/kiosk/",
+      "status": 200,
+      "url": "https://gotcracked.co/kiosk/",
+      "contentType": "text/html; charset=utf-8",
+      "title": "GotCracked | Self-Service Check-In",
+      "canonical": null,
+      "noindex": false,
+      "viewport": true,
+      "heading": "Let’s Get Your Repair Moving."
+    }
+  ],
+  "accountRoute": {
+    "status": 405,
+    "allow": "POST"
+  },
+  "nonNewlineLocalDrift": [],
+  "actualBrowserAvailable": false
+}

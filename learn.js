@@ -66,7 +66,7 @@
         return `<a class="media-card" href="${href}" target="_blank" rel="noopener noreferrer"><div class="media-thumb">${image !== '#' ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ''}</div><div><small>${escapeHTML(post.platform || 'GotCracked')}</small><h3>${escapeHTML(post.title || 'Watch This Repair')}</h3></div></a>`;
       }).join('') : '<article class="media-placeholder">New GotCracked repair videos will appear here as they are published.</article>';
     } catch {
-      if (media) media.innerHTML = '<article class="media-placeholder">Repair videos are coming soon. Check back after launch.</article>';
+      if (media) media.innerHTML = '<article class="media-placeholder">Repair Videos Could Not Load. Explore The Guides Above Or Ask Us About Your Device.</article>';
     }
   })();
 })();
