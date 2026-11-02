@@ -209,7 +209,7 @@
       button.disabled = true; button.textContent = 'Sending Request…'; if (errorOutput) errorOutput.textContent = '';
       try {
         const fields = Object.fromEntries(new FormData(appointmentForm));
-        const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : 'Customer';
+        const names = String(fields.name || '').trim().split(/\s+/), lastName = names.length > 1 ? names.pop() : '';
         const payload = { companyWebsite:fields.companyWebsite, formStartedAt:fields.formStartedAt, clientRequestId, serviceMode:'walk_in', deviceType:'Other device', model:fields.device || 'Device not specified', issue:fields.service, firstName:names.join(' ') || fields.name, lastName, email:fields.email, phone:fields.phone, preferredContact:fields.preferredContact, timing:fields.timing, date:fields.date, time:fields.time, consent:fields.consent };
         const { data, error } = await window.supabaseClient.functions.invoke('public-intake', { body:payload });
         if (error || !data?.reference) throw new Error(await intakeFailure(error, data));

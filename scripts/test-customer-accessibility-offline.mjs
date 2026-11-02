@@ -70,5 +70,5 @@ for(const page of ['index.html','request.html','appointment.html','account.html'
 }
 assert.match(read('privacy.html'),/AI-Assisted Custom PC Research/);
 assert.doesNotMatch(read('privacy.html'),/Ai-Assisted/);
-assert.match(read('customer-sw.js'),/shell-v14-customer-flows/);
+assert.match(read('customer-sw.js'),/shell-v15-optional-last-name/);
 console.log(JSON.stringify({ok:true,enabledActionContrastMinimum:ratios,privateRouteCases:privatePaths.length,backend:'mocked',realRequests:0}));
