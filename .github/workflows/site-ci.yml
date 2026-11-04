@@ -26,6 +26,9 @@ jobs:
             [ -f "$file" ] && node --check "$file"
           done
 
+      - name: Safe read retries and mutation exclusions
+        run: node scripts/test-safe-read-transport.mjs
+
       - name: Store hours and appointment windows
         run: node scripts/test-store-hours.mjs
 
