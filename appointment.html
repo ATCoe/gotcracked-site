@@ -48,7 +48,7 @@
 <div class="two-fields"><label>Preferred Day<input name="date" type="date" required></label><label>Preferred Time<select name="time" required disabled><option value="">Choose a Day First</option></select></label></div>
 <label>Device (Optional)<input name="device" placeholder="e.g. iPhone 15, laptop, game console"></label>
 <label>What Do You Need Help With?<textarea name="service" required placeholder="A Short Description Is Enough"></textarea></label>
-<label>Timing or Deadline (Optional)<textarea name="timing" maxlength="240" placeholder="e.g. Needed for class Friday, leaving town next week, no rush"></textarea></label>
+<label>Timing or Deadline (Optional)<textarea name="timing" maxlength="240" placeholder="Add a deadline only if you have one"></textarea></label>
 <label class="check-label"><input type="checkbox" name="consent" required><span>I agree to be contacted about this appointment request and understand the information I submit will be used to manage the request. <a href="/privacy">Privacy Notice</a>.</span></label>
 <p class="request-submit-error" role="alert"></p>
 <button class="button" type="submit">Request My Appointment <span class="flow-action-icon" aria-hidden="true"></span></button>
@@ -62,9 +62,10 @@
 <div class="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
 <script src="supabase.js?v=20260826-production1"></script>
-<script src="app.js?v=20261102-optional-last-name1"></script>
+<script src="app.js?v=20261110-request-intent1"></script>
 <script src="customer-chat.js?v=20261029-chat-recovery1"></script>
 <script src="store-hours.js?v=20261029-form-recovery1"></script>
 <script defer src="customer-pwa.js?v=20261030-draft-safe1"></script>
 </body>
 </html>
+

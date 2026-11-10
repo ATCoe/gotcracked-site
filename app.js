@@ -125,16 +125,17 @@
     const serviceMode = bookingForm.elements.serviceMode;
     const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
     const updateServiceMode = () => {
-      const mailIn = serviceMode.value === 'mail_in';
-      if (walkInFields) walkInFields.hidden = mailIn;
+      const mailIn = serviceMode.value === 'mail_in', quote = serviceMode.value === 'quote';
+      const visit = !mailIn && !quote;
+      if (walkInFields) walkInFields.hidden = !visit;
       if (mailInFields) mailInFields.hidden = !mailIn;
-      ['date','time'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = !mailIn; });
+      ['date','time'].forEach(name => { const field = bookingForm.elements[name]; if (!field) return; field.required = visit; field.disabled = !visit; field.setCustomValidity?.(''); if (!visit) field.value = ''; });
       ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
-      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where Should We Return It?' : 'When Works Best?';
-      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request Mail-In Approval' : 'Submit Repair Request';
+      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where Should We Return It?' : quote ? 'Send Your Estimate Request' : 'When Works Best?';
+      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request Mail-In Approval' : quote ? 'Request My Estimate' : 'Request My Appointment';
     };
     const requestParams = new URLSearchParams(window.location.search);
-    if (requestParams.get('mode') === 'mail_in') serviceMode.value = 'mail_in';
+    if (['mail_in','walk_in','quote'].includes(requestParams.get('mode'))) serviceMode.value = requestParams.get('mode');
     const requestedService = requestParams.get('service');
     if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
     const requestedDevice = requestParams.get('device');
@@ -189,7 +190,7 @@
         const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
         $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
         $('.form-success', bookingForm)?.classList.add('active');
-        showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is now in the GotCracked repair queue.');
+        showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is with the GotCracked team. We will contact you with next steps.');
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
       finally { submit.disabled = false; submit.innerHTML = submitMarkup; }
     });
@@ -264,4 +265,5 @@
   });
   $('#track-another')?.addEventListener('click', resetTracker);
 })();
+
 

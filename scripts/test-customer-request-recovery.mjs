@@ -10,7 +10,7 @@ class Node {
   scrollIntoView() {}
   focus() { this.focused = true; }
 }
-function harness({ fail = false, pending = false } = {}) {
+function harness({ fail = false, pending = false, mode = 'walk_in' } = {}) {
   const form = new Node(), submit = new Node(), success = new Node(), error = new Node(), reset = new Node();
   submit.innerHTML = '<span data-submit-label>Submit Repair Request</span> <span class="flow-action-icon" aria-hidden="true"></span>';
   const originalMarkup = submit.innerHTML;
@@ -19,7 +19,7 @@ function harness({ fail = false, pending = false } = {}) {
   const fields = Object.fromEntries([
     ['serviceMode',1],['deviceType',1],['model',1],['issue',1],['email',2],['firstName',2],['lastName',2],['phone',2],['date',3],['time',3],['consent',3],['address1',3],['city',3],['state',3],['postalCode',3],['formStartedAt',0]
   ].map(([name,step]) => { const node = new Node(); node.name = name; node.step = step; node.required = step > 0; node.valid = true; node.type = name === 'consent' ? 'checkbox' : name === 'email' ? 'email' : 'text'; node.checked = true; node.checkValidity = () => !node.required || node.valid; node.error = new Node(); node.closest = () => ({querySelector: () => node.error}); return [name,node]; }));
-  fields.serviceMode.value = 'walk_in'; fields.deviceType.options = [{value:'Phone'}]; form.elements = fields;
+  fields.serviceMode.value = mode; fields.deviceType.options = [{value:'Phone'}]; form.elements = fields;
   const next = [new Node(),new Node()], back = [new Node(),new Node()];
   const shared = {'#booking-form':form,'#new-request':reset,'#step-three-title':new Node(),'[data-submit-label]':new Node(),'.request-submit-error':error,'.form-success':success,'#request-number':new Node(),'[data-walk-in-fields]':new Node(),'[data-mail-in-fields]':new Node()};
   function one(selector) {
@@ -49,6 +49,14 @@ function harness({ fail = false, pending = false } = {}) {
 }
 
 const page = harness({pending:true});
+const quote=harness({mode:'quote'});
+assert.equal(quote.fields.date.required,false);assert.equal(quote.fields.time.required,false);
+assert.equal(quote.fields.date.disabled,true);assert.equal(quote.fields.time.disabled,true);
+await quote.send();await quote.send();await quote.send();
+assert.equal(quote.calls.length,1);assert.equal(quote.calls[0].serviceMode,'quote');
+const requestHtml=readFileSync(new URL('../request.html',import.meta.url),'utf8');
+assert.match(requestHtml,/<select name="serviceMode" required><option value="quote">/,'estimate request is the default, with appointment choice explicit');
+assert.doesNotMatch(requestHtml,/>Need(?:ed)? (?:for|by) class Thursday<\//i);
 await page.send(); assert.equal(page.current(),'2'); assert.equal(page.calls.length,0,'Enter on Step 1 must not send a lead');
 page.fields.email.valid=false;
 await page.send(); assert.equal(page.current(),'2'); assert.equal(page.fields.email.focused,true); assert.equal(page.calls.length,0);
@@ -95,3 +103,4 @@ const failedAppointmentMarkup=appointmentFailure.button.innerHTML;
 await appointmentFailure.send();
 assert.equal(appointmentFailure.error.textContent,'Request Failed'); assert.equal(appointmentFailure.button.innerHTML,failedAppointmentMarkup); assert.equal(appointmentFailure.button.disabled,false);
 console.log(JSON.stringify({ok:true, scenarios:9, backend:'mocked', realLeads:0, realMessages:0}));
+
