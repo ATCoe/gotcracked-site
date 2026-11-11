@@ -126,25 +126,42 @@
     const walkInFields = $('[data-walk-in-fields]', bookingForm), mailInFields = $('[data-mail-in-fields]', bookingForm);
     const updateServiceMode = () => {
       const mailIn = serviceMode.value === 'mail_in', quote = serviceMode.value === 'quote';
-      const visit = !mailIn && !quote;
+      const visit = serviceMode.value === 'walk_in';
+      const pickup = serviceMode.value === 'pickup', authorization = serviceMode.value === 'authorization';
       if (walkInFields) walkInFields.hidden = !visit;
       if (mailInFields) mailInFields.hidden = !mailIn;
       ['date','time'].forEach(name => { const field = bookingForm.elements[name]; if (!field) return; field.required = visit; field.disabled = !visit; field.setCustomValidity?.(''); if (!visit) field.value = ''; });
       ['address1','city','state','postalCode'].forEach(name => { if (bookingForm.elements[name]) bookingForm.elements[name].required = mailIn; });
-      const title = $('#step-three-title'); if (title) title.textContent = mailIn ? 'Where Should We Return It?' : quote ? 'Send Your Estimate Request' : 'When Works Best?';
-      const label = $('[data-submit-label]'); if (label) label.textContent = mailIn ? 'Request Mail-In Approval' : quote ? 'Request My Estimate' : 'Request My Appointment';
+      const title = $('#step-three-title'); if (title) title.textContent = pickup ? 'Plan Your Pickup' : authorization ? 'Review and Sign' : mailIn ? 'Where Should We Return It?' : quote ? 'Send Your Estimate Request' : 'When Works Best?';
+      const label = $('[data-submit-label]'); if (label) label.textContent = pickup ? 'Request My Pickup' : authorization ? 'Submit My Authorization' : mailIn ? 'Request Mail-In Approval' : quote ? 'Request My Estimate' : 'Request My Appointment';
     };
     const requestParams = new URLSearchParams(window.location.search);
-    if (['mail_in','walk_in','quote'].includes(requestParams.get('mode'))) serviceMode.value = requestParams.get('mode');
+    if (serviceMode.tagName === 'SELECT' && ['mail_in','walk_in','quote'].includes(requestParams.get('mode'))) serviceMode.value = requestParams.get('mode');
     const requestedService = requestParams.get('service');
     if (requestedService && bookingForm.elements.issue) bookingForm.elements.issue.value = requestedService;
     const requestedDevice = requestParams.get('device');
     if (requestedDevice && bookingForm.elements.deviceType && [...bookingForm.elements.deviceType.options].some(option => option.value === requestedDevice)) bookingForm.elements.deviceType.value = requestedDevice;
     serviceMode?.addEventListener('change', updateServiceMode); updateServiceMode();
 
+    const updateReview = () => {
+      const review = $('#request-review'); if (!review) return;
+      const values = Object.fromEntries(new FormData(bookingForm));
+      const modes = { quote:'Estimate Only', walk_in:'Appointment Request', mail_in:'Mail-In Request', pickup:'Student Pickup Request', authorization:'Device Evaluation Authorization' };
+      const rows = { Request:modes[values.serviceMode] || 'Repair Request', Device:[values.deviceType, values.model].filter(Boolean).join(' · '), Issue:values.issue, Name:[values.firstName,values.lastName].filter(Boolean).join(' '), Email:values.email, Phone:values.phone };
+      if (values.timing) rows.Deadline = values.timing;
+      if (values.serviceMode === 'walk_in') rows.Visit = [values.date,values.time].filter(Boolean).join(' · ') || 'Choose a Day and Time';
+      if (values.serviceMode === 'pickup') rows.Pickup = [values.school,values.pickupLocation,values.pickupAvailability].filter(Boolean).join(' · ');
+      review.replaceChildren();
+      for (const [label,value] of Object.entries(rows)) { const dt=document.createElement('dt'), dd=document.createElement('dd'); dt.textContent=label; dd.textContent=value || '—'; review.append(dt,dd); }
+    };
+    bookingForm.addEventListener('input', updateReview);
+    bookingForm.addEventListener('change', updateReview);
     let currentStep = 1;
     const showStep = step => {
       currentStep = Math.min(3, Math.max(1, step));
+      if (currentStep === 3) updateReview();
+      const heading = $(`.form-step[data-step="${currentStep}"] h3`, bookingForm);
+      heading?.setAttribute?.('tabindex','-1'); heading?.focus?.({preventScroll:true});
       $$('.form-step', bookingForm).forEach(element => element.classList.toggle('active', Number(element.dataset.step) === currentStep));
       $$('.form-progress span', bookingForm).forEach((element, index) => element.classList.toggle('active', index < currentStep));
       $(`.form-step[data-step="${currentStep}"]`, bookingForm)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
@@ -152,7 +169,8 @@
     const validateStep = step => {
       let valid = true;
       $$(`[data-step="${step}"] [required]`, bookingForm).forEach(field => {
-        const ok = field.type === 'checkbox' ? field.checked : field.checkValidity();
+        const ok = field.disabled || (field.type === 'checkbox' ? field.checked : field.checkValidity());
+        field.setAttribute?.('aria-invalid', String(!ok));
         field.classList.toggle('invalid', !ok);
         const error = field.closest('label')?.querySelector('.field-error') || (field.name === 'consent' ? $('.consent-error') : null);
         if (error) error.textContent = ok ? '' : (field.type === 'email' ? 'Enter a valid email address.' : 'This field is required.');
@@ -178,6 +196,7 @@
         return;
       }
       for (const step of [1, 2, 3]) if (!validateStep(step)) return;
+      if (window.GotCrackedAuthorization && !window.GotCrackedAuthorization.validate()) return;
       const submitError = $('.request-submit-error', bookingForm);
       if (submitError) submitError.textContent = '';
       const submitMarkup = submit.innerHTML;
@@ -190,6 +209,7 @@
         const requestNumber = $('#request-number'); if (requestNumber) requestNumber.textContent = data.reference;
         $$('.form-step, .form-progress', bookingForm).forEach(element => { element.style.display = 'none'; });
         $('.form-success', bookingForm)?.classList.add('active');
+        window.GotCrackedAuthorization?.receipt(data, payload);
         showToast(serviceMode.value === 'mail_in' ? 'Your mail-in request is awaiting approval. Do not ship yet.' : 'Your request is with the GotCracked team. We will contact you with next steps.');
       } catch (error) { const message = error?.message || 'Unable to submit. Please contact the shop.'; if (submitError) submitError.textContent = message; showToast(message); }
       finally { submit.disabled = false; submit.innerHTML = submitMarkup; }

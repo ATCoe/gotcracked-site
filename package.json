@@ -1,0 +1,1 @@
+{"name":"gotcracked-customer-site","private":true,"scripts":{"dev":"node scripts/preview-server.mjs","test":"node scripts/test-customer-request-recovery.mjs && node scripts/test-store-hours.mjs && python scripts/test-internal-links.py"}}

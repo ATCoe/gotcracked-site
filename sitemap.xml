@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gotcracked.co/</loc></url>
+  <url><loc>https://gotcracked.co/services</loc></url>
+  <url><loc>https://gotcracked.co/services/phones</loc></url>
+  <url><loc>https://gotcracked.co/services/tablets</loc></url>
+  <url><loc>https://gotcracked.co/services/computers</loc></url>
+  <url><loc>https://gotcracked.co/services/consoles</loc></url>
+  <url><loc>https://gotcracked.co/students</loc></url>
+  <url><loc>https://gotcracked.co/pickup</loc></url>
+  <url><loc>https://gotcracked.co/visit</loc></url>
+  <url><loc>https://gotcracked.co/mail-in</loc></url>
+  <url><loc>https://gotcracked.co/about</loc></url>
+  <url><loc>https://gotcracked.co/warranty</loc></url>
+  <url><loc>https://gotcracked.co/service-terms</loc></url>
+  <url><loc>https://gotcracked.co/authorization</loc></url>
   <url><loc>https://gotcracked.co/request</loc></url>
   <url><loc>https://gotcracked.co/appointment</loc></url>
   <url><loc>https://gotcracked.co/pc-build</loc></url>

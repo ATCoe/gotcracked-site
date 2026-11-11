@@ -6,7 +6,7 @@ const source = readFileSync(new URL('../customer-account.js', import.meta.url), 
 const html = readFileSync(new URL('../account.html', import.meta.url), 'utf8');
 assert.match(html, /id="verify-channel"/);
 assert.match(html, /id="verify-instructions"/);
-assert.match(html, /id="customer-identifier"[^>]*autocomplete="username"[^>]*inputmode="text"/);
+assert.match(html, /<input(?=[^>]*id="customer-identifier")(?=[^>]*autocomplete="username")(?=[^>]*inputmode="text")[^>]*>/);
 
 class Element {
   constructor() {
