@@ -19,3 +19,4 @@ footer{padding:60px 0 20px;border-top:1px solid var(--line);background:#090d12}.
 body.gc-product .site-header{height:auto;min-height:0;padding:0}body.gc-product footer h3{text-transform:none}body.gc-product .footer-brand #store-hours{display:none}
 body.gc-product .menu-button{flex:0 0 42px}body.gc-product .nav-actions .button{white-space:nowrap}body.gc-product .footer-grid>div{display:block}body.gc-product .gc-visit-copy h2 br:after,body.gc-product .gc-faq-layout h2 br:after{content:' '}
 @media(max-width:380px){body.gc-product .gc-full-logo img{width:93px}.nav-wrap{gap:9px}body.gc-product .nav-actions .button{padding:10px 10px!important;font-size:11px!important}}
+body.gc-product .gc-full-logo{width:auto;min-width:0;height:auto}body.gc-product .menu-button{margin-left:0}
