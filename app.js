@@ -160,6 +160,8 @@
     const showStep = step => {
       currentStep = Math.min(3, Math.max(1, step));
       if (currentStep === 3) updateReview();
+      const heading = $(`.form-step[data-step="${currentStep}"] h3`, bookingForm);
+      heading?.setAttribute?.('tabindex','-1'); heading?.focus?.({preventScroll:true});
       $$('.form-step', bookingForm).forEach(element => element.classList.toggle('active', Number(element.dataset.step) === currentStep));
       $$('.form-progress span', bookingForm).forEach((element, index) => element.classList.toggle('active', index < currentStep));
       $(`.form-step[data-step="${currentStep}"]`, bookingForm)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });

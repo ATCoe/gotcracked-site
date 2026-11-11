@@ -3,24 +3,36 @@
     "file": "assets/catalog/playstation-5-disc.jpg",
     "sha256": "4af209978c128e1230bfb5cc6d0fa0a27b55e484962fadd74798488c6755f646",
     "source": "GotCracked Portal existing manufacturer-reference catalog",
-    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked."
+    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked.",
+    "manufacturer": "Sony",
+    "source_url": "https://www.sony.com/en/SonyInfo/design/gallery/PS5/",
+    "copyright": "\u00a9 Sony; manufacturer product reference image"
   },
   {
     "file": "assets/catalog/macbook-air-m2.png",
     "sha256": "515616f46db3bbe7dacc634bf081baf9111f26956895dc9e6dd4debdefc02b9d",
     "source": "GotCracked Portal existing manufacturer-reference catalog",
-    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked."
+    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked.",
+    "manufacturer": "Apple",
+    "source_url": "https://support.apple.com/en-us/111867",
+    "copyright": "\u00a9 Apple; manufacturer product reference image"
   },
   {
     "file": "assets/catalog/iphone-15-black-front-back.jpg",
     "sha256": "c9879c87d583f7612c390ff703c5b63d2289018eeddfec6859814e69de4220bd",
     "source": "GotCracked Portal existing manufacturer-reference catalog",
-    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked."
+    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked.",
+    "manufacturer": "Apple",
+    "source_url": "https://www.apple.com/uk/shop/product/ftp03zd/a/refurbished-iphone-15-128gb-black-sim-free",
+    "copyright": "\u00a9 Apple; manufacturer product reference image"
   },
   {
     "file": "assets/catalog/ipad-10-blue-front-back.jpg",
     "sha256": "96e8d4884e60cf14689fdb154fdc265fc5706b656db82ee8d1fedf9220c4abf4",
     "source": "GotCracked Portal existing manufacturer-reference catalog",
-    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked."
+    "note": "Manufacturer product reference; not a photograph of work performed by GotCracked.",
+    "manufacturer": "Apple",
+    "source_url": "https://www.apple.com/ie/shop/product/fcm84nf/a",
+    "copyright": "\u00a9 Apple; manufacturer product reference image"
   }
 ]
