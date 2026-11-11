@@ -66,13 +66,16 @@ jobs:
       - name: Internal links and page anchors
         run: python scripts/test-internal-links.py
 
+      - name: Pickup and authorization page contracts
+        run: node scripts/test-customer-experience.mjs
+
       - name: Public site architecture
         shell: python
         run: |
           from pathlib import Path
           import re
 
-          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html','credits.html']
+          required_pages = ['index.html','request.html','appointment.html','pc-build.html','privacy.html','account.html','learn.html','credits.html','services.html','students.html','pickup.html','authorization.html','visit.html','mail-in.html','about.html','warranty.html','service-terms.html','services/phones.html','services/tablets.html','services/computers.html','services/consoles.html']
           for name in required_pages:
               if not Path(name).exists():
                   raise SystemExit(f'Missing public page: {name}')
@@ -118,7 +121,7 @@ jobs:
               text = css.read_text(encoding='utf-8')
               if text.count('{') != text.count('}'):
                   raise SystemExit(f'Unbalanced CSS braces: {css}')
-          css_refs = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]+href=["\']([^"\']+)', html, re.I)
+          css_refs = re.findall(r'<link[^>]+href=["\']([^"\']+)["\'][^>]+rel=["\']stylesheet["\']', html, re.I)
           css_files = [ref.split('?',1)[0] for ref in css_refs]
           for required in ['customer-chat.css','/customer-design.css']:
               if required not in css_files: raise SystemExit(f'Missing first-paint stylesheet: {required}')
@@ -126,7 +129,7 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/customer-art/phone.webp']:
+          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/catalog/iphone-15-black-front-back.jpg']:
               if token not in html: raise SystemExit(f'Customer repair or booking entry missing: {token}')
           import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
@@ -136,11 +139,15 @@ jobs:
                   raise SystemExit(f'Missing current repair-system illustration: {subject}')
               if hashlib.sha256(image.read_bytes()).hexdigest() not in provenance.lower():
                   raise SystemExit(f'Current image provenance hash mismatch: {subject}')
+          import json
+          for item in json.loads(Path('assets/catalog/provenance.json').read_text()):
+              if hashlib.sha256(Path(item['file']).read_bytes()).hexdigest() != item['sha256']:
+                  raise SystemExit('Product-reference image provenance mismatch.')
           for icon in ['repair','phone','tablet','laptop','console','battery','diagnostics','chip','data','shield','tracking','mail','chat','arrow','calendar','check','close']:
               if not Path('assets/ui', icon + '.svg').is_file(): raise SystemExit(f'Missing current UI symbol: {icon}')
           for retired in ['assets/devices/','assets/photos/','assets/repair/','assets/generated-','assets/icons/lucide/']:
               if retired in pages: raise SystemExit(f'Retired visual asset referenced: {retired}')
-          for token in ['generated specifically for GotCracked','id="product-images"','Interface Symbols']:
+          for token in ['manufacturer reference images','id="product-images"','Interface Symbols']:
               if token not in credits_html: raise SystemExit(f'Public artwork credit missing: {token}')
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
@@ -172,7 +179,7 @@ jobs:
               if not Path(asset).exists(): raise SystemExit(f'Missing official social asset: {asset}')
           for token in ['youtube_channel_url','tiktok_profile_url','instagram_profile_url','facebook_profile_url']:
               if token not in app or token not in learn_js: raise SystemExit(f'Public social profile wiring missing: {token}')
-          for token in ['id="learn-sponsor"','Advertising & affiliate disclosure','Advertise with GotCracked']:
+          for token in ['id="learn-sponsor"','Advertising &amp; affiliate disclosure','Advertise with GotCracked']:
               if token not in learn_html: raise SystemExit(f'Learn monetization guard missing: {token}')
           if 'site_sponsor_active' not in learn_js or 'rel="sponsored noopener noreferrer"' not in learn_js: raise SystemExit('Learn sponsor runtime guard missing.')
 

@@ -71,7 +71,7 @@ await check('Verification Locks Identifier Switching And Resend Until It Returns
  gate.resolve({status:400,data:{error:'Incorrect Code'}});await pending;assert.equal(h.element('verify-back').disabled,false);assert.equal(h.element('resend-code').disabled,false);assert.match(h.element('verify-form').status.textContent,/Incorrect Code/);
 });
 await check('Sign Out Control Is Outside Both Hidden Account Sections In Actual HTML',async()=>{
- const control=html.indexOf('id="account-signout"'),auth=html.indexOf('<section id="account-auth"'),dashboard=html.indexOf('<section id="account-dashboard"');assert.ok(control>0&&control<auth&&control<dashboard);assert.equal((html.match(/id="account-signout"/g)||[]).length,1);assert.match(html,/id="account-session-actions"[^>]+hidden/);
+ const control=html.indexOf('id="account-signout"'),auth=html.indexOf('id="account-auth"'),dashboard=html.indexOf('id="account-dashboard"');assert.ok(control>0&&control<auth&&control<dashboard);assert.equal((html.match(/id="account-signout"/g)||[]).length,1);assert.match(html,/<div(?=[^>]*id="account-session-actions")(?=[^>]*hidden)[^>]*>/);
 });
 for(const kind of ['profile','verify_code'])await check('Final Cookie Clear Follows Pending '+kind+' Response',async()=>{
  const h=await harness({signedIn:kind==='profile'}),gate=deferred();let pending;
