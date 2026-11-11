@@ -1,6 +1,6 @@
 # Customer Website Overhaul — November 11, 2026
 
-Original dark blue/charcoal layout and copy; original GotCracked logo retained. Twenty-one public pages plus the private account route share navigation and footer. Four manufacturer device reference images replace generated repair depictions; provenance is in assets/catalog/provenance.json.
+Original dark blue/charcoal layout and copy; original GotCracked logo retained. Twenty-one public pages plus the private account route share navigation and footer. The homepage uses original GotCracked exterior repair artwork. Service illustrations depict recognizable exterior devices, without invented internal construction; provenance is in ASSET_PROVENANCE.md.
 
 ## Forms and Workflow
 
@@ -26,3 +26,10 @@ Local preview intentionally substitutes a simulated transport. PREVIEW-ONLY conf
 5. Verify deployed asset/version and the new routes without creating customer submissions.
 
 Rollback: restore the previous customer-site commit 1aded70a1fe3c4dc04e18664c896a471737a10bf and the previous public-intake bundle from Portal main before the integration. Keep the additive private tables to retain any records already received. Existing RPC create_public_intake_records is unchanged. Do not drop signature or pickup records during rollback.
+
+
+## Visual Regression Correction — November 11
+
+The first release reintroduced repeated catalogue photos and white image panels, reversing an earlier deliberate repair-art design choice. The correction restores the original cracked-phone hero and supporting repair art, introduces three original exterior SVG service illustrations, and uses dark blue compositions across the homepage and service pages. Student, visit, about, warranty, learning and PC pages regain relevant supporting artwork. CSS and public cache versions are advanced together. Existing intake behavior is preserved.
+
+Validation: architecture, internal links, pickup/authorization contracts, accessibility/offline and PWA checks pass. Desktop homepage and category graphics, service details and supporting pages are visually reviewed. Narrow 320px and 390px previews include a working navigation menu, no broken images and no horizontal overflow at 320px.

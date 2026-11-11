@@ -28,3 +28,8 @@ Device illustrations are visual service-category examples, not technical repair 
 ## Retired Artwork
 
 The previous repeated iPhone 6S image and old photo fallback set have been removed. Earlier rejected generated device interiors are not included in the current asset library.
+
+
+## Exterior Service Illustrations — November 11, 2026
+
+`assets/repair-illustrations/tablet.svg`, `computer.svg` and `console.svg` are original SVG illustrations created for GotCracked. They depict generic device exteriors, without logos or internal technical detail. The homepage restores the existing original `customer-art/hero.webp`; supporting phone, tools, scheduling, learning, PC and warranty graphics retain their existing provenance above. Catalogue product photography is no longer used in public service or homepage artwork.

@@ -65,10 +65,10 @@ assert.equal(await publicResponse,response,'public navigation must retain networ
 assert.equal(network,1);
 
 for(const page of ['index.html','request.html','appointment.html','account.html','pc-build.html','learn.html','privacy.html','credits.html','404.html']) {
-  assert.match(read(page),/customer-design\.css\?v=20261111-overhaul1/,`${page}: latest primary-action styles`);
+  assert.match(read(page),/customer-design\.css\?v=20261111-repair-visuals2/,`${page}: latest primary-action styles`);
   if(['request.html','appointment.html','account.html'].includes(page))assert.match(read(page),/customer-forms-design\.css\?v=20261111-overhaul1/,`${page}: latest form-action styles`);
 }
 assert.match(read('privacy.html'),/AI-Assisted Custom PC Research/);
 assert.doesNotMatch(read('privacy.html'),/Ai-Assisted/);
-assert.match(read('customer-sw.js'),/shell-v16-customer-overhaul/);
+assert.match(read('customer-sw.js'),/shell-v17-repair-visuals/);
 console.log(JSON.stringify({ok:true,enabledActionContrastMinimum:ratios,privateRouteCases:privatePaths.length,backend:'mocked',realRequests:0}));

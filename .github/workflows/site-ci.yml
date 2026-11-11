@@ -129,7 +129,7 @@ jobs:
           if 'visual-overhaul.css' in css_files: raise SystemExit('The visual overhaul must remain consolidated in the final asset-pass.css layer.')
           for asset in ['assets/favicon-16.png','assets/favicon-32.png','assets/apple-touch-icon.png','assets/gotcracked-customer-app-icon-512.png','audit-fixes.css','ASSET_PROVENANCE.md']:
               if not Path(asset).exists(): raise SystemExit(f'Missing release asset or provenance record: {asset}')
-          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/catalog/iphone-15-black-front-back.jpg']:
+          for token in ['What Needs Fixing?', 'Book a Visit', 'id="visit"', 'assets/customer-art/hero.webp']:
               if token not in html: raise SystemExit(f'Customer repair or booking entry missing: {token}')
           import hashlib
           provenance = Path('ASSET_PROVENANCE.md').read_text(encoding='utf-8')
@@ -147,8 +147,14 @@ jobs:
               if not Path('assets/ui', icon + '.svg').is_file(): raise SystemExit(f'Missing current UI symbol: {icon}')
           for retired in ['assets/devices/','assets/photos/','assets/repair/','assets/generated-','assets/icons/lucide/']:
               if retired in pages: raise SystemExit(f'Retired visual asset referenced: {retired}')
-          for token in ['manufacturer reference images','id="product-images"','Interface Symbols']:
+          for token in ['Repair Illustrations','id="repair-illustrations"','Interface Symbols']:
               if token not in credits_html: raise SystemExit(f'Public artwork credit missing: {token}')
+
+          for page_path in ['index.html','services.html','services/phones.html','services/tablets.html','services/computers.html','services/consoles.html']:
+              if '/assets/catalog/' in Path(page_path).read_text(): raise SystemExit('Catalogue photo treatment returned: ' + page_path)
+          for subject in ['tablet','computer','console']:
+              import xml.etree.ElementTree as ET
+              ET.parse(Path('assets/repair-illustrations', subject + '.svg'))
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')
