@@ -155,6 +155,18 @@ jobs:
           for subject in ['tablet','computer','console']:
               import xml.etree.ElementTree as ET
               ET.parse(Path('assets/repair-illustrations', subject + '.svg'))
+          for item in json.loads(Path('ASSET_MANIFEST.json').read_text())['vectors']:
+              asset = Path(item['path'])
+              ET.parse(asset)
+              if hashlib.sha256(asset.read_bytes()).hexdigest() != item['sha256']:
+                  raise SystemExit('Exterior SVG provenance mismatch: ' + str(asset))
+          for css in Path('.').glob('*.css'):
+              for ref in re.findall(r'url\(["\']?([^\)"\']+)["\']?\)', css.read_text(encoding='utf-8')):
+                  if ref.startswith(('data:', 'http:', 'https:', '#')):
+                      continue
+                  asset = Path(ref.split('?', 1)[0].lstrip('/'))
+                  if not asset.is_file():
+                      raise SystemExit('Missing CSS artwork: ' + ref)
 
           if 'id="booking-form"' in html or 'href="#book"' in html: raise SystemExit('Repair intake must stay off the homepage.')
           if 'id="booking-form"' not in request_html: raise SystemExit('Repair request form missing.')

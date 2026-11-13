@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Tablet Exterior</title><desc id="desc">Original blue line drawing of a tablet and stylus, with decorative circuit traces.</desc>
+  <defs><linearGradient id="screen" x1="100" y1="52" x2="294" y2="244" gradientUnits="userSpaceOnUse"><stop stop-color="#193f61"/><stop offset="1" stop-color="#0e2033"/></linearGradient></defs>
+  <g stroke="#4c83ae" stroke-width="1.25" stroke-linecap="round" opacity=".65"><path d="M24 93h28l29 29h8M38 245h23l30-30M311 85h24l25-25h16M327 216h20l22 22M24 30h30M24 30v30M346 270h30v-30"/><circle cx="24" cy="93" r="3"/><circle cx="38" cy="245" r="3"/><circle cx="376" cy="60" r="3"/><circle cx="369" cy="238" r="3"/></g>
+  <g stroke="#b6ddff" stroke-width="2.5" stroke-linejoin="round"><rect x="89" y="34" width="222" height="232" rx="18" fill="#0d1c2d"/><rect x="99" y="45" width="202" height="210" rx="10" fill="url(#screen)"/><circle cx="200" cy="40" r="1.5" fill="#b6ddff" stroke="none"/></g>
+  <path d="m124 210 42-83 40 40 63-81M124 231h153" stroke="#72c0ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+  <path d="M327 68a4 4 0 0 1 8 0v154l-4 15-4-15V68Z" fill="#16334e" stroke="#b6ddff" stroke-width="2" stroke-linejoin="round"/><path d="M327 208h8" stroke="#72c0ff" stroke-width="2"/>
+  <path d="M75 280h261" stroke="#47799f" stroke-opacity=".7"/>
+</svg>

@@ -33,3 +33,13 @@ The previous repeated iPhone 6S image and old photo fallback set have been remov
 ## Exterior Service Illustrations — November 11, 2026
 
 `assets/repair-illustrations/tablet.svg`, `computer.svg` and `console.svg` are original SVG illustrations created for GotCracked. They depict generic device exteriors, without logos or internal technical detail. The homepage restores the existing original `customer-art/hero.webp`; supporting phone, tools, scheduling, learning, PC and warranty graphics retain their existing provenance above. Catalogue product photography is no longer used in public service or homepage artwork.
+
+## Exterior Line Drawings And Circuit Etchings - November 13, 2026
+
+The five SVGs in `assets/etchings/` are original vector artwork drawn for this website. Phone, tablet, laptop, and console service illustrations show generic exterior shapes; the circuit field is abstract decoration. These graphics do not depict internal device construction or identify an exact product model. Existing hero artwork and original GotCracked branding retain their provenance above.
+
+- `assets/etchings/circuit-field.svg` - 1385 bytes - SHA-256 `3adf78e5c4b9bf3cd1f8213b0089a0457f7b016373d408a108bbff17d0cf9130`
+- `assets/etchings/phone.svg` - 1474 bytes - SHA-256 `d02fbeff23c25a39209d264c865e6e0e705b1f20bb72abebd1510ae998062668`
+- `assets/etchings/tablet.svg` - 1488 bytes - SHA-256 `c84c12bd3e6f10cc6bb26551da343a41bf9cb5e5cc62ea67564de8417d05ecd8`
+- `assets/etchings/computer.svg` - 1572 bytes - SHA-256 `5faa3585a8285e06f1976a2878e2a4daa394c3ac5e591f377a377f58adbcac90`
+- `assets/etchings/console.svg` - 1838 bytes - SHA-256 `2cad2cbe0d96aee77824f80778182407e54bbc9de7c262cbd0b9afd66f4d9321`

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Laptop Exterior</title><desc id="desc">Original blue line drawing of an open laptop, with decorative circuit traces.</desc>
+  <defs><linearGradient id="screen" x1="86" y1="58" x2="298" y2="211" gradientUnits="userSpaceOnUse"><stop stop-color="#193f61"/><stop offset="1" stop-color="#0e2033"/></linearGradient></defs>
+  <g stroke="#4c83ae" stroke-width="1.25" stroke-linecap="round" opacity=".65"><path d="M24 115h24l20 20h8M27 182h33l17-17M323 110h19l20-20h14M321 182h23l24 24M24 30h30M24 30v30M346 270h30v-30"/><circle cx="24" cy="115" r="3"/><circle cx="27" cy="182" r="3"/><circle cx="376" cy="90" r="3"/><circle cx="368" cy="206" r="3"/></g>
+  <g stroke="#b6ddff" stroke-width="2.5" stroke-linejoin="round"><rect x="76" y="42" width="248" height="171" rx="9" fill="#0d1c2d"/><rect x="86" y="53" width="228" height="149" rx="3" fill="url(#screen)"/><path d="m76 213-42 34v8c0 5 5 9 11 9h310c6 0 11-4 11-9v-8l-42-34H76Z" fill="#10273c"/><path d="M34 247h332"/><path d="M176 247v5h48v-5" stroke-width="1.5"/></g>
+  <g stroke="#72c0ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m94 220-19 18h250l-19-18H94Zm23 0-11 18m35-18-6 18m31-18-2 18m35-18v18m34-18 2 18m30-18 6 18m23-18 11 18M86 229h228" opacity=".7"/><path d="m117 105 22 22-22 22m36 6h54" stroke-width="2"/><path d="M109 179h182" opacity=".45"/></g>
+  <path d="M48 280h304" stroke="#47799f" stroke-opacity=".7"/>
+</svg>

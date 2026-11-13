@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T17:19:17.445Z",
+  "updatedAt": "2026-11-13",
   "kind": "Original GotCracked illustration suite with manufacturer references for device details",
   "images": [
     {
@@ -141,6 +141,63 @@
       "height": 960,
       "nativeAlpha": false,
       "alterations": "Proportionate resize and WebP encoding. Transparent backgrounds are generated with the artwork; CSS adds placement and shadow."
+    }
+  ],
+  "vectors": [
+    {
+      "path": "assets/etchings/circuit-field.svg",
+      "subject": "Decorative abstract circuit traces",
+      "kind": "Original SVG line drawing",
+      "created": "2026-11-13",
+      "bytes": 1385,
+      "sha256": "3adf78e5c4b9bf3cd1f8213b0089a0457f7b016373d408a108bbff17d0cf9130",
+      "width": 640,
+      "height": 360,
+      "notes": "Generic exterior or decorative artwork. No manufacturer photography, logos, or internal component claims."
+    },
+    {
+      "path": "assets/etchings/phone.svg",
+      "subject": "Generic phone exterior with a cracked display",
+      "kind": "Original SVG line drawing",
+      "created": "2026-11-13",
+      "bytes": 1474,
+      "sha256": "d02fbeff23c25a39209d264c865e6e0e705b1f20bb72abebd1510ae998062668",
+      "width": 400,
+      "height": 300,
+      "notes": "Generic exterior or decorative artwork. No manufacturer photography, logos, or internal component claims."
+    },
+    {
+      "path": "assets/etchings/tablet.svg",
+      "subject": "Generic tablet exterior with a stylus",
+      "kind": "Original SVG line drawing",
+      "created": "2026-11-13",
+      "bytes": 1488,
+      "sha256": "c84c12bd3e6f10cc6bb26551da343a41bf9cb5e5cc62ea67564de8417d05ecd8",
+      "width": 400,
+      "height": 300,
+      "notes": "Generic exterior or decorative artwork. No manufacturer photography, logos, or internal component claims."
+    },
+    {
+      "path": "assets/etchings/computer.svg",
+      "subject": "Generic open laptop exterior",
+      "kind": "Original SVG line drawing",
+      "created": "2026-11-13",
+      "bytes": 1572,
+      "sha256": "5faa3585a8285e06f1976a2878e2a4daa394c3ac5e591f377a377f58adbcac90",
+      "width": 400,
+      "height": 300,
+      "notes": "Generic exterior or decorative artwork. No manufacturer photography, logos, or internal component claims."
+    },
+    {
+      "path": "assets/etchings/console.svg",
+      "subject": "Generic console and controller exteriors",
+      "kind": "Original SVG line drawing",
+      "created": "2026-11-13",
+      "bytes": 1838,
+      "sha256": "2cad2cbe0d96aee77824f80778182407e54bbc9de7c262cbd0b9afd66f4d9321",
+      "width": 400,
+      "height": 300,
+      "notes": "Generic exterior or decorative artwork. No manufacturer photography, logos, or internal component claims."
     }
   ]
 }
